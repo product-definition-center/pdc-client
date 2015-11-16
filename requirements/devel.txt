@@ -1,2 +1,4 @@
 -r production.txt
 mock
+flake8
+coverage
