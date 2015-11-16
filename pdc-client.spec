@@ -29,7 +29,7 @@ Center (PDC)
 rm -rf %{buildroot}
 
 mkdir -p %{buildroot}/%{python_sitelib}/pdc_client
-cp -R * %{buildroot}/%{python_sitelib}/pdc_client
+cp -R pdc_client/* %{buildroot}/%{python_sitelib}/pdc_client
 
 mkdir -p %{buildroot}%{_defaultdocdir}/pdc_client
 
