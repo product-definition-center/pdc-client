@@ -6,7 +6,7 @@
 #
 import unittest
 
-from .. import plugin_helpers
+from pdc_client import plugin_helpers
 
 
 class PluginHelperTestCase(unittest.TestCase):

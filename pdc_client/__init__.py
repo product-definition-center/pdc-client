@@ -4,16 +4,17 @@
 # Licensed under The MIT License (MIT)
 # http://opensource.org/licenses/MIT
 #
-import beanbag
 import itertools
+import json
+import sys
+
+import beanbag
 import requests
 import requests_kerberos
 import warnings
-import json
-import sys
 from os.path import expanduser, isfile
 
-import monkey_patch
+from pdc_client import monkey_patch
 
 monkey_patch.monkey_patch_kerberos()
 
