@@ -1,0 +1,3 @@
+requests
+requests-kerberos
+beanbag>=1.9.2

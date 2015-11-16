@@ -1,0 +1,3 @@
+*.py[co]
+*.swp
+.tito/copr_user.conf
