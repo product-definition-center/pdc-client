@@ -79,7 +79,7 @@ class ReleasePlugin(PDCClientPlugin):
             'dist_git__branch': {'arg': 'dist-git-branch'},
             'component_dist_git_branch': {},
             'include_inactive': {},
-            'include_trees': {},
+            'include_trees': {'nargs': '*'},
             'integrated_with': {}
         }
         add_create_update_args(parser, {}, optional_args, required)

@@ -99,11 +99,13 @@ class ReleaseTestCase(CLITestCase):
         api.add_endpoint('rpc/release/clone', 'POST', self.release_detail)
         self._setup_release_detail(api)
         with self.expect_output('detail.txt'):
-            self.runner.run(['release', 'clone', 'old_release_id', '--version', '1.0'])
+            self.runner.run(['release', 'clone', 'old_release_id', '--version', '1.0',
+                             '--include-trees', 'tree-a', 'tree-b'])
         self.assertDictEqual(api.calls,
                              {'rpc/release/clone': [('POST',
                                                      {'old_release_id': 'old_release_id',
-                                                      'version': '1.0'})],
+                                                      'version': '1.0',
+                                                      'include_trees': ['tree-a', 'tree-b']})],
                               'releases/release-1.0': [('GET', {})],
                               'release-variants': [('GET', {'page': 1, 'release': 'release-1.0'})]})
 
