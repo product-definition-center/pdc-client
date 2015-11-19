@@ -7,7 +7,7 @@ Release:        1%{?dist}
 Summary:        Console client for interacting with Product Definition Center
 Group:          Development/Libraries
 License:        MIT
-URL:            https://github.com/release-engineering/product-definition-center
+URL:            https://github.com/product-definition-center/pdc-client
 Source0:        %{name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildRequires:  python
