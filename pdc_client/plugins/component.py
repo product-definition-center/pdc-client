@@ -28,7 +28,7 @@ class GlobalComponentPlugin(PDCClientPlugin):
         self.set_command('global-component')
 
         list_parser = self.add_action('list', help='list all global components')
-        filters = ('dist_git_path contact_role email label name upstream_homepage upstream_scm_type '
+        filters = ('dist_git_path label name upstream_homepage upstream_scm_type '
                    'upstream_scm_url'.split())
         for arg in filters:
             list_parser.add_argument('--' + arg.replace('_', '-'), dest='filter_' + arg)
@@ -62,6 +62,7 @@ class GlobalComponentPlugin(PDCClientPlugin):
         filters = extract_arguments(args, prefix='filter_')
         if not filters:
             self.subparsers.choices.get('list').error('At least some filter must be used.')
+
         global_components = get_paged(self.client['global-components']._, **filters)
 
         if args.json:
@@ -143,7 +144,7 @@ class ReleaseComponentPlugin(PDCClientPlugin):
 
         list_parser = self.add_action('list', help='list all release components')
         self.add_include_inactive_release_argument(list_parser)
-        filters = ('active brew_package bugzilla_component contact_role email global_component name release srpm_name '
+        filters = ('active brew_package bugzilla_component global_component name release srpm_name '
                    'type'.split())
         for arg in filters:
             list_parser.add_argument('--' + arg.replace('_', '-'), dest='filter_' + arg)
@@ -190,6 +191,7 @@ class ReleaseComponentPlugin(PDCClientPlugin):
             self.subparsers.choices.get('list').error('At least some filter must be used.')
         if 'include_inactive_release' in args and args.include_inactive_release:
             filters['include_inactive_release'] = True
+
         release_components = get_paged(self.client['release-components']._, **filters)
 
         if args.json:

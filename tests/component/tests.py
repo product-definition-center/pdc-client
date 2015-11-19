@@ -17,24 +17,6 @@ class GlobalComponentTestCase(CLITestCase):
             'name': 'Test Global Component',
             'dist_git_path': None,
             'dist_git_web_url': 'http://pkgs.example.com/test_global_component',
-            'contacts': [
-                {
-                    'url': 'http://example.com/global-components/1/contacts/1/',
-                    'contact_role': 'test_role_a',
-                    'contact': {
-                        'mail_name': 'Test Maillist',
-                        'email': 'test_mail@example.com'
-                    }
-                },
-                {
-                    'url': 'http://example.com/global-components/1/contacts/2/',
-                    'contact_role': 'test_role_b',
-                    'contact': {
-                        'username': 'Test User',
-                        'email': 'test_user@example.com'
-                    }
-                }
-            ],
             'labels': [
                 {
                     'url': 'http://example.com/lable/1',
@@ -204,25 +186,7 @@ class ReleaseComponentTestCase(CLITestCase):
             'dist_git_web_url': 'http://pkgs.example.com/test_release_component',
             'active': True,
             'type': 'rpm',
-            'srpm': None,
-            'contacts': [
-                {
-                    'url': 'http://example.com/release-components/1/contacts/1/',
-                    'contact_role': 'test_role_a',
-                    'contact': {
-                        'mail_name': 'Test Maillist',
-                        'email': 'test_mail@example.com'
-                    }
-                },
-                {
-                    'url': 'http://example.com/release-components/1/contacts/2/',
-                    'contact_role': 'test_role_b',
-                    'contact': {
-                        'username': 'Test User',
-                        'email': 'test_user@example.com'
-                    }
-                }
-            ]
+            'srpm': None
         }
 
     def _setup_detail(self, api):
@@ -248,25 +212,7 @@ class ReleaseComponentTestCase(CLITestCase):
                     'dist_git_web_url': 'http://pkgs.example.com/test_release_component',
                     'active': True,
                     'type': 'rpm',
-                    'srpm': None,
-                    'contacts': [
-                        {
-                            'url': 'http://example.com/release-components/1/contacts/1/',
-                            'contact_role': 'test_role_a',
-                            'contact': {
-                                'mail_name': 'Test Maillist',
-                                'email': 'test_mail@example.com'
-                            }
-                        },
-                        {
-                            'url': 'http://example.com/release-components/1/contacts/2/',
-                            'contact_role': 'test_role_b',
-                            'contact': {
-                                'username': 'Test User',
-                                'email': 'test_user@example.com'
-                            }
-                        }
-                    ]
+                    'srpm': None
                 }
             ]
         }
