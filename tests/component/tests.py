@@ -293,6 +293,7 @@ class ReleaseComponentTestCase(CLITestCase):
                           ('GET', {'page': 2, 'release': 'Test Release'})])
 
     def test_detail(self, api):
+        api.add_endpoint('release-components', 'GET', [self.detail])
         api.add_endpoint('release-component-contacts',
                          'GET',
                          {'count': 1,
@@ -316,9 +317,10 @@ class ReleaseComponentTestCase(CLITestCase):
                           ]})
         self._setup_detail(api)
         with self.expect_output('release_component/detail.txt'):
-            self.runner.run(['release-component', 'info', '1'])
+            self.runner.run(['release-component', 'info', 'test_release', 'Test Release Component'])
         self.assertDictEqual(api.calls,
-                             {'release-components/1': [('GET', {})],
+                             {'release-components': [('GET', {'name': 'Test Release Component', 'release': 'test_release'})],
+                              'release-components/1': [('GET', {})],
                               'release-component-contacts':
                                   [('GET',
                                     {'component': 'Test Release Component',
@@ -408,15 +410,17 @@ class ReleaseComponentTestCase(CLITestCase):
                               })
 
     def test_info_json(self, api):
+        api.add_endpoint('release-components', 'GET', [self.detail])
         api.add_endpoint('release-component-contacts', 'GET', {'count': 0,
                                                                'next': None,
                                                                'previous': None,
                                                                'results': []})
         self._setup_detail(api)
         with self.expect_output('release_component/detail.json', parse_json=True):
-            self.runner.run(['--json', 'release-component', 'info', '1'])
+            self.runner.run(['--json', 'release-component', 'info', 'test_release', 'Test Release Component'])
         self.assertDictEqual(api.calls,
-                             {'release-components/1': [('GET', {})],
+                             {'release-components': [('GET', {'name': 'Test Release Component', 'release': 'test_release'})],
+                              'release-components/1': [('GET', {})],
                               'release-component-contacts':
                                   [('GET',
                                     {'component': 'Test Release Component',

@@ -151,7 +151,8 @@ class ReleaseComponentPlugin(PDCClientPlugin):
 
         info_parser = self.add_action('info', help='display details of a release component')
         self.add_include_inactive_release_argument(info_parser)
-        info_parser.add_argument('release_component_id', metavar='RELEASE_COMPONENT_ID')
+        info_parser.add_argument('release', metavar='RELEASE')
+        info_parser.add_argument('name', metavar='NAME')
         info_parser.set_defaults(func=self.release_component_info)
 
         update_parser = self.add_action('update', help='update an existing release component')
@@ -204,7 +205,11 @@ class ReleaseComponentPlugin(PDCClientPlugin):
                       release_component['name'])
 
     def release_component_info(self, args, release_component_id=None):
-        release_component_id = release_component_id or args.release_component_id
+        if not release_component_id:
+            release_component_id = self._get_release_component_id(args.release, args.name)
+        if not release_component_id:
+            self.subparsers.choices.get('info').error("This release component doesn't exist.\n")
+        args.release_component_id = release_component_id
         if 'include_inactive_release' in args and args.include_inactive_release:
             release_component = self.client['release-components'][release_component_id]._(
                 include_inactive_release=args.include_inactive_release)
@@ -269,7 +274,6 @@ class ReleaseComponentPlugin(PDCClientPlugin):
         if not release_component_id:
             sys.stderr.write("The specified release component doesn't exist.\n")
             sys.exit(1)
-        args.release_component_id = release_component_id
         if args.active is not None:
             data['active'] = args.active
         if data:
@@ -278,7 +282,7 @@ class ReleaseComponentPlugin(PDCClientPlugin):
             self.client['release-components'][release_component_id]._ += data
         else:
             self.logger.debug('Empty data, skipping request')
-        self.release_component_info(args)
+        self.release_component_info(args, release_component_id)
 
     def _get_release_id(self, release_component):
         return (release_component['release']['active'] and release_component['release']['release_id'] or
