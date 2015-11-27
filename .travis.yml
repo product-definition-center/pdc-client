@@ -6,6 +6,7 @@ install:
     - git config --global user.name  "Travis CI"
     - git config --global user.email "pdc@product-definition-center.com"
     - export REPO_URL_GITHUB="https://$GH_TOKEN@github.com/$GH_REPO.git"
+    - if [[ $TRAVIS_PYTHON_VERSION == 2.6 ]]; then pip install importlib unittest2; fi
     - pip install -U pip wheel coveralls
     - pip install -r requirements/devel.txt
 script:
