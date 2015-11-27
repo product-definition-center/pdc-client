@@ -19,8 +19,8 @@ class PluginHelperTestCase(unittest.TestCase):
         setattr(args, 'prf__foo__bar__baz', 1)
         setattr(args, 'prf__foo__bar__quux', 2)
         data = plugin_helpers.extract_arguments(args, prefix='prf__')
-        self.assertDictEqual(data,
-                             {'foo': {'bar': {'baz': 1, 'quux': 2}}})
+        self.assertEqual(data,
+                         {'foo': {'bar': {'baz': 1, 'quux': 2}}})
 
 
 class PrettyPrinterTestCase(unittest.TestCase):

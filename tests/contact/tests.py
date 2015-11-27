@@ -51,33 +51,33 @@ class GlobalComponentContactTestCase(CLITestCase):
         self._setup_detail(api)
         with self.expect_output('global_component_contact/detail.txt'):
             self.runner.run(['global-component-contact', 'info', '1'])
-        self.assertDictEqual(api.calls,
-                             {'global-component-contacts/1': [('GET', {})]})
+        self.assertEqual(api.calls,
+                         {'global-component-contacts/1': [('GET', {})]})
 
     def test_delete(self, api):
         api.add_endpoint('global-component-contacts/1', 'DELETE', None)
         with self.expect_output('global_component_contact/empty.txt'):
             self.runner.run(['global-component-contact', 'delete', '1'])
-        self.assertDictEqual(api.calls,
-                             {'global-component-contacts/1': [('DELETE', {})]})
+        self.assertEqual(api.calls,
+                         {'global-component-contacts/1': [('DELETE', {})]})
 
     def test_delete_matched(self, api):
         api.add_endpoint('global-component-contacts', 'GET', [self.detail])
         api.add_endpoint('global-component-contacts/1', 'DELETE', None)
         with self.expect_output('global_component_contact/empty.txt'):
             self.runner.run(['global-component-contact', 'delete-match', '--role', 'pm'])
-        self.assertDictEqual(api.calls,
-                             {'global-component-contacts': [('GET', {'page': 1,
-                                                                     'role': 'pm'})],
-                              'global-component-contacts/1': [('DELETE', {})]})
+        self.assertEqual(api.calls,
+                         {'global-component-contacts': [('GET', {'page': 1,
+                                                                 'role': 'pm'})],
+                          'global-component-contacts/1': [('DELETE', {})]})
 
     def test_delete_multi_matches(self, api):
         api.add_endpoint('global-component-contacts', 'GET', [self.detail] * 2)
         with self.expect_output('global_component_contact/multi_matches.txt'):
             self.runner.run(['global-component-contact', 'delete-match', '--role', 'pm'])
-        self.assertDictEqual(api.calls,
-                             {'global-component-contacts': [('GET', {'page': 1,
-                                                                     'role': 'pm'})]})
+        self.assertEqual(api.calls,
+                         {'global-component-contacts': [('GET', {'page': 1,
+                                                                 'role': 'pm'})]})
 
     def test_create(self, api):
         api.add_endpoint('global-component-contacts', 'POST', self.detail)
@@ -88,23 +88,23 @@ class GlobalComponentContactTestCase(CLITestCase):
                              '--role', 'pm',
                              '--username', 'Test Contact',
                              '--email', 'test_contact@example.com'])
-        self.assertDictEqual(api.calls,
-                             {'global-component-contacts':
-                                 [('POST',
-                                   {'component': 'Test Global Component',
-                                    'role': 'pm',
-                                    'contact': {
-                                        'username': 'Test Contact',
-                                        'email': 'test_contact@example.com'
-                                    }})],
-                              'global-component-contacts/1': [('GET', {})]})
+        self.assertEqual(api.calls,
+                         {'global-component-contacts':
+                             [('POST',
+                               {'component': 'Test Global Component',
+                                'role': 'pm',
+                                'contact': {
+                                    'username': 'Test Contact',
+                                    'email': 'test_contact@example.com'
+                                }})],
+                          'global-component-contacts/1': [('GET', {})]})
 
     def test_info_json(self, api):
         self._setup_detail(api)
         with self.expect_output('global_component_contact/detail.json', parse_json=True):
             self.runner.run(['--json', 'global-component-contact', 'info', '1'])
-        self.assertDictEqual(api.calls,
-                             {'global-component-contacts/1': [('GET', {})]})
+        self.assertEqual(api.calls,
+                         {'global-component-contacts/1': [('GET', {})]})
 
     def test_list_json(self, api):
         api.add_endpoint('global-component-contacts', 'GET', [self.detail])
@@ -162,33 +162,33 @@ class ReleaseComponentContactTestCase(CLITestCase):
         self._setup_detail(api)
         with self.expect_output('release_component_contact/detail.txt'):
             self.runner.run(['release-component-contact', 'info', '1'])
-        self.assertDictEqual(api.calls,
-                             {'release-component-contacts/1': [('GET', {})]})
+        self.assertEqual(api.calls,
+                         {'release-component-contacts/1': [('GET', {})]})
 
     def test_delete(self, api):
         api.add_endpoint('release-component-contacts/1', 'DELETE', None)
         with self.expect_output('release_component_contact/empty.txt'):
             self.runner.run(['release-component-contact', 'delete', '1'])
-        self.assertDictEqual(api.calls,
-                             {'release-component-contacts/1': [('DELETE', {})]})
+        self.assertEqual(api.calls,
+                         {'release-component-contacts/1': [('DELETE', {})]})
 
     def test_delete_matched(self, api):
         api.add_endpoint('release-component-contacts', 'GET', [self.detail])
         api.add_endpoint('release-component-contacts/1', 'DELETE', None)
         with self.expect_output('release_component_contact/empty.txt'):
             self.runner.run(['release-component-contact', 'delete-match', '--role', 'pm'])
-        self.assertDictEqual(api.calls,
-                             {'release-component-contacts': [('GET', {'page': 1,
-                                                                      'role': 'pm'})],
-                              'release-component-contacts/1': [('DELETE', {})]})
+        self.assertEqual(api.calls,
+                         {'release-component-contacts': [('GET', {'page': 1,
+                                                                  'role': 'pm'})],
+                          'release-component-contacts/1': [('DELETE', {})]})
 
     def test_delete_multi_matches(self, api):
         api.add_endpoint('release-component-contacts', 'GET', [self.detail] * 2)
         with self.expect_output('release_component_contact/multi_matches.txt'):
             self.runner.run(['release-component-contact', 'delete-match', '--role', 'pm'])
-        self.assertDictEqual(api.calls,
-                             {'release-component-contacts': [('GET', {'page': 1,
-                                                                      'role': 'pm'})]})
+        self.assertEqual(api.calls,
+                         {'release-component-contacts': [('GET', {'page': 1,
+                                                                  'role': 'pm'})]})
 
     def test_create(self, api):
         api.add_endpoint('release-component-contacts', 'POST', self.detail)
@@ -200,28 +200,28 @@ class ReleaseComponentContactTestCase(CLITestCase):
                              '--role', 'pm',
                              '--username', 'Test Contact',
                              '--email', 'test_contact@example.com'])
-        self.assertDictEqual(api.calls,
-                             {'release-component-contacts':
-                                 [('POST',
-                                   {
-                                       'component': {
-                                           'name': 'Test Release Component',
-                                           'release': 'test-release'
-                                       },
-                                       'role': 'pm',
-                                       'contact': {
-                                           'username': 'Test Contact',
-                                           'email': 'test_contact@example.com'
-                                       }
-                                   })],
-                              'release-component-contacts/1': [('GET', {})]})
+        self.assertEqual(api.calls,
+                         {'release-component-contacts':
+                             [('POST',
+                               {
+                                   'component': {
+                                       'name': 'Test Release Component',
+                                       'release': 'test-release'
+                                   },
+                                   'role': 'pm',
+                                   'contact': {
+                                       'username': 'Test Contact',
+                                       'email': 'test_contact@example.com'
+                                   }
+                               })],
+                          'release-component-contacts/1': [('GET', {})]})
 
     def test_info_json(self, api):
         self._setup_detail(api)
         with self.expect_output('release_component_contact/detail.json', parse_json=True):
             self.runner.run(['--json', 'release-component-contact', 'info', '1'])
-        self.assertDictEqual(api.calls,
-                             {'release-component-contacts/1': [('GET', {})]})
+        self.assertEqual(api.calls,
+                         {'release-component-contacts/1': [('GET', {})]})
 
     def test_list_json(self, api):
         api.add_endpoint('release-component-contacts', 'GET', [self.detail])

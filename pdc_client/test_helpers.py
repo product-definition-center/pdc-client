@@ -205,5 +205,5 @@ class CLITestCase(unittest.TestCase):
                 with mock.patch('sys.stderr'):
                     yield
             except StopCode as exc:
-                self.assertGreater(exc.exit_code, 0)
+                self.assertTrue(exc.exit_code > 0)
             exit.assert_called()

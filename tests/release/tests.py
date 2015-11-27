@@ -65,19 +65,19 @@ class ReleaseTestCase(CLITestCase):
         self._setup_release_detail(api)
         with self.expect_output('detail.txt'):
             self.runner.run(['release', 'info', 'release-1.0'])
-        self.assertDictEqual(api.calls,
-                             {'releases/release-1.0': [('GET', {})],
-                              'release-variants': [('GET', {'page': 1, 'release': 'release-1.0'})]})
+        self.assertEqual(api.calls,
+                         {'releases/release-1.0': [('GET', {})],
+                          'release-variants': [('GET', {'page': 1, 'release': 'release-1.0'})]})
 
     def test_update(self, api):
         self._setup_release_detail(api)
         api.add_endpoint('releases/release-0.9', 'PATCH', self.release_detail)
         with self.expect_output('detail.txt'):
             self.runner.run(['release', 'update', 'release-0.9', '--version', '1.0'])
-        self.assertDictEqual(api.calls,
-                             {'releases/release-0.9': [('PATCH', {'version': '1.0'})],
-                              'releases/release-1.0': [('GET', {})],
-                              'release-variants': [('GET', {'page': 1, 'release': 'release-1.0'})]})
+        self.assertEqual(api.calls,
+                         {'releases/release-0.9': [('PATCH', {'version': '1.0'})],
+                          'releases/release-1.0': [('GET', {})],
+                          'release-variants': [('GET', {'page': 1, 'release': 'release-1.0'})]})
 
     def test_create(self, api):
         api.add_endpoint('releases', 'POST', self.release_detail)
@@ -87,13 +87,13 @@ class ReleaseTestCase(CLITestCase):
                              '--version', '1.0',
                              '--name', 'Test Release',
                              '--release-type', 'ga'])
-        self.assertDictEqual(api.calls,
-                             {'releases': [('POST', {'name': 'Test Release',
-                                                     'short': 'release',
-                                                     'version': '1.0',
-                                                     'release_type': 'ga'})],
-                              'releases/release-1.0': [('GET', {})],
-                              'release-variants': [('GET', {'page': 1, 'release': 'release-1.0'})]})
+        self.assertEqual(api.calls,
+                         {'releases': [('POST', {'name': 'Test Release',
+                                                 'short': 'release',
+                                                 'version': '1.0',
+                                                 'release_type': 'ga'})],
+                          'releases/release-1.0': [('GET', {})],
+                          'release-variants': [('GET', {'page': 1, 'release': 'release-1.0'})]})
 
     def test_clone(self, api):
         api.add_endpoint('rpc/release/clone', 'POST', self.release_detail)
@@ -101,26 +101,26 @@ class ReleaseTestCase(CLITestCase):
         with self.expect_output('detail.txt'):
             self.runner.run(['release', 'clone', 'old_release_id', '--version', '1.0',
                              '--include-trees', 'tree-a', 'tree-b'])
-        self.assertDictEqual(api.calls,
-                             {'rpc/release/clone': [('POST',
-                                                     {'old_release_id': 'old_release_id',
-                                                      'version': '1.0',
-                                                      'include_trees': ['tree-a', 'tree-b']})],
-                              'releases/release-1.0': [('GET', {})],
-                              'release-variants': [('GET', {'page': 1, 'release': 'release-1.0'})]})
+        self.assertEqual(api.calls,
+                         {'rpc/release/clone': [('POST',
+                                                 {'old_release_id': 'old_release_id',
+                                                  'version': '1.0',
+                                                  'include_trees': ['tree-a', 'tree-b']})],
+                          'releases/release-1.0': [('GET', {})],
+                          'release-variants': [('GET', {'page': 1, 'release': 'release-1.0'})]})
 
     def test_clone_fails(self, api):
         with self.expect_failure():
             self.runner.run(['release', 'clone', 'old_release_id'])
-        self.assertDictEqual(api.calls, {})
+        self.assertEqual(api.calls, {})
 
     def test_info_json(self, api):
         self._setup_release_detail(api)
         with self.expect_output('detail.json', parse_json=True):
             self.runner.run(['--json', 'release', 'info', 'release-1.0'])
-        self.assertDictEqual(api.calls,
-                             {'releases/release-1.0': [('GET', {})],
-                              'release-variants': [('GET', {'page': 1, 'release': 'release-1.0'})]})
+        self.assertEqual(api.calls,
+                         {'releases/release-1.0': [('GET', {})],
+                          'release-variants': [('GET', {'page': 1, 'release': 'release-1.0'})]})
 
     def test_list_json(self, api):
         api.add_endpoint('releases', 'GET', [self.release_detail])
