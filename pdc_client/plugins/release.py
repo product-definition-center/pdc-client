@@ -98,7 +98,7 @@ class ReleasePlugin(PDCClientPlugin):
             print json.dumps(list(releases))
             return
 
-        fmt = '{:25} {:35} {}'
+        fmt = '{0:25} {1:35} {2}'
         for release in releases:
             print fmt.format(release['release_id'], release['name'],
                              'active' if release['active'] else 'inactive')
@@ -112,7 +112,7 @@ class ReleasePlugin(PDCClientPlugin):
             print json.dumps(release)
             return
 
-        fmt = '{:20} {}'
+        fmt = '{0:20} {1}'
         print fmt.format('Release ID', release['release_id'])
         print fmt.format('Name', release['name'])
         print fmt.format('Short Name', release['short'])
@@ -135,7 +135,7 @@ class ReleasePlugin(PDCClientPlugin):
             print fmt.format('Branch', release['dist_git']['branch'])
 
         print '\nVariants'
-        fmt = '{:25} {:20} {:20} {:15} {}'
+        fmt = '{0:25} {1:20} {2:20} {3:15} {4}'
         print fmt.format('UID', 'ID', 'Name', 'Type', 'Arches')
         for variant in variants:
             print fmt.format(variant['uid'], variant['id'], variant['name'],
@@ -146,7 +146,7 @@ class ReleasePlugin(PDCClientPlugin):
 
         release_id = None
         if data:
-            self.logger.debug('Updating release {} with data {}'.format(args.release_id, data))
+            self.logger.debug('Updating release {0} with data {1}'.format(args.release_id, data))
             response = self.client.releases[args.release_id]._('PATCH', data)
             release_id = response['release_id']
         else:
@@ -156,7 +156,7 @@ class ReleasePlugin(PDCClientPlugin):
 
     def release_create(self, args):
         data = self.get_release_data(args)
-        self.logger.debug('Creating release with data {}'.format(data))
+        self.logger.debug('Creating release with data {0}'.format(data))
         response = self.client.releases._(data)
         self.release_info(args, response['release_id'])
 
@@ -167,7 +167,7 @@ class ReleasePlugin(PDCClientPlugin):
                 ('At least one of `short`, `version`, `base_product` '
                  'or `release_type` is required.'))
         data['old_release_id'] = args.old_release_id
-        self.logger.debug('Clone release with data {}'.format(data))
+        self.logger.debug('Clone release with data {0}'.format(data))
         response = self.client.rpc.release.clone._(data)
         self.release_info(args, response['release_id'])
 

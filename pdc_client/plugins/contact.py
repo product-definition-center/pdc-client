@@ -14,7 +14,7 @@ from pdc_client.plugin_helpers import (PDCClientPlugin,
 
 
 def print_component_contacts(component_contacts):
-    fmt = '{:<10} {:40} {:10} {:25} {}'
+    fmt = '{0:<10} {1:40} {2:10} {3:25} {4}'
     print fmt.format('ID', 'Component', 'Role', 'Email', 'Name')
     for component_contact in component_contacts:
         print fmt.format(
@@ -93,7 +93,7 @@ class GlobalComponentContactPlugin(PDCClientPlugin):
             print json.dumps(global_component_contact)
             return
 
-        fmt = '{:20} {}'
+        fmt = '{0:20} {1}'
         print fmt.format('ID:', global_component_contact['id'])
         print fmt.format('Component:', global_component_contact['component'])
         print fmt.format('Role:', global_component_contact['role'])
@@ -196,7 +196,7 @@ class ReleaseComponentContactPlugin(PDCClientPlugin):
             print json.dumps(release_component_contact)
             return
 
-        fmt = '{:20} {}'
+        fmt = '{0:20} {1}'
         print fmt.format('ID:', release_component_contact['id'])
         print fmt.format('Component:', ''.join([release_component_contact['component']['release'],
                                                 '/',

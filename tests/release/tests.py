@@ -36,7 +36,7 @@ class ReleaseTestCase(CLITestCase):
 
     def test_list_active_multi_page(self, api):
         api.add_endpoint('releases', 'GET', [
-            {'release_id': 'release-0.{}'.format(x),
+            {'release_id': 'release-0.{0}'.format(x),
              'active': True,
              'name': 'Test Release'}
             for x in range(25)

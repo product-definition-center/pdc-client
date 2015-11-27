@@ -119,7 +119,7 @@ class MockAPI(object):
         return self.endpoints[self.will_call]['PATCH']
 
     def _fmt_url(self, page):
-        return 'http://testserver/?page={}'.format(page)
+        return 'http://testserver/?page={0}'.format(page)
 
     def __iadd__(self, data):
         self._handle_patch(data)

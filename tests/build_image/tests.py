@@ -15,8 +15,8 @@ class BuildImageTestCase(CLITestCase):
 
     def _setup_list_1(self, api):
         api.add_endpoint('build-images', 'GET', [
-            {'image_id': 'build-image-{}'.format(x),
-             'md5': '111122223333444455556666777788{:02}'.format(x)}
+            {'image_id': 'build-image-{0}'.format(x),
+             'md5': '111122223333444455556666777788{0:02}'.format(x)}
             for x in range(30)
         ])
 

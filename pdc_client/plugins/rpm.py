@@ -77,7 +77,7 @@ class RPMPlugin(PDCClientPlugin):
         if args.json:
             print json.dumps(response)
             return
-        fmt = '{:20} {}'
+        fmt = '{0:20} {1}'
         print fmt.format('ID', response['id'])
         print fmt.format('Name', response['name'])
         print fmt.format('Epoch', response['epoch'])
@@ -100,7 +100,7 @@ class RPMPlugin(PDCClientPlugin):
 
         for type in ('recommends', 'suggests', 'obsoletes', 'provides', 'conflicts', 'requires'):
             if response['dependencies'][type]:
-                print '\n{}:'.format(type.capitalize())
+                print '\n{0}:'.format(type.capitalize())
                 for dep in response['dependencies'][type]:
                     print dep
 

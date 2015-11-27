@@ -37,7 +37,7 @@ class ComposeTestCase(CLITestCase):
 
     def test_list_multi_page(self, api):
         api.add_endpoint('composes', 'GET', [
-            {'compose_id': 'awesome-product-20150924.{}'.format(x)}
+            {'compose_id': 'awesome-product-20150924.{0}'.format(x)}
             for x in range(23)
         ])
         with self.expect_output('list_multi_page.txt'):

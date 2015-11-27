@@ -19,7 +19,7 @@ checksum as a command line argument.
 
 
 def size_format(num):
-    fmt = '{:.1f} {}B'
+    fmt = '{0:.1f} {1}B'
     factor = 1024.0
     for unit in ('', 'Ki', 'Mi', 'Gi'):
         if num < factor:
@@ -89,27 +89,27 @@ class ImagePlugin(PDCClientPlugin):
 
             mtime = datetime.utcfromtimestamp(image['mtime'])
 
-            fmt = '{:15} {}'
+            fmt = '{0:15} {1}'
             print fmt.format('File Name', image['file_name'])
             print fmt.format('Image Type', image['image_type'])
             print fmt.format('Image Format', image['image_format'])
             print fmt.format('Arch', image['arch'])
-            print fmt.format('Disc', '{} / {}'.format(image['disc_number'], image['disc_count']))
-            print fmt.format('Modified', '{} ({})'.format(image['mtime'], mtime))
-            print fmt.format('Size', '{} ({})'.format(image['size'], size_format(image['size'])))
+            print fmt.format('Disc', '{0} / {1}'.format(image['disc_number'], image['disc_count']))
+            print fmt.format('Modified', '{0} ({1})'.format(image['mtime'], mtime))
+            print fmt.format('Size', '{0} ({1})'.format(image['size'], size_format(image['size'])))
             print fmt.format('Bootable', 'yes' if image['bootable'] else 'no')
             print fmt.format('Volume ID', image['volume_id'])
             print fmt.format('Implant MD5', image['implant_md5'])
 
             print '\nChecksums:'
-            print ' {:7} {}'.format('MD5', image['md5'])
-            print ' {:7} {}'.format('SHA1', image['sha1'])
-            print ' {:7} {}'.format('SHA256', image['sha256'])
+            print ' {0:7} {1}'.format('MD5', image['md5'])
+            print ' {0:7} {1}'.format('SHA1', image['sha1'])
+            print ' {0:7} {1}'.format('SHA256', image['sha256'])
 
             if image['composes']:
                 print '\nUsed in composes:'
                 for compose in image['composes']:
-                    print ' * {}'.format(compose)
+                    print ' * {0}'.format(compose)
 
 
 PLUGIN_CLASSES = [ImagePlugin]

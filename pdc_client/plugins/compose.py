@@ -61,7 +61,7 @@ class ComposePlugin(PDCClientPlugin):
             print json.dumps(compose)
             return
 
-        fmt = '{:25} {}'
+        fmt = '{0:25} {1}'
         print fmt.format('Compose ID', compose['compose_id'])
         print fmt.format('Compose Label', compose['compose_label'] or '')
         print fmt.format('Compose Date', compose['compose_date'])
@@ -84,7 +84,7 @@ class ComposePlugin(PDCClientPlugin):
 
         if compose['rtt_tested_architectures']:
             print '\nRtt Tested Architectures'
-            fmt = '{:25} {:15} {}'
+            fmt = '{0:25} {1:15} {2}'
             print fmt.format('Variant', 'Arches', 'Testing Status')
             for key, value in compose['rtt_tested_architectures'].iteritems():
                 for subkey, subvalue in value.iteritems():
@@ -94,7 +94,7 @@ class ComposePlugin(PDCClientPlugin):
         data = self.get_compose_data(args)
 
         if data:
-            self.logger.debug('Updating compose {} with data {}'.format(args.compose_id, data))
+            self.logger.debug('Updating compose {0} with data {1}'.format(args.compose_id, data))
             self.client.composes[args.compose_id]._ += data
         else:
             self.logger.info('No change required, not making a request')

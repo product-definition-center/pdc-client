@@ -70,7 +70,7 @@ class GlobalComponentPlugin(PDCClientPlugin):
 
         if global_components:
             for global_component in global_components:
-                print '{:<10} {}'.format(
+                print '{0:<10} {1}'.format(
                       global_component['id'],
                       global_component['name'])
 
@@ -93,7 +93,7 @@ class GlobalComponentPlugin(PDCClientPlugin):
             print json.dumps(global_component)
             return
 
-        fmt = '{:20} {}'
+        fmt = '{0:20} {1}'
         print fmt.format('ID', global_component['id'])
         print fmt.format('Name', global_component['name'])
         print fmt.format('Dist Git Path', global_component['dist_git_path'] or '')
@@ -199,7 +199,7 @@ class ReleaseComponentPlugin(PDCClientPlugin):
         if release_components:
             for release_component in release_components:
                 release_id = self._get_release_id(release_component)
-                print '{:<10} {:25} {}'.format(
+                print '{0:<10} {1:25} {2}'.format(
                       release_component['id'],
                       release_id,
                       release_component['name'])
@@ -226,7 +226,7 @@ class ReleaseComponentPlugin(PDCClientPlugin):
             print json.dumps(release_component)
             return
 
-        fmt = '{:20} {}'
+        fmt = '{0:20} {1}'
         print fmt.format('ID', release_component['id'])
         print fmt.format('Name', release_component['name'])
         print fmt.format('Release ID', release_id)
