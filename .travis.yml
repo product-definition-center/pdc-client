@@ -1,6 +1,7 @@
 language: python
 python:
     - "2.7"
+    - "2.6"
 install:
     - git config --global user.name  "Travis CI"
     - git config --global user.email "pdc@product-definition-center.com"
