@@ -5,9 +5,14 @@
 # Licensed under The MIT License (MIT)
 # http://opensource.org/licenses/MIT
 #
-import unittest
 import argparse
 import sys
+import platform
+
+if platform.python_version() < '2.7':
+    unittest = __import__('unittest2')
+else:
+    import unittest
 
 """
 Use this script either without arguments to run all tests:
