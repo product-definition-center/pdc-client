@@ -8,7 +8,7 @@ import json
 import sys
 from datetime import datetime
 
-from pdc_client import get_paged
+
 from pdc_client.plugin_helpers import PDCClientPlugin, add_parser_arguments, extract_arguments
 
 info_desc = """Generally there may be duplicate file names. If the file name
@@ -62,7 +62,7 @@ class ImagePlugin(PDCClientPlugin):
 
     def image_list(self, args):
         filters = extract_arguments(args)
-        images = get_paged(self.client.images._, **filters)
+        images = self.client.get_paged(self.client.images._, **filters)
         if args.json:
             print json.dumps(list(images))
             return

@@ -13,6 +13,7 @@ import unittest
 import os
 import json
 import types
+import itertools
 
 
 class PathAccumulator(object):
@@ -54,6 +55,19 @@ class MockAPI(object):
     def __init__(self):
         self.endpoints = {}
         self.calls = {}
+
+    def get_paged(self, res, **kwargs):
+        """ """
+        def worker():
+            kwargs['page'] = 1
+            while True:
+                response = res(**kwargs)
+                yield response['results']
+                if response['next']:
+                    kwargs['page'] += 1
+                else:
+                    break
+        return itertools.chain.from_iterable(worker())
 
     def add_endpoint(self, resource, method, data):
         """Add allowed point of connection.

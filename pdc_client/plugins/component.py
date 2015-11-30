@@ -7,7 +7,6 @@
 import sys
 import json
 
-from pdc_client import get_paged
 from pdc_client.plugin_helpers import (PDCClientPlugin,
                                        add_parser_arguments,
                                        extract_arguments,
@@ -63,7 +62,7 @@ class GlobalComponentPlugin(PDCClientPlugin):
         if not filters:
             self.subparsers.choices.get('list').error('At least some filter must be used.')
 
-        global_components = get_paged(self.client['global-components']._, **filters)
+        global_components = self.client.get_paged(self.client['global-components']._, **filters)
 
         if args.json:
             print json.dumps(list(global_components))
@@ -88,9 +87,8 @@ class GlobalComponentPlugin(PDCClientPlugin):
             if not global_component_id:
                 self.subparsers.choices.get('info').error("This global component doesn't exist.\n")
         global_component = self.client['global-components'][global_component_id]._()
-
-        component_contacts = get_paged(self.client['global-component-contacts']._,
-                                       component=global_component['name'])
+        component_contacts = self.client.get_paged(self.client['global-component-contacts']._,
+                                                   component=global_component['name'])
         update_component_contacts(global_component, component_contacts)
 
         if args.json:
@@ -198,7 +196,7 @@ class ReleaseComponentPlugin(PDCClientPlugin):
         if 'include_inactive_release' in args and args.include_inactive_release:
             filters['include_inactive_release'] = True
 
-        release_components = get_paged(self.client['release-components']._, **filters)
+        release_components = self.client.get_paged(self.client['release-components']._, **filters)
 
         if args.json:
             print json.dumps(list(release_components))
@@ -224,10 +222,9 @@ class ReleaseComponentPlugin(PDCClientPlugin):
         else:
             release_component = self.client['release-components'][release_component_id]._()
         release_id = self._get_release_id(release_component)
-
-        component_contacts = get_paged(self.client['release-component-contacts']._,
-                                       component=release_component['name'],
-                                       release=release_id)
+        component_contacts = self.client.get_paged(self.client['release-component-contacts']._,
+                                                   component=release_component['name'],
+                                                   release=release_id)
         update_component_contacts(release_component, component_contacts)
 
         if args.json:

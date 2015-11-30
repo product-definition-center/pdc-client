@@ -152,8 +152,7 @@ class ReleaseComponentContactTestCase(CLITestCase):
             for x in range(1, 26)
         ])
         with self.expect_output('release_component_contact/list_multi_page.txt'):
-            self.runner.run(['release-component-contact', 'list',
-                             '--role', 'watcher'])
+            self.runner.run(['release-component-contact', 'list', '--role', 'watcher'])
         self.assertEqual(api.calls['release-component-contacts'],
                          [('GET', {'page': 1, 'role': 'watcher'}),
                           ('GET', {'page': 2, 'role': 'watcher'})])

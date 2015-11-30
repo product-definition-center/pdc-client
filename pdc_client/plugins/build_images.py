@@ -7,7 +7,7 @@
 import json
 import sys
 
-from pdc_client import get_paged
+
 from pdc_client.plugin_helpers import PDCClientPlugin, add_parser_arguments, extract_arguments
 
 
@@ -45,7 +45,7 @@ class BuildImagePlugin(PDCClientPlugin):
 
     def list_build_image(self, args):
         filters = extract_arguments(args)
-        build_images = get_paged(self.client['build-images']._, **filters)
+        build_images = self.client.get_paged(self.client['build-images']._, **filters)
         if args.json:
             print json.dumps(list(build_images))
             return

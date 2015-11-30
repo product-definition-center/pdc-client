@@ -6,7 +6,6 @@
 #
 import json
 
-from pdc_client import get_paged
 from pdc_client.plugin_helpers import (PDCClientPlugin,
                                        extract_arguments,
                                        add_create_update_args,
@@ -77,7 +76,7 @@ class GlobalComponentContactPlugin(PDCClientPlugin):
         filters = extract_arguments(args, prefix='filter_')
         if not filters:
             self.subparsers.choices.get('list').error('At least some filter must be used.')
-        global_component_contacts = get_paged(self.client['global-component-contacts']._, **filters)
+        global_component_contacts = self.client.get_paged(self.client['global-component-contacts']._, **filters)
 
         if args.json:
             print json.dumps(list(global_component_contacts))
@@ -120,7 +119,7 @@ class GlobalComponentContactPlugin(PDCClientPlugin):
         filters = extract_arguments(args, prefix='filter_')
         if not filters:
             self.subparsers.choices.get('delete-match').error('At least some filter must be used.')
-        global_component_contacts = get_paged(self.client['global-component-contacts']._, **filters)
+        global_component_contacts = self.client.get_paged(self.client['global-component-contacts']._, **filters)
 
         global_component_contacts = list(global_component_contacts)
         match_count = len(global_component_contacts)
@@ -180,7 +179,7 @@ class ReleaseComponentContactPlugin(PDCClientPlugin):
         filters = extract_arguments(args, prefix='filter_')
         if not filters:
             self.subparsers.choices.get('list').error('At least some filter must be used.')
-        release_component_contacts = get_paged(self.client['release-component-contacts']._, **filters)
+        release_component_contacts = self.client.get_paged(self.client['release-component-contacts']._, **filters)
 
         if args.json:
             print json.dumps(list(release_component_contacts))
@@ -225,7 +224,7 @@ class ReleaseComponentContactPlugin(PDCClientPlugin):
         filters = extract_arguments(args, prefix='filter_')
         if not filters:
             self.subparsers.choices.get('delete-match').error('At least some filter must be used.')
-        release_component_contacts = get_paged(self.client['release-component-contacts']._, **filters)
+        release_component_contacts = self.client.get_paged(self.client['release-component-contacts']._, **filters)
 
         release_component_contacts = list(release_component_contacts)
         match_count = len(release_component_contacts)

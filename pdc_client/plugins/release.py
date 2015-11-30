@@ -6,7 +6,6 @@
 #
 import json
 
-from pdc_client import get_paged
 from pdc_client.plugin_helpers import (PDCClientPlugin,
                                        extract_arguments,
                                        add_create_update_args)
@@ -93,7 +92,7 @@ class ReleasePlugin(PDCClientPlugin):
         elif not args.all:
             filters['active'] = True
 
-        releases = get_paged(self.client.releases._, **filters)
+        releases = self.client.get_paged(self.client.releases._, **filters)
         if args.json:
             print json.dumps(list(releases))
             return
@@ -106,7 +105,7 @@ class ReleasePlugin(PDCClientPlugin):
     def release_info(self, args, release_id=None):
         release_id = release_id or args.release_id
         release = self.client.releases[release_id]._()
-        variants = get_paged(self.client['release-variants']._, release=release_id)
+        variants = self.client.get_paged(self.client['release-variants']._, release=release_id)
         if args.json:
             release['variants'] = list(variants)
             print json.dumps(release)

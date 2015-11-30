@@ -7,6 +7,7 @@
 import itertools
 import json
 import sys
+import exceptions
 
 import beanbag
 import requests
@@ -41,21 +42,10 @@ def read_config_file(server_alias):
 
 
 def get_paged(res, **kwargs):
-    """
-    This call is equivalent to ``res(**kwargs)``, only it retrieves all pages
-    and returns the results joined into a single iterable. The advantage over
-    retrieving everything at once is that the result can be consumed
-    immediately.
+    """ will be abandon in next release"""
+    exceptions.PendingDeprecationWarning("""Warning: This method have been removed into PDCClient class;
+    and then will be deleted in next release.""")
 
-    :param res:     what resource to connect to
-    :param kwargs:  filters to be used
-
-    ::
-
-        # Example: Iterate over all active releases
-        for release in get_paged(client['releases']._, active=True):
-            ...
-    """
     def worker():
         kwargs['page'] = 1
         while True:
@@ -76,7 +66,7 @@ class PDCClient(object):
     connections. The authentication token is automatically retrieved (if
     needed).
     """
-    def __init__(self, server, token=None, develop=False, insecure=False):
+    def __init__(self, server, token=None, develop=False, insecure=False, page_size=None):
         """Create new client instance.
 
         Once the class is instantiated, use it as you would use a regular
@@ -86,6 +76,7 @@ class PDCClient(object):
         :param server:     server API url or server name from configuration
         :paramtype server: string
         """
+        self.page_size = page_size
         if not server:
             raise TypeError('Server must be specified')
         self.session = requests.Session()
@@ -144,6 +135,36 @@ class PDCClient(object):
                 if e.response.status_code != 404:
                     raise
         raise Exception('Could not obtain token from any known URL.')
+
+    def get_paged(self, res, **kwargs):
+        """
+        This call is equivalent to ``res(**kwargs)``, only it retrieves all pages
+        and returns the results joined into a single iterable. The advantage over
+        retrieving everything at once is that the result can be consumed
+        immediately.
+
+        :param res:     what resource to connect to
+        :param kwargs:  filters to be used
+
+        ::
+
+            # Example: Iterate over all active releases
+            for release in client.get_paged(client['releases']._, active=True):
+                ...
+        """
+        if self.page_size:
+            kwargs['page_size'] = self.page_size
+
+        def worker():
+            kwargs['page'] = 1
+            while True:
+                response = res(**kwargs)
+                yield response['results']
+                if response['next']:
+                    kwargs['page'] += 1
+                else:
+                    break
+        return itertools.chain.from_iterable(worker())
 
     def __call__(self, *args, **kwargs):
         return self.client(*args, **kwargs)

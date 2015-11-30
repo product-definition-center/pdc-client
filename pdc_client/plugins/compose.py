@@ -6,7 +6,7 @@
 #
 import json
 
-from pdc_client import get_paged
+
 from pdc_client.plugin_helpers import PDCClientPlugin, add_parser_arguments, extract_arguments
 
 
@@ -46,7 +46,7 @@ class ComposePlugin(PDCClientPlugin):
         else:
             filters['deleted'] = args.deleted
 
-        composes = get_paged(self.client.composes._, **filters)
+        composes = self.client.get_paged(self.client.composes._, **filters)
         if args.json:
             print json.dumps(list(composes))
             return

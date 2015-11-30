@@ -6,7 +6,7 @@
 #
 import json
 
-from pdc_client import get_paged
+
 from pdc_client.plugin_helpers import (PDCClientPlugin,
                                        add_parser_arguments,
                                        extract_arguments,
@@ -64,7 +64,7 @@ class RPMPlugin(PDCClientPlugin):
         filters = extract_arguments(args, prefix='filter_')
         if not filters:
             self.subparsers.choices.get('list').error('At least some filter must be used.')
-        rpms = get_paged(self.client.rpms._, **filters)
+        rpms = self.client.get_paged(self.client.rpms._, **filters)
         if args.json:
             print json.dumps(list(rpms))
             return
