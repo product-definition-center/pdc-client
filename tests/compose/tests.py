@@ -37,7 +37,7 @@ class ComposeTestCase(CLITestCase):
 
     def test_list_multi_page(self, api):
         api.add_endpoint('composes', 'GET', [
-            {'compose_id': 'awesome-product-20150924.{}'.format(x)}
+            {'compose_id': 'awesome-product-20150924.{0}'.format(x)}
             for x in range(23)
         ])
         with self.expect_output('list_multi_page.txt'):
@@ -57,15 +57,15 @@ class ComposeTestCase(CLITestCase):
         api.add_endpoint('composes/awesome-product-20130203.7', 'GET', self.compose_detail)
         with self.expect_output('info.txt'):
             self.runner.run(['compose', 'info', 'awesome-product-20130203.7'])
-        self.assertDictEqual(api.calls,
-                             {'composes/awesome-product-20130203.7': [('GET', {})]})
+        self.assertEqual(api.calls,
+                         {'composes/awesome-product-20130203.7': [('GET', {})]})
 
     def test_info_json(self, api):
         api.add_endpoint('composes/awesome-product-20130203.7', 'GET', self.compose_detail)
         with self.expect_output('info.json', parse_json=True):
             self.runner.run(['--json', 'compose', 'info', 'awesome-product-20130203.7'])
-        self.assertDictEqual(api.calls,
-                             {'composes/awesome-product-20130203.7': [('GET', {})]})
+        self.assertEqual(api.calls,
+                         {'composes/awesome-product-20130203.7': [('GET', {})]})
 
     def test_update(self, api):
         api.add_endpoint('composes/awesome-product-20130203.7', 'GET', self.compose_detail)
@@ -76,11 +76,11 @@ class ComposeTestCase(CLITestCase):
                              '--linked-releases', 'sap-7.0-awesome-product',
                              '--rtt-tested-architectures', 'Workstation:x86_64:passed'
                              ])
-        self.assertDictEqual(api.calls, {'composes/awesome-product-20130203.7':
-                                         [('PATCH', {'acceptance_testing': 'passed',
-                                                     'linked_releases': ['sap-7.0-awesome-product'],
-                                                     'rtt_tested_architectures': {'Workstation': {'x86_64': 'passed'}}}),
-                                          ('GET', {})]})
+        self.assertEqual(api.calls, {'composes/awesome-product-20130203.7':
+                                     [('PATCH', {'acceptance_testing': 'passed',
+                                                 'linked_releases': ['sap-7.0-awesome-product'],
+                                                 'rtt_tested_architectures': {'Workstation': {'x86_64': 'passed'}}}),
+                                      ('GET', {})]})
 
     def test_update_wrong_input1(self, api):
         with self.expect_failure():

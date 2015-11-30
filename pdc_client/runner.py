@@ -50,17 +50,17 @@ class Runner(object):
 
     def load_plugins(self):
         for dir in PLUGIN_DIRS:
-            self.logger.debug('Loading plugins from {}'.format(dir))
+            self.logger.debug('Loading plugins from {0}'.format(dir))
             for name in os.listdir(dir):
                 if not name.endswith('.py'):
                     continue
                 file, pathname, description = imp.find_module(name[:-3], [dir])
                 plugin = imp.load_module(name[:-3], file, pathname, description)
-                self.logger.debug('Loaded plugin {}'.format(name[:-3]))
+                self.logger.debug('Loaded plugin {0}'.format(name[:-3]))
                 self.raw_plugins.append(plugin)
                 if hasattr(plugin, 'PLUGIN_CLASSES'):
                     for p in plugin.PLUGIN_CLASSES:
-                        self.logger.debug('Instantiating {}'.format(p.__name__))
+                        self.logger.debug('Instantiating {0}'.format(p.__name__))
                         self.plugins.append(p(self))
 
     def run_hook(self, hook, *args, **kwargs):
@@ -71,7 +71,7 @@ class Runner(object):
         """
         for plugin in self.raw_plugins:
             if hasattr(plugin, hook):
-                self.logger.debug('Calling hook {} in plugin {}'.format(hook, plugin.__name__))
+                self.logger.debug('Calling hook {0} in plugin {1}'.format(hook, plugin.__name__))
                 getattr(plugin, hook)(*args, **kwargs)
 
     def setup(self):
@@ -124,5 +124,5 @@ class Runner(object):
                 404: 'not found',
                 409: 'conflict',
             }
-            print('Client error: {}.'.format(headers.get(exc.response.status_code, 'unknown')),
+            print('Client error: {0}.'.format(headers.get(exc.response.status_code, 'unknown')),
                   file=sys.stderr)

@@ -15,8 +15,8 @@ class ImageTestCase(CLITestCase):
 
     def _setup_list(self, api):
         api.add_endpoint('images', 'GET', [
-            {'file_name': 'image-{}'.format(x),
-             'sha256': '112233445566778899{:02}'.format(x)}
+            {'file_name': 'image-{0}'.format(x),
+             'sha256': '112233445566778899{0:02}'.format(x)}
             for x in range(30)
         ])
 

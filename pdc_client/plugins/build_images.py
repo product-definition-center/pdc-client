@@ -61,7 +61,7 @@ class BuildImagePlugin(PDCClientPlugin):
         if args.json:
             print json.dumps(build_image)
             return
-        fmt = '{:20} {}'
+        fmt = '{0:20} {1}'
         print fmt.format('Image ID', build_image['image_id'])
         print fmt.format('Image Format', build_image['image_format'])
         print fmt.format('URL', build_image['url'])
@@ -71,13 +71,13 @@ class BuildImagePlugin(PDCClientPlugin):
             if build_image[key]:
                 print '\nRelated %s:' % key
                 for value in build_image[key]:
-                    print ' * {}'.format(value)
+                    print ' * {0}'.format(value)
 
         if build_image['archives']:
             print '\nRelated archives:'
-            fmt = '* {:40}{:60}{}'
+            fmt = '* {0:40}{1:60}{2}'
             print fmt.format('MD5', 'Name', 'Build NVR')
-            fmt = '  {:40}{:60}{}'
+            fmt = '  {0:40}{1:60}{2}'
             for archive in build_image['archives']:
                 print fmt.format(archive['md5'], archive['name'], archive['build_nvr'])
 

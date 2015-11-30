@@ -36,4 +36,4 @@ def pretty_print(data, indent=0, file=sys.stdout):
     elif isinstance(data, dict):
         _pprint_dict(file, data, indent)
     else:
-        raise TypeError('Can not handle {}'.format(type(data)))
+        raise TypeError('Can not handle {0}'.format(type(data)))
