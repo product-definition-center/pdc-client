@@ -83,6 +83,8 @@ class Runner(object):
         self.parser.add_argument('--debug', action='store_true', help=argparse.SUPPRESS)
         self.parser.add_argument('--json', action='store_true',
                                  help='display output as JSON')
+        self.parser.add_argument('--version', action='version',
+                                 version='%(prog)s ' + pdc_client.__version__)
 
         subparsers = self.parser.add_subparsers(metavar='COMMAND')
 
