@@ -52,6 +52,7 @@ class GlobalComponentTestCase(CLITestCase):
                           ('GET', {'page': 2, 'label': 'test label'})])
 
     def test_detail(self, api):
+        api.add_endpoint('global-components', 'GET', [self.detail])
         self._setup_detail(api)
         api.add_endpoint('global-component-contacts',
                          'GET',
@@ -71,15 +72,11 @@ class GlobalComponentTestCase(CLITestCase):
                               }
                           ]})
         with self.expect_output('global_component/detail.txt'):
-            self.runner.run(['global-component', 'info', '1'])
+            self.runner.run(['global-component', 'info', 'Test Global Component'])
         self.assertEqual(api.calls,
-                         {'global-components/1': [('GET', {})],
-                          'global-component-contacts':
-                              [('GET',
-                                {'component': 'Test Global Component',
-                                 'page': 1})
-                               ]
-                          })
+                         {'global-components': [('GET', {'name': 'Test Global Component'})],
+                          'global-components/1': [('GET', {})],
+                          'global-component-contacts': [('GET', {'component': 'Test Global Component', 'page': 1})]})
 
     def test_update(self, api):
         api.add_endpoint('global-components', 'GET', [self.detail])
@@ -149,17 +146,14 @@ class GlobalComponentTestCase(CLITestCase):
                                                               'next': None,
                                                               'previous': None,
                                                               'results': []})
+        api.add_endpoint('global-components', 'GET', [self.detail])
         self._setup_detail(api)
         with self.expect_output('global_component/detail.json', parse_json=True):
-            self.runner.run(['--json', 'global-component', 'info', '1'])
+            self.runner.run(['--json', 'global-component', 'info', 'Test Global Component'])
         self.assertEqual(api.calls,
-                         {'global-components/1': [('GET', {})],
-                          'global-component-contacts':
-                              [('GET',
-                                {'component': 'Test Global Component',
-                                 'page': 1})
-                               ]
-                          })
+                         {'global-components': [('GET', {'name': 'Test Global Component'})],
+                          'global-components/1': [('GET', {})],
+                          'global-component-contacts': [('GET', {'component': 'Test Global Component', 'page': 1})]})
 
     def test_list_json(self, api):
         api.add_endpoint('global-components', 'GET', [self.detail])

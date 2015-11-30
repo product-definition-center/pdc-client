@@ -35,7 +35,7 @@ class GlobalComponentPlugin(PDCClientPlugin):
         list_parser.set_defaults(func=self.list_global_components)
 
         info_parser = self.add_action('info', help='display details of a global component')
-        info_parser.add_argument('global_component_id', metavar='GLOBAL_COMPONENT_ID')
+        info_parser.add_argument('global_component_name', metavar='GLOBAL_COMPONENT_NAME')
         info_parser.set_defaults(func=self.global_component_info)
 
         update_parser = self.add_action('update', help='update an existing global component')
@@ -83,7 +83,10 @@ class GlobalComponentPlugin(PDCClientPlugin):
             return None
 
     def global_component_info(self, args, global_component_id=None):
-        global_component_id = global_component_id or args.global_component_id
+        if not global_component_id:
+            global_component_id = self._get_component_id(args.global_component_name)
+            if not global_component_id:
+                self.subparsers.choices.get('info').error("This global component doesn't exist.\n")
         global_component = self.client['global-components'][global_component_id]._()
 
         component_contacts = get_paged(self.client['global-component-contacts']._,
