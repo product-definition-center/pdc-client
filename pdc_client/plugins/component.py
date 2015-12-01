@@ -162,7 +162,7 @@ class ReleaseComponentPlugin(PDCClientPlugin):
         update_parser = self.add_action('update', help='update an existing release component')
         update_parser.add_argument('release', metavar='RELEASE')
         update_parser.add_argument('name', metavar='NAME')
-        self.add_release_component_arguments(update_parser)
+        self.add_release_component_arguments(update_parser, is_update=True)
         update_parser.set_defaults(func=self.release_component_update)
 
         create_parser = self.add_action('create', help='create new release component')
@@ -175,17 +175,20 @@ class ReleaseComponentPlugin(PDCClientPlugin):
         parser.add_argument('--include-inactive-release', action='store_true',
                             help='show component(s) in both active and inactive releases')
 
-    def add_release_component_arguments(self, parser, required=False):
+    def add_release_component_arguments(self, parser, required=False, is_update=False):
         group = parser.add_mutually_exclusive_group()
         group.add_argument('--activate', action='store_const', const=True, dest='active')
         group.add_argument('--deactivate', action='store_const', const=False, dest='active')
+        optional_arguments = {'dist_git_branch': {},
+                              'bugzilla_component': {},
+                              'brew_package': {},
+                              'type': {},
+                              'srpm__name': {'arg': 'srpm-name'}}
+        if is_update:
+            optional_arguments.update({'global_component': {}})
         add_create_update_args(parser,
                                {'name': {}},
-                               {'dist_git_branch': {},
-                                'bugzilla_component': {},
-                                'brew_package': {},
-                                'type': {},
-                                'srpm__name': {'arg': 'srpm-name'}},
+                               optional_arguments,
                                required)
 
     def list_release_components(self, args):
