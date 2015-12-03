@@ -37,6 +37,9 @@ mkdir -p %{buildroot}%{_defaultdocdir}/pdc_client
 install -m 0644 -D -p bin/pdc_client %{buildroot}%{_bindir}/pdc_client
 install -m 0644 -D -p bin/pdc %{buildroot}%{_bindir}/pdc
 
+# Install pdc bash argcompletion file
+install -m 0644 -D -p pdc.bash %{buildroot}%{_sysconfdir}/bash_completion.d/pdc.bash
+
 install -m 0644 -D -p docs/pdc_client.1 %{buildroot}%{_mandir}/man1/pdc_client.1
 gzip %{buildroot}%{_mandir}/man1/pdc_client.1
 
@@ -46,6 +49,7 @@ gzip %{buildroot}%{_mandir}/man1/pdc_client.1
 %attr(755, root, root) %{_bindir}/pdc_client
 %attr(755, root, root) %{_bindir}/pdc
 %{_mandir}/man1/pdc_client.1.gz
+%{_sysconfdir}/bash_completion.d/pdc.bash
 
 
 %changelog

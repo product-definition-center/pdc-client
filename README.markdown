@@ -78,6 +78,18 @@ performing the network requests manually.
 This is much more user friendly user interface. A single invocation can
 perform multiple requests depending on what subcommand you used.
 
+The `pdc` client supports Bash completion if argcomplete Python package is installed.
+
+If you installed client from rpm package, the completion file `pdc.bash` has been
+installed to `/etc/bash_completion.d/`.
+
+For developers or users who try to run `pdc` from source, to enable completion,
+run this in your terminal (assuming pdc is somewhere on path).
+
+    eval "$(register-python-argcomplete pdc)"
+
+or put `pdc.bash` to `/etc/bash_completion.d/`.
+
 ## Python API
 
 When writing a client code interfacing with PDC server, you might find
@@ -90,6 +102,7 @@ include
 - [requests](http://docs.python-requests.org/en/latest/)
 - [requests-kerberos](https://github.com/requests/requests-kerberos/)
 - [beanbag](http://beanbag.readthedocs.org/en/latest/)
+- (Optional)[argcomplete](http://argcomplete.readthedocs.org/en/latest/_modules/argcomplete.html)
 
 Please find more details at： [`PDCClient`](pdc_client/__init__.py#L71)
 

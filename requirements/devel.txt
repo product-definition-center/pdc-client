@@ -2,3 +2,4 @@
 mock
 flake8
 coverage
+argcomplete
