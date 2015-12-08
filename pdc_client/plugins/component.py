@@ -145,7 +145,12 @@ class ReleaseComponentPlugin(PDCClientPlugin):
 
         list_parser = self.add_action('list', help='list all release components')
         self.add_include_inactive_release_argument(list_parser)
-        filters = ('active brew_package bugzilla_component global_component name release srpm_name '
+        active_group = list_parser.add_mutually_exclusive_group()
+        active_group.add_argument('--active', action='store_const', const=True, dest='filter_active',
+                                  help='show active release components.')
+        active_group.add_argument('--inactive', action='store_const', const=False, dest='filter_active',
+                                  help='show inactive release components.')
+        filters = ('brew_package bugzilla_component global_component name release srpm_name '
                    'type'.split())
         for arg in filters:
             list_parser.add_argument('--' + arg.replace('_', '-'), dest='filter_' + arg)
