@@ -6,20 +6,20 @@
 #
 import itertools
 import json
+import os
+from os.path import expanduser, isfile, isdir
 import sys
+from subprocess import Popen, PIPE
 import exceptions
 
 import beanbag
 import requests
 import requests_kerberos
 import warnings
-from os.path import expanduser, isfile
 
 from pdc_client import monkey_patch
 
 monkey_patch.monkey_patch_kerberos()
-
-__version__ = '0.2.0'
 
 GLOBAL_CONFIG_FILE = '/etc/pdc/client_config.json'
 USER_SPECIFIC_CONFIG_FILE = expanduser('~/.config/pdc/client_config.json')
@@ -27,6 +27,29 @@ CONFIG_URL_KEY_NAME = 'host'
 CONFIG_INSECURE_KEY_NAME = 'insecure'
 CONFIG_DEVELOP_KEY_NAME = 'develop'
 CONFIG_TOKEN_KEY_NAME = 'token'
+
+
+def get_version():
+    fdir = os.path.dirname(os.path.realpath(__file__))
+    if isdir(os.path.join(fdir, '..', '.git')):
+        # running from git, try to get info
+        old_dir = os.getcwd()
+        os.chdir(fdir)
+        git = Popen(["git", "describe", "--tags"], stdout=PIPE)
+        base_ver = git.communicate()[0].strip()
+        git = Popen(["git", "rev-parse", "--short", "HEAD"], stdout=PIPE)
+        hash = git.communicate()[0]
+        os.chdir(old_dir)
+        return base_ver + "-" + hash
+    else:
+        # not running from git, get info from pkg_resources
+        import pkg_resources
+        try:
+            return pkg_resources.get_distribution("pdc_client").version
+        except pkg_resources.DistributionNotFound:
+            return "unknown"
+
+__version__ = get_version()
 
 
 def _read_file(file_path):

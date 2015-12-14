@@ -1,0 +1,5 @@
+recursive-include requirements *
+recursive-include docs * 
+recursive-include tests *
+include LICENSE README.markdown tox.ini pdc.bash
+global-exclude  *.pyc
