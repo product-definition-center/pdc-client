@@ -13,7 +13,7 @@ BuildArch:      noarch
 BuildRequires:  python
 Requires:       python-requests
 Requires:       python-requests-kerberos
-Requires:       beanbag
+Requires:       beanbag >= 1.9.2
 
 
 %description
