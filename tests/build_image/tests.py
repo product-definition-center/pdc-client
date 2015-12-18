@@ -63,6 +63,13 @@ class BuildImageTestCase(CLITestCase):
     def test_info(self, api):
         self._setup_detail(api)
         self._setup_list_2(api)
+        with self.expect_output('detail.txt'):
+            self.runner.run(['build-image', 'info', 'test_image_1'])
+        self.assertEqual(api.calls['build-images'], [('GET', {'image_id': 'test_image_1'})])
+
+    def test_info_json(self, api):
+        self._setup_detail(api)
+        self._setup_list_2(api)
         with self.expect_output('detail.json', parse_json=True):
             self.runner.run(['--json', 'build-image', 'info', 'test_image_1'])
         self.assertEqual(api.calls['build-images'], [('GET', {'image_id': 'test_image_1'})])
