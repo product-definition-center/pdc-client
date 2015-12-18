@@ -29,7 +29,7 @@ class PermissionPlugin(PDCClientPlugin):
         """
         This call returns current login user's permissions.
         """
-        response = res(**kwargs)
+        response = res._(**kwargs)
         return response.get('permissions', None)
 
 
