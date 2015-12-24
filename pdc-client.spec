@@ -2,7 +2,7 @@
 
 
 Name:           pdc-client
-Version:        0.1.0
+Version:        0.2.0
 Release:        1%{?dist}
 Summary:        Console client for interacting with Product Definition Center
 Group:          Development/Libraries
@@ -53,6 +53,11 @@ gzip %{buildroot}%{_mandir}/man1/pdc_client.1
 
 
 %changelog
+* Fri Dec 04 2015 Xiangyang Chu <xchu@redhat.com> 0.2.0-1
+- Add python 2.6 check. (xchu@redhat.com)
+- Fix spec URL (rbean@redhat.com)
+- Allow PDCClient to be configured with arguments. (rbean@redhat.com)
+- Imporvements on new `pdc` client.
 * Fri Sep 11 2015 Xiangyang Chu <xychu2008@gmail.com> 0.1.0-1
 - new package built with tito
 

@@ -85,6 +85,9 @@ class Runner(object):
                                  help='display output as JSON')
         self.parser.add_argument('--page-size', dest='page_size', type=int,
                                  help='change page size in response')
+        self.parser.add_argument('--version', action='version',
+                                 version='%(prog)s ' + pdc_client.__version__)
+
         subparsers = self.parser.add_subparsers(metavar='COMMAND')
 
         for plugin in self.plugins:

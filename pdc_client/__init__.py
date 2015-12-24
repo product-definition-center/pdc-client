@@ -19,6 +19,8 @@ from pdc_client import monkey_patch
 
 monkey_patch.monkey_patch_kerberos()
 
+__version__ = '0.2.0'
+
 GLOBAL_CONFIG_FILE = '/etc/pdc/client_config.json'
 USER_SPECIFIC_CONFIG_FILE = expanduser('~/.config/pdc/client_config.json')
 CONFIG_URL_KEY_NAME = 'host'
