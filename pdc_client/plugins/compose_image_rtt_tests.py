@@ -6,7 +6,6 @@
 #
 import json
 
-from pdc_client import get_paged
 from pdc_client.plugin_helpers import PDCClientPlugin, add_parser_arguments, extract_arguments
 
 
@@ -56,7 +55,7 @@ class ComposeImageRTTTestsPlugin(PDCClientPlugin):
 
     def list_compose_image_rtt_tests(self, args):
         filters = extract_arguments(args)
-        rtt_tests = get_paged(self.client['compose-image-rtt-tests']._, **filters)
+        rtt_tests = self.client.get_paged(self.client['compose-image-rtt-tests']._, **filters)
         if args.json:
             print json.dumps(list(rtt_tests))
             return
