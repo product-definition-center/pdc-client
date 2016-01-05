@@ -13,6 +13,7 @@ from pdc_client.plugin_helpers import (PDCClientPlugin,
 
 def print_build_image_rtt_list(rtt_tests):
     fmt = '{0:<10} {1:40} {2:10} {3:6}'
+    print fmt.format('ID', 'BUILD_NVR', 'FORMAT', 'TEST_RESULT')
     for rtt_test in rtt_tests:
         print fmt.format(rtt_test['id'],
                          rtt_test['build_nvr'],

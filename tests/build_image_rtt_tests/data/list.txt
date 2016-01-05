@@ -1,3 +1,4 @@
+ID         BUILD_NVR                                FORMAT     TEST_RESULT
 0          EjaErg-0                                 vdi0       passed
 1          EjaErg-1                                 vdi1       passed
 2          EjaErg-2                                 vdi2       passed
