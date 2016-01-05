@@ -1,0 +1,9 @@
+{
+    "arch": "x86_64",
+    "compose": "Awesome-product-7.0-0",
+    "variant": "Server",
+    "location": "NAY",
+    "scheme": "http",
+    "synced_content": "debug",
+    "url": "http://example.com"
+ }

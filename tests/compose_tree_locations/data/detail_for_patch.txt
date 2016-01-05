@@ -1,0 +1,7 @@
+Compose              Awesome-product-7.0-0
+Variant              Server
+Arch                 x86_64
+Location             NAY
+Scheme               https
+Synced Content       source
+Url                  https://example1.com

@@ -1,0 +1,32 @@
+Compose                                            Variant              Arch       Location   Scheme     Synced Content                           Url
+
+Awesome-product-7.0-0                              Server               x86_64     NAY        http       debug                                    http://example.com
+Awesome-product-7.0-1                              Server               x86_64     NAY        http       debug                                    http://example.com
+Awesome-product-7.0-2                              Server               x86_64     NAY        http       debug                                    http://example.com
+Awesome-product-7.0-3                              Server               x86_64     NAY        http       debug                                    http://example.com
+Awesome-product-7.0-4                              Server               x86_64     NAY        http       debug                                    http://example.com
+Awesome-product-7.0-5                              Server               x86_64     NAY        http       debug                                    http://example.com
+Awesome-product-7.0-6                              Server               x86_64     NAY        http       debug                                    http://example.com
+Awesome-product-7.0-7                              Server               x86_64     NAY        http       debug                                    http://example.com
+Awesome-product-7.0-8                              Server               x86_64     NAY        http       debug                                    http://example.com
+Awesome-product-7.0-9                              Server               x86_64     NAY        http       debug                                    http://example.com
+Awesome-product-7.0-10                             Server               x86_64     NAY        http       debug                                    http://example.com
+Awesome-product-7.0-11                             Server               x86_64     NAY        http       debug                                    http://example.com
+Awesome-product-7.0-12                             Server               x86_64     NAY        http       debug                                    http://example.com
+Awesome-product-7.0-13                             Server               x86_64     NAY        http       debug                                    http://example.com
+Awesome-product-7.0-14                             Server               x86_64     NAY        http       debug                                    http://example.com
+Awesome-product-7.0-15                             Server               x86_64     NAY        http       debug                                    http://example.com
+Awesome-product-7.0-16                             Server               x86_64     NAY        http       debug                                    http://example.com
+Awesome-product-7.0-17                             Server               x86_64     NAY        http       debug                                    http://example.com
+Awesome-product-7.0-18                             Server               x86_64     NAY        http       debug                                    http://example.com
+Awesome-product-7.0-19                             Server               x86_64     NAY        http       debug                                    http://example.com
+Awesome-product-7.0-20                             Server               x86_64     NAY        http       debug                                    http://example.com
+Awesome-product-7.0-21                             Server               x86_64     NAY        http       debug                                    http://example.com
+Awesome-product-7.0-22                             Server               x86_64     NAY        http       debug                                    http://example.com
+Awesome-product-7.0-23                             Server               x86_64     NAY        http       debug                                    http://example.com
+Awesome-product-7.0-24                             Server               x86_64     NAY        http       debug                                    http://example.com
+Awesome-product-7.0-25                             Server               x86_64     NAY        http       debug                                    http://example.com
+Awesome-product-7.0-26                             Server               x86_64     NAY        http       debug                                    http://example.com
+Awesome-product-7.0-27                             Server               x86_64     NAY        http       debug                                    http://example.com
+Awesome-product-7.0-28                             Server               x86_64     NAY        http       debug                                    http://example.com
+Awesome-product-7.0-29                             Server               x86_64     NAY        http       debug                                    http://example.com
