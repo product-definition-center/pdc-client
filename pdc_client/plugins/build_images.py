@@ -39,7 +39,9 @@ class BuildImagePlugin(PDCClientPlugin):
     def _print_build_image_list(self, build_images, with_md5=False):
         fmt = '{image_id}'
         if with_md5:
-            fmt += ' {md5}'
+            fmt = '{image_id:50}{md5}'
+        print fmt.format(image_id='Image-ID', md5='MD5')
+        print
         for build_image in build_images:
             print fmt.format(**build_image)
 
