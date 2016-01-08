@@ -288,7 +288,7 @@ class ReleaseComponentPlugin(PDCClientPlugin):
             data['active'] = args.active
         if data:
             self.logger.debug('Updating release component %d with data %r',
-                              release_component_id, data)
+                              int(release_component_id), data)
             self.client['release-components'][release_component_id]._ += data
         else:
             self.logger.debug('Empty data, skipping request')
