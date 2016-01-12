@@ -37,16 +37,16 @@ class BuildImageRttTestsTestCase(CLITestCase):
 
     def test_info(self, api):
         self._setup_build_image_rtt_tests_detail(api)
-        api.add_endpoint('build-image-rtt-tests/3', 'GET', self.detail)
+        api.add_endpoint('build-image-rtt-tests/EjaErg-1/vdi', 'GET', self.detail)
         with self.expect_output('build_image_rtt_tests.txt'):
             self.runner.run(['build-image-rtt-tests', 'info', 'EjaErg-1', 'vdi'])
-        self.assertEqual(api.calls['build-image-rtt-tests/3'],
+        self.assertEqual(api.calls['build-image-rtt-tests/EjaErg-1/vdi'],
                          [('GET', {})])
 
     def test_update_rrt_tests(self, api):
         api.add_endpoint('build-image-rtt-tests', 'GET', [self.detail])
-        api.add_endpoint('build-image-rtt-tests/3', 'GET', self.detail)
-        api.add_endpoint('build-image-rtt-tests/3', 'PATCH',
+        api.add_endpoint('build-image-rtt-tests/EjaErg-1/vdi', 'GET', self.detail)
+        api.add_endpoint('build-image-rtt-tests/EjaErg-1/vdi', 'PATCH',
                          {
                              "id": 3,
                              "build_nvr": "EjaErg-1",
@@ -56,11 +56,11 @@ class BuildImageRttTestsTestCase(CLITestCase):
         with self.expect_output('build_image_rtt_tests.txt'):
             self.runner.run(['build-image-rtt-tests', 'update',
                              '--test-result', 'passed', 'EjaErg-1', 'vdi'])
-        self.assertEqual(api.calls['build-image-rtt-tests/3'],
+        self.assertEqual(api.calls['build-image-rtt-tests/EjaErg-1/vdi'],
                          [('PATCH', {'test_result': 'passed'}), ('GET', {})])
 
     def test_detail_json(self, api):
         self._setup_build_image_rtt_tests_detail(api)
-        api.add_endpoint('build-image-rtt-tests/3', 'GET', self.detail)
+        api.add_endpoint('build-image-rtt-tests/EjaErg-1/vdi', 'GET', self.detail)
         with self.expect_output('detail.json', parse_json=True):
             self.runner.run(['--json', 'build-image-rtt-tests', 'info', 'EjaErg-1', 'vdi'])

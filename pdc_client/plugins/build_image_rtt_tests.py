@@ -55,13 +55,8 @@ class BuildImageRttTest(PDCClientPlugin):
         if build_images_rrt:
             print_build_image_rtt_list(build_images_rrt)
 
-    def build_image_rrt_tests_info(self, args, rtt_id=None):
-        if not rtt_id:
-            rtt_id = self._get_build_image_rtt_id(args.build_nvr, args.image_format)
-        if not rtt_id:
-            self.subparsers.choices.get('info').error("This build image rtt test doesn't exist.\n")
-        args.id = rtt_id
-        build_image_rtts = self.client['build-image-rtt-tests'][rtt_id]._()
+    def build_image_rrt_tests_info(self, args):
+        build_image_rtts = self.client['build-image-rtt-tests'][args.build_nvr][args.image_format]._()
         if args.json:
             print json.dumps(build_image_rtts)
             return
@@ -73,15 +68,13 @@ class BuildImageRttTest(PDCClientPlugin):
 
     def build_image_rrt_tests_update(self, args):
         data = extract_arguments(args)
-        rtt_id = self._get_build_image_rtt_id(args.build_nvr, args.image_format)
-        if not rtt_id:
-            self.subparsers.choices.get('info').error("This build image rtt test doesn't exist.\n")
         if data:
-            self.logger.debug('Updating global component %s with data %r', rtt_id, data)
-            self.client['build-image-rtt-tests'][rtt_id]._ += data
+            self.logger.debug('Updating global component %s and %s with data %r',
+                              args.build_nvr, args.image_format, data)
+            self.client['build-image-rtt-tests'][args.build_nvr][args.image_format]._ += data
         else:
             self.logger.debug('Empty data, skipping request')
-        self.build_image_rrt_tests_info(args, rtt_id)
+        self.build_image_rrt_tests_info(args)
 
     def _get_build_image_rtt_id(self, build_nvr, image_format):
         results = self.client['build-image-rtt-tests']._(build_nvr=build_nvr, image_format=image_format)
