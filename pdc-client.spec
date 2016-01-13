@@ -3,7 +3,7 @@
 
 Name:           pdc-client
 Version:        0.2.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Console client for interacting with Product Definition Center
 Group:          Development/Libraries
 License:        MIT
@@ -53,6 +53,21 @@ gzip %{buildroot}%{_mandir}/man1/pdc_client.1
 
 
 %changelog
+* Wed Jan 13 2016 bliu <bliu@redhat.com> 0.2.0-3
+- PATCH on build-image-rtt-tests with build_nvr/format (bliu@redhat.com)
+- Add beanbag required version. (xchu@redhat.com)
+- Add header for build image in new pdc client output (ycheng@redhat.com)
+- Add tests for permission list. (xchu@redhat.com)
+- Add test for build-image detail. (xchu@redhat.com)
+- Add support for compose-tree-locations. (chuzhang@redhat.com)
+- Add head in result when running build_image_rtt_tests (bliu@redhat.com)
+- Use new get_paged method instead of deprecated one. (ycheng@redhat.com)
+- Pdc client add support for build-image-rtt-tests (bliu@redhat.com)
+- Add support for compose-image-rtt-tests in pdc client (ycheng@redhat.com)
+- Make mocked endpoints possibly callable. (rbean@redhat.com)
+- Add help message for 'active' filter. (xchu@redhat.com)
+- Enable page_size in new pdc client (bliu@redhat.com)
+
 * Wed Jan 13 2016 bliu <bliu@redhat.com> 0.2.0-2
 - 
 
