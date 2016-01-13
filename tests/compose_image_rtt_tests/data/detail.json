@@ -1,0 +1,7 @@
+{
+    "arch": "x86_64",
+    "compose": "RHEL-7.0-0",
+    "variant": "Client",
+    "test_result": "untested",
+    "file_name": "RHEL-7.0-1-Client-x86_64-boot.iso"
+ }

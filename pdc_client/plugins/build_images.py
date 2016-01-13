@@ -7,7 +7,7 @@
 import json
 import sys
 
-from pdc_client import get_paged
+
 from pdc_client.plugin_helpers import PDCClientPlugin, add_parser_arguments, extract_arguments
 
 
@@ -39,13 +39,15 @@ class BuildImagePlugin(PDCClientPlugin):
     def _print_build_image_list(self, build_images, with_md5=False):
         fmt = '{image_id}'
         if with_md5:
-            fmt += ' {md5}'
+            fmt = '{image_id:50}{md5}'
+        print fmt.format(image_id='Image-ID', md5='MD5')
+        print
         for build_image in build_images:
             print fmt.format(**build_image)
 
     def list_build_image(self, args):
         filters = extract_arguments(args)
-        build_images = get_paged(self.client['build-images']._, **filters)
+        build_images = self.client.get_paged(self.client['build-images']._, **filters)
         if args.json:
             print json.dumps(list(build_images))
             return

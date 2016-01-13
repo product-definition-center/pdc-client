@@ -1,0 +1,32 @@
+Compose                                            Variant              Arch       File Name                                                              Test Result
+
+RHEL-7.0-0                                         Client               x86_64     RHEL-7.0-1-Client-x86_64-boot.iso                                      untested
+RHEL-7.0-1                                         Client               x86_64     RHEL-7.0-1-Client-x86_64-boot.iso                                      untested
+RHEL-7.0-2                                         Client               x86_64     RHEL-7.0-1-Client-x86_64-boot.iso                                      untested
+RHEL-7.0-3                                         Client               x86_64     RHEL-7.0-1-Client-x86_64-boot.iso                                      untested
+RHEL-7.0-4                                         Client               x86_64     RHEL-7.0-1-Client-x86_64-boot.iso                                      untested
+RHEL-7.0-5                                         Client               x86_64     RHEL-7.0-1-Client-x86_64-boot.iso                                      untested
+RHEL-7.0-6                                         Client               x86_64     RHEL-7.0-1-Client-x86_64-boot.iso                                      untested
+RHEL-7.0-7                                         Client               x86_64     RHEL-7.0-1-Client-x86_64-boot.iso                                      untested
+RHEL-7.0-8                                         Client               x86_64     RHEL-7.0-1-Client-x86_64-boot.iso                                      untested
+RHEL-7.0-9                                         Client               x86_64     RHEL-7.0-1-Client-x86_64-boot.iso                                      untested
+RHEL-7.0-10                                        Client               x86_64     RHEL-7.0-1-Client-x86_64-boot.iso                                      untested
+RHEL-7.0-11                                        Client               x86_64     RHEL-7.0-1-Client-x86_64-boot.iso                                      untested
+RHEL-7.0-12                                        Client               x86_64     RHEL-7.0-1-Client-x86_64-boot.iso                                      untested
+RHEL-7.0-13                                        Client               x86_64     RHEL-7.0-1-Client-x86_64-boot.iso                                      untested
+RHEL-7.0-14                                        Client               x86_64     RHEL-7.0-1-Client-x86_64-boot.iso                                      untested
+RHEL-7.0-15                                        Client               x86_64     RHEL-7.0-1-Client-x86_64-boot.iso                                      untested
+RHEL-7.0-16                                        Client               x86_64     RHEL-7.0-1-Client-x86_64-boot.iso                                      untested
+RHEL-7.0-17                                        Client               x86_64     RHEL-7.0-1-Client-x86_64-boot.iso                                      untested
+RHEL-7.0-18                                        Client               x86_64     RHEL-7.0-1-Client-x86_64-boot.iso                                      untested
+RHEL-7.0-19                                        Client               x86_64     RHEL-7.0-1-Client-x86_64-boot.iso                                      untested
+RHEL-7.0-20                                        Client               x86_64     RHEL-7.0-1-Client-x86_64-boot.iso                                      untested
+RHEL-7.0-21                                        Client               x86_64     RHEL-7.0-1-Client-x86_64-boot.iso                                      untested
+RHEL-7.0-22                                        Client               x86_64     RHEL-7.0-1-Client-x86_64-boot.iso                                      untested
+RHEL-7.0-23                                        Client               x86_64     RHEL-7.0-1-Client-x86_64-boot.iso                                      untested
+RHEL-7.0-24                                        Client               x86_64     RHEL-7.0-1-Client-x86_64-boot.iso                                      untested
+RHEL-7.0-25                                        Client               x86_64     RHEL-7.0-1-Client-x86_64-boot.iso                                      untested
+RHEL-7.0-26                                        Client               x86_64     RHEL-7.0-1-Client-x86_64-boot.iso                                      untested
+RHEL-7.0-27                                        Client               x86_64     RHEL-7.0-1-Client-x86_64-boot.iso                                      untested
+RHEL-7.0-28                                        Client               x86_64     RHEL-7.0-1-Client-x86_64-boot.iso                                      untested
+RHEL-7.0-29                                        Client               x86_64     RHEL-7.0-1-Client-x86_64-boot.iso                                      untested

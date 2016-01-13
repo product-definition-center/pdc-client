@@ -106,7 +106,7 @@ include
 
 Please find more details at： [`PDCClient`](pdc_client/__init__.py#L71)
 
-When working with paginated responses, there is a utility function([`get_paged`](pdc_client/__init__.py#L43)) to
+When working with paginated responses, there is a function([`get_paged`](pdc_client/__init__.py#L138)) to
 simplify that. From client code it is iterating single object. Behind
 the scenes it will download the first page, once all results from that
 page are exhausted, it will get another page until everything is

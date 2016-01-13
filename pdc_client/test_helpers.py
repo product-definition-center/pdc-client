@@ -13,6 +13,7 @@ import unittest
 import os
 import json
 import types
+import itertools
 
 
 class PathAccumulator(object):
@@ -55,6 +56,19 @@ class MockAPI(object):
         self.endpoints = {}
         self.calls = {}
 
+    def get_paged(self, res, **kwargs):
+        """ """
+        def worker():
+            kwargs['page'] = 1
+            while True:
+                response = res(**kwargs)
+                yield response['results']
+                if response['next']:
+                    kwargs['page'] += 1
+                else:
+                    break
+        return itertools.chain.from_iterable(worker())
+
     def add_endpoint(self, resource, method, data):
         """Add allowed point of connection.
 
@@ -92,14 +106,22 @@ class MockAPI(object):
 
     def _handle_post(self, data):
         self.calls.setdefault(self.will_call, []).append(('POST', data))
-        return self.endpoints[self.will_call]['POST']
+        data = self.endpoints[self.will_call]['POST']
+        if callable(data):
+            data = data()
+        return data
 
     def _handle_delete(self, data):
         self.calls.setdefault(self.will_call, []).append(('DELETE', data))
-        return self.endpoints[self.will_call]['DELETE']
+        data = self.endpoints[self.will_call]['DELETE']
+        if callable(data):
+            data = data()
+        return data
 
     def _handle_get(self, filters):
         data = self.endpoints[self.will_call]['GET']
+        if callable(data):
+            data = data()
         self.calls.setdefault(self.will_call, []).append(('GET', filters))
         if isinstance(data, list):
             page = filters.get('page', 1)
@@ -116,7 +138,10 @@ class MockAPI(object):
 
     def _handle_patch(self, data):
         self.calls.setdefault(self.will_call, []).append(('PATCH', data))
-        return self.endpoints[self.will_call]['PATCH']
+        data = self.endpoints[self.will_call]['PATCH']
+        if callable(data):
+            data = data()
+        return data
 
     def _fmt_url(self, page):
         return 'http://testserver/?page={0}'.format(page)

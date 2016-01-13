@@ -83,6 +83,8 @@ class Runner(object):
         self.parser.add_argument('--debug', action='store_true', help=argparse.SUPPRESS)
         self.parser.add_argument('--json', action='store_true',
                                  help='display output as JSON')
+        self.parser.add_argument('--page-size', dest='page_size', type=int,
+                                 help='change page size in response')
         self.parser.add_argument('--version', action='version',
                                  version='%(prog)s ' + pdc_client.__version__)
 
@@ -96,7 +98,7 @@ class Runner(object):
 
     def run(self, args=None):
         self.args = self.parser.parse_args(args=args)
-        self.client = pdc_client.PDCClient(self.args.server)
+        self.client = pdc_client.PDCClient(self.args.server, page_size=self.args.page_size)
         try:
             self.args.func(self.args)
         except beanbag.BeanBagException as exc:

@@ -232,6 +232,20 @@ class ReleaseComponentTestCase(CLITestCase):
                          [('GET', {'page': 1, 'release': 'Test Release'}),
                           ('GET', {'page': 2, 'release': 'Test Release'})])
 
+    def test_list_active(self, api):
+        api.add_endpoint('release-components', 'GET', [])
+        with self.expect_output('release_component/empty.txt'):
+            self.runner.run(['release-component', 'list', '--active'])
+        self.assertEqual(api.calls['release-components'],
+                         [('GET', {'page': 1, 'active': True})])
+
+    def test_list_inactive(self, api):
+        api.add_endpoint('release-components', 'GET', [])
+        with self.expect_output('release_component/empty.txt'):
+            self.runner.run(['release-component', 'list', '--inactive'])
+        self.assertEqual(api.calls['release-components'],
+                         [('GET', {'page': 1, 'active': False})])
+
     def test_detail(self, api):
         api.add_endpoint('release-components', 'GET', [self.detail])
         api.add_endpoint('release-component-contacts',
