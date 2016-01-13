@@ -3,7 +3,7 @@
 
 Name:           pdc-client
 Version:        0.2.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Console client for interacting with Product Definition Center
 Group:          Development/Libraries
 License:        MIT
@@ -53,6 +53,9 @@ gzip %{buildroot}%{_mandir}/man1/pdc_client.1
 
 
 %changelog
+* Wed Jan 13 2016 bliu <bliu@redhat.com> 0.2.0-2
+- 
+
 * Fri Dec 04 2015 Xiangyang Chu <xchu@redhat.com> 0.2.0-1
 - Add python 2.6 check. (xchu@redhat.com)
 - Fix spec URL (rbean@redhat.com)
