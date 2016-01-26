@@ -50,6 +50,9 @@ class RequestMethod(object):
 
     @debug_request
     def get(self, data):
+        if isinstance(data, list):
+            print 'Parameter %s is error format %s, please input right format.' % (data, type(data))
+            sys.exit(1)
         return self.client[self.resource]._(**data)
 
     @debug_request
