@@ -51,7 +51,7 @@ class RequestMethod(object):
     @debug_request
     def get(self, data):
         if isinstance(data, list):
-            print 'Parameter %s is error format %s, please input right format.' % (data, type(data))
+            print 'For GET request, the data must be a JSON object, not a list.'
             sys.exit(1)
         return self.client[self.resource]._(**data)
 
