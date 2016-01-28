@@ -50,7 +50,7 @@ class RequestMethod(object):
 
     @debug_request
     def get(self, data):
-        if isinstance(data, list):
+        if not isinstance(data, dict):
             print 'For GET request, the data must be a JSON object, not a list.'
             sys.exit(1)
         return self.client[self.resource]._(**data)
@@ -82,8 +82,6 @@ class RequestMethod(object):
             if exc_type is BeanBagException:
                 print "%d %s" % (
                     exc_val.response.status_code, exc_val.response.content)
-            else:
-                print "Client error: %s" % str(exc_val)
 
             if self.traceback:
                 import traceback
