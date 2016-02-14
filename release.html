@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>1. Release &mdash; PDC Client pdc-client-0.2.0-1-24-g8366d63-8366d63
+    <title>1. Release &mdash; PDC Client pdc-client-0.2.0-1-23-gd80bca8-d80bca8
  documentation</title>
     
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     'pdc-client-0.2.0-1-24-g8366d63-8366d63
+        VERSION:     'pdc-client-0.2.0-1-23-gd80bca8-d80bca8
 ',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="PDC Client pdc-client-0.2.0-1-24-g8366d63-8366d63
+    <link rel="top" title="PDC Client pdc-client-0.2.0-1-23-gd80bca8-d80bca8
  documentation" href="index.html" />
     <link rel="prev" title="Welcome to PDC Client’s documentation!" href="index.html" /> 
   </head>
@@ -39,7 +39,7 @@
         <li class="right" >
           <a href="index.html" title="Welcome to PDC Client’s documentation!"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">PDC Client pdc-client-0.2.0-1-24-g8366d63-8366d63
+        <li class="nav-item nav-item-0"><a href="index.html">PDC Client pdc-client-0.2.0-1-23-gd80bca8-d80bca8
  documentation</a> &raquo;</li> 
       </ul>
     </div>  
@@ -53,7 +53,7 @@
 <span id="id1"></span><h1>1. Release<a class="headerlink" href="#release" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="versioning">
 <h2>1.1. Versioning<a class="headerlink" href="#versioning" title="Permalink to this headline">¶</a></h2>
-<p>PDC versioning is based on <a class="reference external" href="http://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.</p>
+<p>PDC Client versioning is based on <a class="reference external" href="http://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.</p>
 <p>And it&#8217;s RPM compatible.</p>
 <p>Given a version number MAJOR.MINOR.PATCH, increment the:</p>
 <ol class="arabic simple">
@@ -141,57 +141,46 @@ $ tito build --test --tgz/srpm/rpm
 </pre></div>
 </div>
 </div>
-<div class="section" id="id2">
-<h3>1.2.4. Release<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
-<p>Thanks to <a class="reference external" href="https://fedorapeople.org/">fedorapeople.org</a> and <a class="reference external" href="https://copr.fedoraproject.org/">Fedora Copr</a>, we could
-use <cite>tito</cite> to release <cite>PDC</cite> as a <cite>yum</cite> or <cite>dnf</cite> repo.
-So that user could install <cite>PDC</cite> packages after enable the repo. <a class="footnote-reference" href="#id7" id="id3">[1]</a></p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p>Before doing any release, make sure that you have account on both sites and also make sure that you could
-access to your fedorapeople space <a class="footnote-reference" href="#id8" id="id4">[2]</a> and have enough permissions <a class="footnote-reference" href="#id9" id="id5">[3]</a> to build <cite>PDC</cite> in <cite>Copr</cite>.</p>
-<p>You need to create a directory called <cite>pdc_srpms/</cite> under your fedorapeople space <cite>public_html/</cite> to hold all the uploaded
-srpms.</p>
-<p class="last"><cite>copr-cli</cite> will be used, installed by <cite>sudo yum/dnf install copr-cli</cite> and configure it. <a class="footnote-reference" href="#id10" id="id6">[4]</a></p>
-</div>
-<p>Currently there are two projects in <cite>Copr</cite>: <cite>pdc</cite> for all tag based releases and <cite>pdc-test</cite> for test builds. We have two
-release targets in <cite>tito</cite>, <cite>copr-pdc</cite> is for <cite>pdc</cite> in <cite>Copr</cite> and <cite>copr-pdc-test</cite> is for <cite>pdc-test</cite> respectively.</p>
-<p>Request as <cite>Builder</cite> for projects <cite>pdc/pdc-test</cite> and <cite>pdc/pdc</cite>, wait until admin approves.</p>
-<p>After all setup, release with <cite>tito</cite>:</p>
-<div class="highlight-python"><div class="highlight"><pre>$ tito release copr-pdc
-# or
-$ tito release copr-pdc-test
+<div class="section" id="release-to-pypi">
+<h3>1.2.4. Release To PyPI<a class="headerlink" href="#release-to-pypi" title="Permalink to this headline">¶</a></h3>
+<p>The Python Package Index or <a class="reference external" href="https://pypi.python.org/pypi">PyPI</a> is the official third-party software repository for the Python programming language.
+Release PDC Client to PyPI make it be able to pip install this for usage in other projects.
+<a class="reference external" href="https://pypi.python.org/pypi/pdc-client">pdc-client</a> was already registered in PyPI.</p>
+<p>If you haven&#8217;t created an account in PyPI or configured PyPI in local environment, you may need:</p>
+<ul>
+<li><p class="first">create your account on <a class="reference external" href="https://pypi.python.org/pypi?%3Aaction=register_form">PyPI Live</a>.</p>
+</li>
+<li><p class="first">contact PDC team to get <a class="reference external" href="https://pypi.python.org/pypi/pdc-client">PyPI pdc-client</a> access.</p>
+</li>
+<li><p class="first">create  ~/.pypirc configuration file with content:</p>
+<div class="highlight-python"><div class="highlight"><pre>[distutils]
+index-servers=pypi
+
+[pypi]
+repository = https://pypi.python.org/pypi
+username = your_username
+password = your_password
 </pre></div>
 </div>
-<p>Go and grab a cup of tea or coffee, the release build will be come out soon</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="c1"># test builds: `https://copr.fedoraproject.org/coprs/pdc/pdc-test/builds/`</span>
-<span class="c1"># tag based builds: `https://copr.fedoraproject.org/coprs/pdc/pdc/builds/`</span>
+</li>
+</ul>
+<p>Finally, you can upload your distributions to PyPI. There are two options:</p>
+<ol class="arabic">
+<li><p class="first">Use <a class="reference external" href="https://python-packaging-user-guide.readthedocs.org/en/latest/projects/#twine">twine</a>.
+Twine uses only verified TLS to upload to PyPI in order to protect your credentials from theft:</p>
+<div class="highlight-python"><div class="highlight"><pre>twine upload dist/*
 </pre></div>
 </div>
-<table class="docutils footnote" frame="void" id="id7" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id3">[1]</a></td><td><a class="reference external" href="https://fedorahosted.org/copr/wiki/HowToEnableRepo">https://fedorahosted.org/copr/wiki/HowToEnableRepo</a></td></tr>
-</tbody>
-</table>
-<table class="docutils footnote" frame="void" id="id8" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id4">[2]</a></td><td><a class="reference external" href="http://fedoraproject.org/wiki/Infrastructure/fedorapeople.org#Accessing_Your_fedorapeople.org_Space">http://fedoraproject.org/wiki/Infrastructure/fedorapeople.org#Accessing_Your_fedorapeople.org_Space</a></td></tr>
-</tbody>
-</table>
-<table class="docutils footnote" frame="void" id="id9" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id5">[3]</a></td><td><a class="reference external" href="https://fedorahosted.org/copr/wiki/UserDocs#CanIgiveaccesstomyrepotomyteammate">https://fedorahosted.org/copr/wiki/UserDocs#CanIgiveaccesstomyrepotomyteammate</a></td></tr>
-</tbody>
-</table>
-<table class="docutils footnote" frame="void" id="id10" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id6">[4]</a></td><td><a class="reference external" href="https://copr.fedoraproject.org/api/">https://copr.fedoraproject.org/api/</a></td></tr>
-</tbody>
-</table>
+</li>
+<li><p class="first">Use <a class="reference external" href="https://python-packaging-user-guide.readthedocs.org/en/latest/projects/#setuptools">setuptools</a>.
+It may use a plaintext HTTP or unverified HTTPS connection on some Python versions,
+allowing your username and password to be intercepted during transmission.</p>
+<p>The command could be:</p>
+<div class="highlight-python"><div class="highlight"><pre>python setup.py sdist upload
+</pre></div>
+</div>
+</li>
+</ol>
 </div>
 </div>
 </div>
@@ -210,7 +199,7 @@ $ tito release copr-pdc-test
 <li><a class="reference internal" href="#tag">1.2.1. Tag</a></li>
 <li><a class="reference internal" href="#test-build">1.2.2. Test Build</a></li>
 <li><a class="reference internal" href="#push">1.2.3. Push</a></li>
-<li><a class="reference internal" href="#id2">1.2.4. Release</a></li>
+<li><a class="reference internal" href="#release-to-pypi">1.2.4. Release To PyPI</a></li>
 </ul>
 </li>
 </ul>
@@ -253,7 +242,7 @@ $ tito release copr-pdc-test
         <li class="right" >
           <a href="index.html" title="Welcome to PDC Client’s documentation!"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">PDC Client pdc-client-0.2.0-1-24-g8366d63-8366d63
+        <li class="nav-item nav-item-0"><a href="index.html">PDC Client pdc-client-0.2.0-1-23-gd80bca8-d80bca8
  documentation</a> &raquo;</li> 
       </ul>
     </div>

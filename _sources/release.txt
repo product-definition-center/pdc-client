@@ -7,7 +7,7 @@ Release
 Versioning
 ----------
 
-PDC versioning is based on `Semantic Versioning <http://semver.org/spec/v2.0.0.html>`_.
+PDC Client versioning is based on `Semantic Versioning <http://semver.org/spec/v2.0.0.html>`_.
 
 And it's RPM compatible.
 
@@ -101,39 +101,40 @@ When you're happy with your build, it's time to push commit and tag to remote.
 
     $ git push origin && git push origin <your_tag>
 
-Release
-```````
+Release To PyPI
+```````````````
 
-Thanks to `fedorapeople.org <https://fedorapeople.org/>`_ and `Fedora Copr <https://copr.fedoraproject.org/>`_, we could
-use `tito` to release `PDC` as a `yum` or `dnf` repo.
-So that user could install `PDC` packages after enable the repo. [#]_
+The Python Package Index or `PyPI <https://pypi.python.org/pypi>`_ is the official third-party software repository for the Python programming language.
+Release PDC Client to PyPI make it be able to pip install this for usage in other projects.
+`pdc-client <https://pypi.python.org/pypi/pdc-client>`_ was already registered in PyPI.
 
-.. NOTE:: Before doing any release, make sure that you have account on both sites and also make sure that you could
-  access to your fedorapeople space [#]_ and have enough permissions [#]_ to build `PDC` in `Copr`.
+If you haven't created an account in PyPI or configured PyPI in local environment, you may need:
 
-  You need to create a directory called `pdc_srpms/` under your fedorapeople space `public_html/` to hold all the uploaded
-  srpms.
+- create your account on `PyPI Live  <https://pypi.python.org/pypi?%3Aaction=register_form>`_.
+- contact PDC team to get `PyPI pdc-client <https://pypi.python.org/pypi/pdc-client>`_ access.
+- create  ~/.pypirc configuration file with content::
 
-  `copr-cli` will be used, installed by `sudo yum/dnf install copr-cli` and configure it. [#]_
+    [distutils]
+    index-servers=pypi
 
-Currently there are two projects in `Copr`: `pdc` for all tag based releases and `pdc-test` for test builds. We have two
-release targets in `tito`, `copr-pdc` is for `pdc` in `Copr` and `copr-pdc-test` is for `pdc-test` respectively.
+    [pypi]
+    repository = https://pypi.python.org/pypi
+    username = your_username
+    password = your_password
 
-Request as `Builder` for projects `pdc/pdc-test` and `pdc/pdc`, wait until admin approves.
+Finally, you can upload your distributions to PyPI. There are two options:
 
-After all setup, release with `tito`::
+#. Use `twine <https://python-packaging-user-guide.readthedocs.org/en/latest/projects/#twine>`_.
+   Twine uses only verified TLS to upload to PyPI in order to protect your credentials from theft::
 
-    $ tito release copr-pdc
-    # or
-    $ tito release copr-pdc-test
+        twine upload dist/*
 
-Go and grab a cup of tea or coffee, the release build will be come out soon ::
+#. Use `setuptools <https://python-packaging-user-guide.readthedocs.org/en/latest/projects/#setuptools>`_.
+   It may use a plaintext HTTP or unverified HTTPS connection on some Python versions,
+   allowing your username and password to be intercepted during transmission.
 
-    # test builds: `https://copr.fedoraproject.org/coprs/pdc/pdc-test/builds/`
-    # tag based builds: `https://copr.fedoraproject.org/coprs/pdc/pdc/builds/`
+   The command could be::
+
+        python setup.py sdist upload
 
 
-.. [#] https://fedorahosted.org/copr/wiki/HowToEnableRepo
-.. [#] http://fedoraproject.org/wiki/Infrastructure/fedorapeople.org#Accessing_Your_fedorapeople.org_Space
-.. [#] https://fedorahosted.org/copr/wiki/UserDocs#CanIgiveaccesstomyrepotomyteammate
-.. [#] https://copr.fedoraproject.org/api/
