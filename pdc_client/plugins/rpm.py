@@ -69,8 +69,13 @@ class RPMPlugin(PDCClientPlugin):
             print json.dumps(list(rpms))
             return
 
+        start_line = True
         for rpm in rpms:
-            print '{id:10} {name:45} {epoch}:{version}-{release}.{arch}'.format(**rpm)
+            if start_line:
+                start_line = False
+                print '{0:<10} {1:45} {2}'.format('ID', 'Name', 'Epoch:Version-Release.Arch')
+                print
+            print '{id:<10} {name:45} {epoch}:{version}-{release}.{arch}'.format(**rpm)
 
     def rpm_info(self, args, rpm_id=None):
         response = self.client.rpms[rpm_id or args.rpmid]._()

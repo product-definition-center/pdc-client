@@ -50,8 +50,11 @@ class ComposePlugin(PDCClientPlugin):
         if args.json:
             print json.dumps(list(composes))
             return
-
+        start_line = True
         for compose in composes:
+            if start_line:
+                print 'Compose-ID\n'
+                start_line = False
             print compose['compose_id']
 
     def compose_info(self, args, compose_id=None):

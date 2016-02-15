@@ -56,8 +56,13 @@ class ImagePlugin(PDCClientPlugin):
     def _print_image_list(self, images, with_sha=False):
         fmt = '{file_name}'
         if with_sha:
-            fmt += ' {sha256}'
+            fmt = '{file_name:80}{sha256}'
+        start_line = True
         for image in images:
+            if start_line:
+                start_line = False
+                print fmt.format(file_name='File-Name', sha256='SHA256')
+                print
             print fmt.format(**image)
 
     def image_list(self, args):
