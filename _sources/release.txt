@@ -46,10 +46,10 @@ In practice, we use `tito` to add git tag and do release including tag based on 
 
 A short instructions as:
 
-#. Tag: tito tag
-#. Test Build: tito build --rpm --offline
-#. Push: git push origin && git push origin $TAG
-#. Release: tito release copr-pdc/copr-pdc-test
+#. Tag: ``tito tag``
+#. Test Build: ``tito build --rpm ---offline``
+#. Push: ``git push origin && git push origin $TAG``
+#. Release: ``tito release copr-pdc/copr-pdc-test``
 
 For each step, more detail are:
 
@@ -129,8 +129,9 @@ Finally, you can upload your distributions to PyPI. There are two options:
 
         twine upload dist/*
 
-#. Use `setuptools <https://python-packaging-user-guide.readthedocs.org/en/latest/projects/#setuptools>`_.
-   It may use a plaintext HTTP or unverified HTTPS connection on some Python versions,
+#. **(Not recommended):** Use `setuptools <https://python-packaging-user-guide.readthedocs.org/en/latest/projects/#setuptools>`_.
+   This approach is covered here due to it being mentioned in other guides,
+   but it is not recommended as it may use a plaintext HTTP or unverified HTTPS connection on some Python versions,
    allowing your username and password to be intercepted during transmission.
 
    The command could be::
