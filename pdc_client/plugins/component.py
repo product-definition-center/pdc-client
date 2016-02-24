@@ -68,11 +68,16 @@ class GlobalComponentPlugin(PDCClientPlugin):
             print json.dumps(list(global_components))
             return
 
-        if global_components:
-            for global_component in global_components:
-                print '{0:<10} {1}'.format(
-                      global_component['id'],
-                      global_component['name'])
+        start_line = True
+        fmt = '{0:<10} {1}'
+        for global_component in global_components:
+            if start_line:
+                start_line = False
+                print fmt.format('ID', 'Name')
+                print
+            print fmt.format(
+                global_component['id'],
+                global_component['name'])
 
     def _get_component_id(self, args):
         global_component = self.client['global-components']._(name=args)
@@ -206,14 +211,18 @@ class ReleaseComponentPlugin(PDCClientPlugin):
         if args.json:
             print json.dumps(list(release_components))
             return
-
-        if release_components:
-            for release_component in release_components:
-                release_id = self._get_release_id(release_component)
-                print '{0:<10} {1:25} {2}'.format(
-                      release_component['id'],
-                      release_id,
-                      release_component['name'])
+        fmt = '{0:<10} {1:25} {2}'
+        start_line = True
+        for release_component in release_components:
+            if start_line:
+                start_line = False
+                print fmt.format('ID', 'Release_ID', 'Name')
+                print
+            release_id = self._get_release_id(release_component)
+            print fmt.format(
+                release_component['id'],
+                release_id,
+                release_component['name'])
 
     def release_component_info(self, args, release_component_id=None):
         if not release_component_id:
@@ -288,7 +297,7 @@ class ReleaseComponentPlugin(PDCClientPlugin):
             data['active'] = args.active
         if data:
             self.logger.debug('Updating release component %d with data %r',
-                              release_component_id, data)
+                              int(release_component_id), data)
             self.client['release-components'][release_component_id]._ += data
         else:
             self.logger.debug('Empty data, skipping request')

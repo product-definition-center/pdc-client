@@ -98,7 +98,12 @@ class ReleasePlugin(PDCClientPlugin):
             return
 
         fmt = '{0:25} {1:35} {2}'
+        start_line = True
         for release in releases:
+            if start_line:
+                start_line = False
+                print fmt.format('Release-ID', 'Name', 'Activity')
+                print
             print fmt.format(release['release_id'], release['name'],
                              'active' if release['active'] else 'inactive')
 

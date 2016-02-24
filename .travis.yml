@@ -1,25 +1,26 @@
 language: python
 python:
-    - "2.7"
-    - "2.6"
+- '2.7'
+- '2.6'
 install:
-    - git config --global user.name  "Travis CI"
-    - git config --global user.email "pdc@product-definition-center.com"
-    - export REPO_URL_GITHUB="https://$GH_TOKEN@github.com/$GH_REPO.git"
-    - if [[ $TRAVIS_PYTHON_VERSION == 2.6 ]]; then pip install importlib unittest2; fi
-    - pip install -U pip wheel coveralls
-    - pip install -r requirements/devel.txt
+- git config --global user.name  "Travis CI"
+- git config --global user.email "pdc@product-definition-center.com"
+- export REPO_URL_GITHUB="https://$GH_TOKEN@github.com/$GH_REPO.git"
+- if [[ $TRAVIS_PYTHON_VERSION == 2.6 ]]; then pip install importlib unittest2; fi
+- pip install -U pip wheel coveralls
+- pip install -r requirements/devel.txt
 script:
-    - flake8 . --config=tox.ini
-    - coverage run --source=pdc_client client_test_run.py
+- flake8 . --config=tox.ini
+- coverage run --source=pdc_client client_test_run.py
+- if [ "$TRAVIS_PYTHON_VERSION" = "2.7" -a "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then make -C docs/ setup_gh_pages gen_deploy; fi
 after_success:
-    - coveralls
+- coveralls
 cache:
-    directories:
-        - $HOME/.cache/pip
+  directories:
+  - "$HOME/.cache/pip"
 before_cache:
-    - rm -f $HOME/.cache/pip/log/debug.log
+- rm -f $HOME/.cache/pip/log/debug.log
 env:
-    global:
-    - GH_REPO="product-definition-center/pdc-client"
-    - secure: "IM5TrZgax/l70/4RdvVRYf9xgexBdX+EJFvjlDZKeIMJqaDp8j6pC3UXWw/L1GGWNr5JZPesFC//HsJpJ5AOmAGiviDontOyXNlQfBdj6KhNbKNEuzBI1XBAtHhuK3n5Jt7LwTEWgnS/1gmFxS/quWrjzCZEIfpERi1bi1/mDa6UeChQNyILsld7ehLo32+3PFixNAFpzrmY8UmM2oCmxVYQLspRQsXO82Vrzz+4apBzxXR6VXCqXX6x73b4dLRcktwgo7RYycIPFd4SS/tPlVy+On3RPUWHCu/vM9oGr49i33hfA3dYxU5tqymUsDtCS5Fz0bTFwlqBHH4ivZNuhr5j4BvWXkHaqBVEOeuVl9ljabQqPytupVLpooG3PHMNcFFqqOs30j4wQIFgNr7diH0i0uAoGiFMf7vThNr5QC3zG+0nIkqtFzBLFGY8lMy0CYxABeCAmt9GJU3ikzpRx7sNdDnDdNX0TqlSwYTWlUtWFKFuHUmNLvhhRHO4KwebG+SRbAcaEB2886+PwnbnZb8gADWmnWcScQ4qt18SWuq5hb+aJ0lP80LRBL7vqP1y2DWBuTgb84ZDemqKCnTuSWHuBc7W9wFAP4nEZvkOSJdJYqOBu44LShtUPbcmbJ6LEdgVtS+6HxbNSEVjAWlwaZ7vWKGpnMfyoCcn5miXkjo="
+  global:
+  - GH_REPO="product-definition-center/pdc-client"
+  - secure: bhxSTEJjXiOiUaOdJsyEQLjHfdwOVwPRgcC5Qp2eNPEv+Y4VJiszDJ8wQqRuAQa31HMujbwjxI1llP7rkpsxZp6jHs71MDy20TmnBJThV7CW/U0yHhlmyXg/2TyUeFIGs7kzlCWqTaZpDQZ85EyvIYyrys2tBLguRWn6mRJo4s55MUemupxRYM1DLVM4bVVzHvr/j33XQQxK9QBDasgb7T5YC4uxjQ1o5Ni4EQ2AxHqHYJQW1wDMzIiqCKfBRJJQVp7ewyu1oKbSD1gCYtZwf9BAhBW0XLchghzY+moMysHSIp6DXE0g4BIayInuxFRTlzOa6/1tVUOT7xoz8CEPzqwIjszkAHmMuhegkCFKeMW9v64xhR4lsDec/EzL4iL/kryJmB1wDT3r9nVXWmYAd5S8L4YjLVOIqfMAQt7E3ehMoFsd6ckK9qbguDi4ACkENY3U9GLPIEcaNTXh0PzcL+AWk6qtRj1QKGtaVlCAdgcJ+ZsJT+jyzfO3sU8/P9beqbO8o+572zTfxXeJBAus2UAwaNd24VwNcQuAFjy5TlUNEBmSI541JRG1cK0uMioycekW5t99Pt/q8ijfPpSU0tI/zGk+HTj8l0SoLsBdo/cHAEoRhGiJFl/kP8Qhq72cq1tq4OFAZ/kUZ2/FiJQhAjhkFFk+tacnXRVeXtWK28w=

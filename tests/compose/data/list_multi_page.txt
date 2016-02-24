@@ -1,3 +1,5 @@
+Compose-ID
+
 awesome-product-20150924.0
 awesome-product-20150924.1
 awesome-product-20150924.2
