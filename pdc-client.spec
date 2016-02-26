@@ -2,8 +2,8 @@
 
 
 Name:           pdc-client
-Version:        0.2.0
-Release:        3%{?dist}
+Version:        0.9.0
+Release:        1%{?dist}
 Summary:        Console client for interacting with Product Definition Center
 Group:          Development/Libraries
 License:        MIT
@@ -53,6 +53,17 @@ gzip %{buildroot}%{_mandir}/man1/pdc_client.1
 
 
 %changelog
+* Fri Feb 26 2016 bliu <bliu@redhat.com> 0.9.0-1
+- Add headers in result for pdc client output. (ycheng@redhat.com)
+- Add pdc client project page and PyPI release docomentation.
+  (ycheng@redhat.com)
+- Update the error info (bliu@redhat.com)
+- Update the more detail info (bliu@redhat.com)
+- Add error info when input irregular or illegal para (bliu@redhat.com)
+- Let pdc client handle pdc warning header (ycheng@redhat.com)
+- Pypi setup (sochotnicky@redhat.com)
+- Fix release component update logging type (sochotnicky@redhat.com)
+
 * Wed Jan 13 2016 bliu <bliu@redhat.com> 0.2.0-3
 - PATCH on build-image-rtt-tests with build_nvr/format (bliu@redhat.com)
 - Add beanbag required version. (xchu@redhat.com)

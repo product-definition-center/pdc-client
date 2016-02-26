@@ -49,7 +49,7 @@ def get_version():
         try:
             return pkg_resources.get_distribution("pdc_client").version
         except pkg_resources.DistributionNotFound:
-            return "unknown"
+            return 'unknown'
 
 __version__ = get_version()
 
