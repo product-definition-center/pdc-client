@@ -10,7 +10,7 @@
 
 Name:           pdc-client
 Version:        0.9.0
-Release:        0%{?dist}
+Release:        1%{?dist}
 Summary:        Client library and console client for Product Definition Center
 License:        MIT
 URL:            https://github.com/product-definition-center/pdc-client
@@ -168,6 +168,32 @@ EOF
 
 
 %changelog
+* Thu Mar 03 2016 bliu <bliu@redhat.com> 0.9.0-1
+- Update the SPEC file and package for new release (bliu@redhat.com)
+- Rework spec file according to packaging guidelines (sochotnicky@redhat.com)
+- Add headers in result for pdc client output. (ycheng@redhat.com)
+- Add pdc client project page and PyPI release docomentation.
+  (ycheng@redhat.com)
+- Update the error info (bliu@redhat.com)
+- Update the more detail info (bliu@redhat.com)
+- Add error info when input irregular or illegal para (bliu@redhat.com)
+- Let pdc client handle pdc warning header (ycheng@redhat.com)
+- Pypi setup (sochotnicky@redhat.com)
+- PATCH on build-image-rtt-tests with build_nvr/format (bliu@redhat.com)
+- Add beanbag required version. (xchu@redhat.com)
+- Add header for build image in new pdc client output (ycheng@redhat.com)
+- Add tests for permission list. (xchu@redhat.com)
+- Add test for build-image detail. (xchu@redhat.com)
+- Fix release component update logging type (sochotnicky@redhat.com)
+- Add support for compose-tree-locations. (chuzhang@redhat.com)
+- Add head in result when running build_image_rtt_tests (bliu@redhat.com)
+- Use new get_paged method instead of deprecated one. (ycheng@redhat.com)
+- Pdc client add support for build-image-rtt-tests (bliu@redhat.com)
+- Add support for compose-image-rtt-tests in pdc client (ycheng@redhat.com)
+- Make mocked endpoints possibly callable. (rbean@redhat.com)
+- Add help message for 'active' filter. (xchu@redhat.com)
+- Enable page_size in new pdc client (bliu@redhat.com)
+
 * Thu Mar 03 2016 bliu <bliu@redhat.com>
 - Update the SPEC file and package for new release (bliu@redhat.com)
 - Rework spec file according to packaging guidelines (sochotnicky@redhat.com)
