@@ -7,7 +7,7 @@ import sys
 
 from setuptools import find_packages, setup
 
-__version__='0.2.0.2'
+__version__='0.9.0'
 
 setup(
     name = 'pdc-client',
