@@ -1,0 +1,11 @@
+ID                   1
+Name                 rhel-x86_64-workstation-7-shadow
+Content Format       iso
+Content Category     binary
+Release ID           rhel-7.1-updates
+Arch                 x86_64
+Repo Family          dist
+Service              rhn
+Variant UID          Workstation
+Shadow               True
+Product ID           1
