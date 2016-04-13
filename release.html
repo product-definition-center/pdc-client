@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>1. Release &mdash; PDC Client pdc-client-0.2.0-1-24-gb5447ba-b5447ba
+    <title>1. Release &mdash; PDC Client pdc-client-0.2.0-1-25-gd4ded91-d4ded91
  documentation</title>
     
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     'pdc-client-0.2.0-1-24-gb5447ba-b5447ba
+        VERSION:     'pdc-client-0.2.0-1-25-gd4ded91-d4ded91
 ',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="PDC Client pdc-client-0.2.0-1-24-gb5447ba-b5447ba
+    <link rel="top" title="PDC Client pdc-client-0.2.0-1-25-gd4ded91-d4ded91
  documentation" href="index.html" />
     <link rel="prev" title="Welcome to PDC Client’s documentation!" href="index.html" /> 
   </head>
@@ -39,7 +39,7 @@
         <li class="right" >
           <a href="index.html" title="Welcome to PDC Client’s documentation!"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">PDC Client pdc-client-0.2.0-1-24-gb5447ba-b5447ba
+        <li class="nav-item nav-item-0"><a href="index.html">PDC Client pdc-client-0.2.0-1-25-gd4ded91-d4ded91
  documentation</a> &raquo;</li> 
       </ul>
     </div>  
@@ -98,7 +98,7 @@ Examples: 1.0.0-12.g1234abc, 1.0.0-s5.4.g1234abc.</p>
 <div class="section" id="tag">
 <h3>1.2.1. Tag<a class="headerlink" href="#tag" title="Permalink to this headline">¶</a></h3>
 <p>A new git tag need to be added before starting a new release:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>$ tito tag
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ tito tag
 </pre></div>
 </div>
 <p>It will:</p>
@@ -113,7 +113,7 @@ Examples: 1.0.0-12.g1234abc, 1.0.0-s5.4.g1234abc.</p>
 <h3>1.2.2. Test Build<a class="headerlink" href="#test-build" title="Permalink to this headline">¶</a></h3>
 <p>Once release tag is available, we can do some build tests including source tarball checking, and rpm building testing.</p>
 <blockquote>
-<div><div class="highlight-python"><div class="highlight"><pre><span></span># generate local source tarball
+<div><div class="highlight-default"><div class="highlight"><pre><span></span># generate local source tarball
 $ tito build --tgz --offline
 
 # generate local rpm build
@@ -122,13 +122,13 @@ $ tito build --rpm --offline
 </div>
 </div></blockquote>
 <p>If everything goes well, you could push your commit and tag to remote, otherwise the tag need to be undo:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>$ tito tag -u
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ tito tag -u
 </pre></div>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p>During developing, we could also generate test build any time, which will be based on current <cite>HEAD</cite> instead of latest tag.</p>
-<div class="last highlight-python"><div class="highlight"><pre><span></span># generate test builds
+<div class="last highlight-default"><div class="highlight"><pre><span></span># generate test builds
 $ tito build --test --tgz/srpm/rpm
 </pre></div>
 </div>
@@ -137,7 +137,7 @@ $ tito build --test --tgz/srpm/rpm
 <div class="section" id="push">
 <h3>1.2.3. Push<a class="headerlink" href="#push" title="Permalink to this headline">¶</a></h3>
 <p>When you&#8217;re happy with your build, it&#8217;s time to push commit and tag to remote.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>$ git push origin &amp;&amp; git push origin &lt;your_tag&gt;
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ git push origin &amp;&amp; git push origin &lt;your_tag&gt;
 </pre></div>
 </div>
 </div>
@@ -153,13 +153,13 @@ Release PDC Client to PyPI make it be able to pip install this for usage in othe
 <li><p class="first">contact PDC team to get <a class="reference external" href="https://pypi.python.org/pypi/pdc-client">PyPI pdc-client</a> access.</p>
 </li>
 <li><p class="first">create  ~/.pypirc configuration file with content:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>[distutils]
-index-servers=pypi
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">distutils</span><span class="p">]</span>
+<span class="n">index</span><span class="o">-</span><span class="n">servers</span><span class="o">=</span><span class="n">pypi</span>
 
-[pypi]
-repository = https://pypi.python.org/pypi
-username = your_username
-password = your_password
+<span class="p">[</span><span class="n">pypi</span><span class="p">]</span>
+<span class="n">repository</span> <span class="o">=</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">pypi</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">pypi</span>
+<span class="n">username</span> <span class="o">=</span> <span class="n">your_username</span>
+<span class="n">password</span> <span class="o">=</span> <span class="n">your_password</span>
 </pre></div>
 </div>
 </li>
@@ -168,7 +168,7 @@ password = your_password
 <ol class="arabic">
 <li><p class="first">Use <a class="reference external" href="https://python-packaging-user-guide.readthedocs.org/en/latest/projects/#twine">twine</a>.
 Twine uses only verified TLS to upload to PyPI in order to protect your credentials from theft:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>twine upload dist/*
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">twine</span> <span class="n">upload</span> <span class="n">dist</span><span class="o">/*</span>
 </pre></div>
 </div>
 </li>
@@ -177,7 +177,7 @@ This approach is covered here due to it being mentioned in other guides,
 but it is not recommended as it may use a plaintext HTTP or unverified HTTPS connection on some Python versions,
 allowing your username and password to be intercepted during transmission.</p>
 <p>The command could be:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>python setup.py sdist upload
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">sdist</span> <span class="n">upload</span>
 </pre></div>
 </div>
 </li>
@@ -225,9 +225,6 @@ allowing your username and password to be intercepted during transmission.</p>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -243,13 +240,13 @@ allowing your username and password to be intercepted during transmission.</p>
         <li class="right" >
           <a href="index.html" title="Welcome to PDC Client’s documentation!"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">PDC Client pdc-client-0.2.0-1-24-gb5447ba-b5447ba
+        <li class="nav-item nav-item-0"><a href="index.html">PDC Client pdc-client-0.2.0-1-25-gd4ded91-d4ded91
  documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &copy; Copyright 2014-2016, PDC Devel Team.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.
     </div>
   </body>
 </html>
