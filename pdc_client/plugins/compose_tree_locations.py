@@ -53,6 +53,7 @@ class ComposeTreeLocationsPlugin(PDCClientPlugin):
         parser.add_argument('variant_uid', metavar='VARIANT_UID')
         parser.add_argument('arch', metavar='ARCH')
         parser.add_argument('location', metavar='LOCATION')
+        parser.add_argument('scheme', metavar='SCHEME')
 
     def add_compose_tree_location_arguments(self, parser, required=False):
         required_args = {
@@ -108,13 +109,13 @@ class ComposeTreeLocationsPlugin(PDCClientPlugin):
 
     def compose_tree_location_info(self, args):
         compose_tree_location_info =\
-            self.client['compose-tree-locations'][args.compose_id][args.variant_uid][args.arch][args.location]._()
+            self.client['compose-tree-locations'][args.compose_id][args.variant_uid][args.arch][args.location][args.scheme]._()
         self._display_compose_tree_location_info(args, compose_tree_location_info)
 
     def compose_tree_location_update(self, args):
         data = extract_arguments(args)
         compose_tree_location_info =\
-            self.client['compose-tree-locations'][args.compose_id][args.variant_uid][args.arch][args.location]._('PATCH', data)
+            self.client['compose-tree-locations'][args.compose_id][args.variant_uid][args.arch][args.location][args.scheme]._('PATCH', data)
         self._display_compose_tree_location_info(args, compose_tree_location_info)
 
     def compose_tree_location_create(self, args):
@@ -124,7 +125,7 @@ class ComposeTreeLocationsPlugin(PDCClientPlugin):
 
     def compose_tree_location_delete(self, args):
         data = extract_arguments(args)
-        self.client['compose-tree-locations'][args.compose_id][args.variant_uid][args.arch][args.location]\
+        self.client['compose-tree-locations'][args.compose_id][args.variant_uid][args.arch][args.location][args.scheme]\
             ._("DELETE", data)
 
 PLUGIN_CLASSES = [ComposeTreeLocationsPlugin]
