@@ -40,7 +40,7 @@ class RepoTestCase(CLITestCase):
     def test_list(self, api):
         self._setup_list(api)
         with self.expect_output('list.txt'):
-            self.runner.run(['content-delivery-repo', 'list', '--content_format', 'iso'])
+            self.runner.run(['content-delivery-repo', 'list', '--content-format', 'iso'])
         self.assertEqual(api.calls['content-delivery-repos'],
                          [('GET', {'page': 1, 'content_format': 'iso'}),
                           ('GET', {'page': 2, 'content_format': 'iso'})])
@@ -48,7 +48,7 @@ class RepoTestCase(CLITestCase):
     def test_list_json(self, api):
         self._setup_list(api)
         with self.expect_output('list.json', parse_json=True):
-            self.runner.run(['--json', 'content-delivery-repo', 'list', '--content_format', 'iso'])
+            self.runner.run(['--json', 'content-delivery-repo', 'list', '--content-format', 'iso'])
         self.assertEqual(api.calls['content-delivery-repos'],
                          [('GET', {'page': 1, 'content_format': 'iso'}),
                           ('GET', {'page': 2, 'content_format': 'iso'})])

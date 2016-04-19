@@ -17,10 +17,10 @@ class RepoPlugin(PDCClientPlugin):
         self.set_command('content-delivery-repo')
 
         list_parser = self.add_action('list', help='list all content delivery repos')
-        filters = ('arch', 'content_category', 'content_format', 'name', 'release_id',
-                   'repo_family', 'service', 'shadow', 'variant_uid', 'product_id')
+        filters = ('arch', 'content-category', 'content-format', 'name', 'release-id',
+                   'repo-family', 'service', 'shadow', 'variant-uid', 'product-id')
         for arg in filters:
-            list_parser.add_argument('--' + arg, dest='filter_' + arg)
+            list_parser.add_argument('--' + arg, dest='filter_' + arg.replace('-', '_'))
         list_parser.set_defaults(func=self.repo_list)
 
         info_parser = self.add_action('info', help='display details of an content delivery repo')
