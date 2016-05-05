@@ -41,14 +41,14 @@ class ComposeTreeLocationsTestCase(CLITestCase):
                "scheme": "http",
                "synced_content": "debug",
                "url": "http://example.com"}
-        api.add_endpoint('compose-tree-locations/Awesome-product-7.0-0/Server/x86_64/NAY',
+        api.add_endpoint('compose-tree-locations/Awesome-product-7.0-0/Server/x86_64/NAY/https',
                          'GET', obj)
         # PATCH test result to passed
         obj_update = deepcopy(obj)
         obj_update["scheme"] = "https"
         obj_update["url"] = "https://example1.com"
         obj_update["synced_content"] = "source"
-        api.add_endpoint('compose-tree-locations/Awesome-product-7.0-0/Server/x86_64/NAY',
+        api.add_endpoint('compose-tree-locations/Awesome-product-7.0-0/Server/x86_64/NAY/https',
                          'PATCH', obj_update)
 
     def test_list(self, api):
@@ -63,27 +63,28 @@ class ComposeTreeLocationsTestCase(CLITestCase):
         self._setup_detail(api)
         with self.expect_output('detail.txt'):
             self.runner.run(['compose-tree-locations', 'info', 'Awesome-product-7.0-0', 'Server',
-                             'x86_64', 'NAY'])
+                             'x86_64', 'NAY', 'https'])
         self.assertEqual(
-            api.calls['compose-tree-locations/Awesome-product-7.0-0/Server/x86_64/NAY'],
+            api.calls['compose-tree-locations/Awesome-product-7.0-0/Server/x86_64/NAY/https'],
             [('GET', {})])
 
     def test_info_json(self, api):
         self._setup_detail(api)
         with self.expect_output('detail.json', parse_json=True):
             self.runner.run(['--json', 'compose-tree-locations', 'info', 'Awesome-product-7.0-0', 'Server',
-                             'x86_64', 'NAY'])
+                             'x86_64', 'NAY', 'https'])
         self.assertEqual(
-            api.calls['compose-tree-locations/Awesome-product-7.0-0/Server/x86_64/NAY'],
+            api.calls['compose-tree-locations/Awesome-product-7.0-0/Server/x86_64/NAY/https'],
             [('GET', {})])
 
     def test_update(self, api):
         self._setup_detail(api)
         with self.expect_output('detail_for_patch.txt'):
             self.runner.run(['compose-tree-locations', 'update', 'Awesome-product-7.0-0', 'Server', 'x86_64', 'NAY',
-                             '--scheme', 'https', '--synced-content', 'source', '--url', 'https://example1.com'])
-        self.assertEqual(api.calls, {'compose-tree-locations/Awesome-product-7.0-0/Server/x86_64/NAY':
-                                     [('PATCH', {'scheme': 'https',
+                             'https', '--scheme', 'http', '--synced-content', 'source',
+                             '--url', 'https://example1.com'])
+        self.assertEqual(api.calls, {'compose-tree-locations/Awesome-product-7.0-0/Server/x86_64/NAY/https':
+                                     [('PATCH', {'scheme': 'http',
                                                  'synced_content': ['source'],
                                                  'url': 'https://example1.com'})]})
 
@@ -128,9 +129,10 @@ class ComposeTreeLocationsTestCase(CLITestCase):
                                                                           'url': 'http://example.com'})]})
 
     def test_delete(self, api):
-        api.add_endpoint('compose-tree-locations/Awesome-product-7.0-0/Server/x86_64/NAY',
+        api.add_endpoint('compose-tree-locations/Awesome-product-7.0-0/Server/x86_64/NAY/https',
                          'DELETE', None)
         with self.expect_output('empty.txt'):
-            self.runner.run(['compose-tree-locations', 'delete', 'Awesome-product-7.0-0', 'Server', 'x86_64', 'NAY'])
-        self.assertEqual(api.calls, {'compose-tree-locations/Awesome-product-7.0-0/Server/x86_64/NAY':
+            self.runner.run(['compose-tree-locations', 'delete', 'Awesome-product-7.0-0', 'Server', 'x86_64', 'NAY',
+                             'https'])
+        self.assertEqual(api.calls, {'compose-tree-locations/Awesome-product-7.0-0/Server/x86_64/NAY/https':
                                      [('DELETE', {})]})

@@ -1,0 +1,13 @@
+{
+        "id": 1,
+        "arch": "x86_64",
+        "content_category": "binary",
+        "content_format": "iso",
+        "name": "rhel-x86_64-workstation-7-shadow",
+        "product_id": 1,
+        "release_id": "rhel-7.1-updates",
+        "repo_family": "dist",
+        "service": "rhn",
+        "shadow": true,
+        "variant_uid": "Workstation"
+}
