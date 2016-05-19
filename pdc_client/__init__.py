@@ -131,7 +131,7 @@ class PDCClient(object):
             # turn off for servers with insecure certificates
             self.session.verify = False
             # turn off warnings about making insecure calls
-            if requests.__version__ < '2.4.0':
+            if [int(x) for x in requests.__version__.split('.')] < [2, 4, 0]:
                 print "Requests version is too old, please upgrade to 2.4.0 or latest."
                 # disable all warnings, it had better to upgrade requests.
                 warnings.filterwarnings("ignore")
