@@ -44,7 +44,8 @@ class ImagePlugin(PDCClientPlugin):
                                            'md5': {},
                                            'sha1': {},
                                            'sha256': {},
-                                           'volume_id': {}},
+                                           'volume_id': {},
+                                           'subvariant': {}},
                              group='Filtering')
         list_parser.set_defaults(func=self.image_list)
 
@@ -105,6 +106,7 @@ class ImagePlugin(PDCClientPlugin):
             print fmt.format('Bootable', 'yes' if image['bootable'] else 'no')
             print fmt.format('Volume ID', image['volume_id'])
             print fmt.format('Implant MD5', image['implant_md5'])
+            print fmt.format('Subvariant', image['subvariant'])
 
             print '\nChecksums:'
             print ' {0:7} {1}'.format('MD5', image['md5'])

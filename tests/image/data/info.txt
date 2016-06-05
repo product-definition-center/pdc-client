@@ -8,6 +8,7 @@ Size            123456789 (117.7 MiB)
 Bootable        yes
 Volume ID       VolumeID
 Implant MD5     00000000000000000000000000000000
+Subvariant      subvariant_1
 
 Checksums:
  MD5     11111111111111111111111111111111

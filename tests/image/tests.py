@@ -36,6 +36,7 @@ class ImageTestCase(CLITestCase):
              'sha1': '2222222222222222222222222222222222222222',
              'sha256': '3333333333333333333333333333333333333333333333333333333333333333',
              'implant_md5': '00000000000000000000000000000000',
+             'subvariant': 'subvariant_1',
              'composes': ['compose-1']}])
 
     def _setup_duplicit_detail(self, api):
@@ -54,6 +55,7 @@ class ImageTestCase(CLITestCase):
              'sha1': '2222222222222222222222222222222222222222',
              'sha256': '3333333333333333333333333333333333333333333333333333333333333333',
              'implant_md5': '00000000000000000000000000000000',
+             'subvariant': 'subvariant_1',
              'composes': ['compose-1']},
             {'file_name': 'unique_image.iso',
              'mtime': 1442923687,
@@ -69,6 +71,7 @@ class ImageTestCase(CLITestCase):
              'sha1': '2222222222222222222222222222222222222222',
              'sha256': '4444444444444444444444444444444444444444444444444444444444444444',
              'implant_md5': '00000000000000000000000000000000',
+             'subvariant': 'subvariant_2',
              'composes': ['compose-1']}])
 
     def test_list(self, api):
@@ -90,7 +93,7 @@ class ImageTestCase(CLITestCase):
     def test_list_filters(self, api):
         api.add_endpoint('images', 'GET', [])
         filters = ['sha256', 'compose', 'volume-id', 'sha1', 'image-type',
-                   'file-name', 'image-format', 'arch', 'md5', 'implant-md5']
+                   'file-name', 'image-format', 'arch', 'md5', 'implant-md5', 'subvariant']
         for filter in filters:
             with self.expect_output('empty.txt'):
                 self.runner.run(['image', 'list', '--' + filter, filter])
