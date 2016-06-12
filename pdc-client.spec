@@ -135,7 +135,7 @@ mkdir -p %{buildroot}/%{_sysconfdir}/bash_completion.d/
 cp pdc.bash %{buildroot}/%{_sysconfdir}/bash_completion.d/
 
 mkdir -p %{buildroot}/%{_sysconfdir}/pdc
-cat > %{buildroot}/%{_sysconfdir}/pdc/client_config.json << EOF
+cat > %{buildroot}/%{_sysconfdir}/pdc.d/fedora.json << EOF
 {
     "dev": {
         "host": "https://pdc.fedoraproject.org/rest_api/v1/",
@@ -151,7 +151,7 @@ EOF
 %{_mandir}/man1/pdc_client.1*
 %{_sysconfdir}/bash_completion.d
 %dir %{_sysconfdir}/pdc
-%config(noreplace) %{_sysconfdir}/pdc/client_config.json
+%config(noreplace) %{_sysconfdir}/pdc.d/fedora.json
 %{_bindir}/pdc
 %{_bindir}/pdc_client
 

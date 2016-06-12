@@ -21,7 +21,7 @@ from pdc_client import monkey_patch
 
 monkey_patch.monkey_patch_kerberos()
 
-GLOBAL_CONFIG_FILE = '/etc/pdc/client_config.json'
+GLOBAL_CONFIG_DIR = '/etc/pdc.d/'
 USER_SPECIFIC_CONFIG_FILE = expanduser('~/.config/pdc/client_config.json')
 CONFIG_URL_KEY_NAME = 'host'
 CONFIG_INSECURE_KEY_NAME = 'insecure'
@@ -54,6 +54,25 @@ def get_version():
 __version__ = get_version()
 
 
+def _read_dir(file_path):
+    # get all json files in /etc/pdc.d/ directory and merge them
+    data = {}
+    if isdir(file_path):
+        files_list = os.listdir(file_path)
+        for file_name in files_list:
+            if file_name.endswith('.json'):
+                file_abspath = os.path.join(file_path, file_name)
+                with open(file_abspath, 'r') as config_file:
+                    config_dict = json.load(config_file)
+                    same_key = set(data.keys()) & set(config_dict.keys())
+                    if same_key:
+                        print "Error: '%s' keys existed in both %s config files" % (same_key, files_list)
+                        sys.exit(1)
+                    else:
+                        data.update(config_dict)
+    return data
+
+
 def _read_file(file_path):
     data = {}
     if isfile(file_path):
@@ -63,7 +82,7 @@ def _read_file(file_path):
 
 
 def read_config_file(server_alias):
-    result = _read_file(GLOBAL_CONFIG_FILE).get(server_alias, {})
+    result = _read_dir(GLOBAL_CONFIG_DIR).get(server_alias, {})
     result.update(_read_file(USER_SPECIFIC_CONFIG_FILE).get(server_alias, {}))
     return result
 
