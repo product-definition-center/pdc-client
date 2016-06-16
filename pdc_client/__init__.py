@@ -10,7 +10,6 @@ import os
 from os.path import expanduser, isfile, isdir
 import sys
 from subprocess import Popen, PIPE
-import exceptions
 
 import beanbag
 import requests
@@ -85,23 +84,6 @@ def read_config_file(server_alias):
     result = _read_dir(GLOBAL_CONFIG_DIR).get(server_alias, {})
     result.update(_read_file(USER_SPECIFIC_CONFIG_FILE).get(server_alias, {}))
     return result
-
-
-def get_paged(res, **kwargs):
-    """ will be abandon in next release"""
-    exceptions.PendingDeprecationWarning("""Warning: This method have been removed into PDCClient class;
-    and then will be deleted in next release.""")
-
-    def worker():
-        kwargs['page'] = 1
-        while True:
-            response = res(**kwargs)
-            yield response['results']
-            if response['next']:
-                kwargs['page'] += 1
-            else:
-                break
-    return itertools.chain.from_iterable(worker())
 
 
 class PDCClient(object):
