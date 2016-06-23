@@ -131,10 +131,14 @@ py3_install
 mkdir -p %{buildroot}/%{_mandir}/man1
 cp docs/pdc_client.1 %{buildroot}/%{_mandir}/man1/
 
+# Move all plugins in upstream to /usr/share/pdc-client/
+mkdir -p %{buildroot}/%{_datadir}/pdc-client/plugins
+cp pdc_client/plugins/*  %{_datadir}/pdc-client/plugins/
+
 mkdir -p %{buildroot}/%{_sysconfdir}/bash_completion.d/
 cp pdc.bash %{buildroot}/%{_sysconfdir}/bash_completion.d/
 
-mkdir -p %{buildroot}/%{_sysconfdir}/pdc
+mkdir -p %{buildroot}/%{_sysconfdir}/pdc.d
 cat > %{buildroot}/%{_sysconfdir}/pdc.d/fedora.json << EOF
 {
     "dev": {
@@ -150,10 +154,11 @@ EOF
 %doc README.markdown
 %{_mandir}/man1/pdc_client.1*
 %{_sysconfdir}/bash_completion.d
-%dir %{_sysconfdir}/pdc
+%dir %{_sysconfdir}/pdc.d
 %config(noreplace) %{_sysconfdir}/pdc.d/fedora.json
 %{_bindir}/pdc
 %{_bindir}/pdc_client
+%{_datadir}/pdc-client/plugins/*
 
 %files -n python2-pdc-client
 %doc README.markdown
