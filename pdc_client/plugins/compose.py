@@ -4,6 +4,9 @@
 # Licensed under The MIT License (MIT)
 # http://opensource.org/licenses/MIT
 #
+
+from __future__ import print_function
+
 import json
 
 
@@ -48,50 +51,50 @@ class ComposePlugin(PDCClientPlugin):
 
         composes = self.client.get_paged(self.client.composes._, **filters)
         if args.json:
-            print json.dumps(list(composes))
+            print((json.dumps(list(composes))))
             return
         start_line = True
         for compose in composes:
             if start_line:
-                print 'Compose-ID\n'
+                print('Compose-ID\n')
                 start_line = False
-            print compose['compose_id']
+            print((compose['compose_id']))
 
     def compose_info(self, args, compose_id=None):
         compose_id = compose_id or args.compose_id
         compose = self.client.composes[compose_id]._()
         if args.json:
-            print json.dumps(compose)
+            print((json.dumps(compose)))
             return
 
         fmt = '{0:25} {1}'
-        print fmt.format('Compose ID', compose['compose_id'])
-        print fmt.format('Compose Label', compose['compose_label'] or '')
-        print fmt.format('Compose Date', compose['compose_date'])
-        print fmt.format('Compose Respin', compose['compose_respin'])
-        print fmt.format('Compose Type', compose['compose_type'])
-        print fmt.format('Acceptance Testing', compose['acceptance_testing'])
-        print fmt.format('Deleted', compose['deleted'])
-        print fmt.format('Release', compose['release'])
-        print fmt.format('Rpm Mapping Template', compose['rpm_mapping_template'])
+        print((fmt.format('Compose ID', compose['compose_id'])))
+        print((fmt.format('Compose Label', compose['compose_label'] or '')))
+        print((fmt.format('Compose Date', compose['compose_date'])))
+        print((fmt.format('Compose Respin', compose['compose_respin'])))
+        print((fmt.format('Compose Type', compose['compose_type'])))
+        print((fmt.format('Acceptance Testing', compose['acceptance_testing'])))
+        print((fmt.format('Deleted', compose['deleted'])))
+        print((fmt.format('Release', compose['release'])))
+        print((fmt.format('Rpm Mapping Template', compose['rpm_mapping_template'])))
 
         if compose['linked_releases']:
-            print '\nLinked Releases'
+            print('\nLinked Releases')
             for release in compose['linked_releases']:
-                print fmt.format('Release', release)
+                print((fmt.format('Release', release)))
 
         if compose['sigkeys']:
-            print '\nSigkeys'
+            print('\nSigkeys')
             for sigkey in compose['sigkeys']:
-                print fmt.format('Sigkey', sigkey)
+                print((fmt.format('Sigkey', sigkey)))
 
         if compose['rtt_tested_architectures']:
-            print '\nRtt Tested Architectures'
+            print('\nRtt Tested Architectures')
             fmt = '{0:25} {1:15} {2}'
-            print fmt.format('Variant', 'Arches', 'Testing Status')
-            for key, value in compose['rtt_tested_architectures'].iteritems():
-                for subkey, subvalue in value.iteritems():
-                    print fmt.format(key, subkey, subvalue)
+            print((fmt.format('Variant', 'Arches', 'Testing Status')))
+            for key, value in list(compose['rtt_tested_architectures'].items()):
+                for subkey, subvalue in list(value.items()):
+                    print((fmt.format(key, subkey, subvalue)))
 
     def compose_update(self, args):
         data = self.get_compose_data(args)

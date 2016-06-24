@@ -4,6 +4,9 @@
 # Licensed under The MIT License (MIT)
 # http://opensource.org/licenses/MIT
 #
+
+from __future__ import print_function
+
 import json
 
 from pdc_client.plugin_helpers import (PDCClientPlugin,
@@ -94,7 +97,7 @@ class ReleasePlugin(PDCClientPlugin):
 
         releases = self.client.get_paged(self.client.releases._, **filters)
         if args.json:
-            print json.dumps(list(releases))
+            print(json.dumps(list(releases)))
             return
 
         fmt = '{0:25} {1:35} {2}'
@@ -102,10 +105,10 @@ class ReleasePlugin(PDCClientPlugin):
         for release in releases:
             if start_line:
                 start_line = False
-                print fmt.format('Release-ID', 'Name', 'Activity')
-                print
-            print fmt.format(release['release_id'], release['name'],
-                             'active' if release['active'] else 'inactive')
+                print(fmt.format('Release-ID', 'Name', 'Activity'))
+                print()
+            print(fmt.format(release['release_id'], release['name'],
+                             'active' if release['active'] else 'inactive'))
 
     def release_info(self, args, release_id=None):
         release_id = release_id or args.release_id
@@ -113,37 +116,37 @@ class ReleasePlugin(PDCClientPlugin):
         variants = self.client.get_paged(self.client['release-variants']._, release=release_id)
         if args.json:
             release['variants'] = list(variants)
-            print json.dumps(release)
+            print(json.dumps(release))
             return
 
         fmt = '{0:20} {1}'
-        print fmt.format('Release ID', release['release_id'])
-        print fmt.format('Name', release['name'])
-        print fmt.format('Short Name', release['short'])
-        print fmt.format('Version', release['version'])
-        print fmt.format('Release Type', release['release_type'])
-        print fmt.format('Product Version', release['product_version'] or '')
-        print fmt.format('Base Product', release['base_product'] or '')
-        print fmt.format('Activity', 'active' if release['active'] else 'inactive')
-        print fmt.format('Integrated With', release['integrated_with'] or '')
+        print(fmt.format('Release ID', release['release_id']))
+        print(fmt.format('Name', release['name']))
+        print(fmt.format('Short Name', release['short']))
+        print(fmt.format('Version', release['version']))
+        print(fmt.format('Release Type', release['release_type']))
+        print(fmt.format('Product Version', release['product_version'] or ''))
+        print(fmt.format('Base Product', release['base_product'] or ''))
+        print(fmt.format('Activity', 'active' if release['active'] else 'inactive'))
+        print(fmt.format('Integrated With', release['integrated_with'] or ''))
 
         # Call plugins
         self.run_hook('release_info', release)
 
         if release['bugzilla']:
-            print '\nBugzilla'
-            print fmt.format('Product', release['bugzilla']['product'])
+            print('\nBugzilla')
+            print(fmt.format('Product', release['bugzilla']['product']))
 
         if release['dist_git']:
-            print '\nDist Git'
-            print fmt.format('Branch', release['dist_git']['branch'])
+            print('\nDist Git')
+            print(fmt.format('Branch', release['dist_git']['branch']))
 
-        print '\nVariants'
+        print('\nVariants')
         fmt = '{0:25} {1:20} {2:20} {3:15} {4}'
-        print fmt.format('UID', 'ID', 'Name', 'Type', 'Arches')
+        print(fmt.format('UID', 'ID', 'Name', 'Type', 'Arches'))
         for variant in variants:
-            print fmt.format(variant['uid'], variant['id'], variant['name'],
-                             variant['type'], ', '.join(variant['arches']))
+            print(fmt.format(variant['uid'], variant['id'], variant['name'],
+                             variant['type'], ', '.join(variant['arches'])))
 
     def release_update(self, args):
         data = self.get_release_data(args)

@@ -4,6 +4,10 @@
 # Licensed under The MIT License (MIT)
 # http://opensource.org/licenses/MIT
 #
+
+from __future__ import print_function
+
+
 import json
 
 from pdc_client.plugin_helpers import PDCClientPlugin
@@ -19,11 +23,11 @@ class PermissionPlugin(PDCClientPlugin):
     def permission_list(self, args):
         permissions = self.__get_permissions(self.client.auth['current-user'])
         if args.json:
-            print json.dumps(permissions)
+            print(json.dumps(permissions))
             return
 
         for permission in sorted(permissions):
-            print permission
+            print(permission)
 
     def __get_permissions(self, res, **kwargs):
         """

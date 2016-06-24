@@ -4,6 +4,9 @@
 # Licensed under The MIT License (MIT)
 # http://opensource.org/licenses/MIT
 #
+
+from __future__ import print_function
+
 import itertools
 import json
 import os
@@ -41,6 +44,10 @@ def get_version():
         git = Popen(["git", "rev-parse", "--short", "HEAD"], stdout=PIPE)
         hash = git.communicate()[0]
         os.chdir(old_dir)
+        if sys.version_info[0] == 3:
+            # Python 3 compatibility
+            base_ver = base_ver.decode('utf-8')
+            hash = hash.decode('utf-8')
         return base_ver + "-" + hash
     else:
         # not running from git, get info from pkg_resources
@@ -65,7 +72,7 @@ def _read_dir(file_path):
                     config_dict = json.load(config_file)
                     same_key = set(data.keys()) & set(config_dict.keys())
                     if same_key:
-                        print "Error: '%s' keys existed in both %s config files" % (same_key, files_list)
+                        print("Error: '%s' keys existed in both %s config files" % (same_key, files_list))
                         sys.exit(1)
                     else:
                         data.update(config_dict)
@@ -115,7 +122,7 @@ class PDCClient(object):
             try:
                 url = config[CONFIG_URL_KEY_NAME]
             except KeyError:
-                print "'%s' must be specified in configuration file." % CONFIG_URL_KEY_NAME
+                print("'%s' must be specified in configuration file." % CONFIG_URL_KEY_NAME)
                 sys.exit(1)
             insecure = config.get(CONFIG_INSECURE_KEY_NAME, insecure)
             develop = config.get(CONFIG_DEVELOP_KEY_NAME, develop)
@@ -133,7 +140,7 @@ class PDCClient(object):
             self.session.verify = False
             # turn off warnings about making insecure calls
             if [int(x) for x in requests.__version__.split('.')] < [2, 4, 0]:
-                print "Requests version is too old, please upgrade to 2.4.0 or latest."
+                print("Requests version is too old, please upgrade to 2.4.0 or latest.")
                 # disable all warnings, it had better to upgrade requests.
                 warnings.filterwarnings("ignore")
             else:
@@ -166,7 +173,7 @@ class PDCClient(object):
         for end_point in token_end_points:
             try:
                 return self.auth[end_point]._()['token']
-            except beanbag.BeanBagException, e:
+            except beanbag.BeanBagException as e:
                 if e.response.status_code != 404:
                     raise
         raise Exception('Could not obtain token from any known URL.')
