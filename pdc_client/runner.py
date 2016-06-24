@@ -37,9 +37,26 @@ from pdc_client.utils import pretty_print
 
 # A list of paths to directories where plugins should be loaded from.
 # The purpose of the plugins is to extend the default behaviour.
-PLUGIN_DIRS = [
-    os.path.join(os.path.dirname(__file__), 'plugins')
+LOCAL_DIR = os.path.join(os.path.dirname(__file__), 'plugins')
+INSTALLED_DIR = os.path.join('/usr/share/pdc-client', 'plugins')
+PLUGIN_DIRS = [LOCAL_DIR] if not os.path.exists(INSTALLED_DIR) else [INSTALLED_DIR]
+
+DEFAULT_PLUGINS = [
+    'build_image_rtt_tests.py',
+    'build_images.py',
+    'component.py',
+    'compose_image_rtt_tests.py',
+    'compose.py',
+    'compose_tree_locations.py',
+    'contact.py',
+    'image.py',
+    'permission.py',
+    'release.py',
+    'repo.py',
+    'rpm.py'
 ]
+
+CONFIG_PLUGINS_KEY_NAME = 'plugins'
 
 
 class Runner(object):
@@ -49,10 +66,19 @@ class Runner(object):
         self.logger = logging.getLogger('pdc')
 
     def load_plugins(self):
+        ns, _ = self.parser.parse_known_args()
+        server = ns.__getattribute__('server')
+        if not server:
+            raise TypeError('Server must be specified')
+        config = pdc_client.read_config_file(server)
+        plugins = DEFAULT_PLUGINS
+        if config and config[CONFIG_PLUGINS_KEY_NAME]:
+            plugins = config[CONFIG_PLUGINS_KEY_NAME]
+
         for dir in PLUGIN_DIRS:
             self.logger.debug('Loading plugins from {0}'.format(dir))
             for name in os.listdir(dir):
-                if not name.endswith('.py'):
+                if not name.endswith('.py') or name not in plugins:
                     continue
                 file, pathname, description = imp.find_module(name[:-3], [dir])
                 plugin = imp.load_module(name[:-3], file, pathname, description)
@@ -75,8 +101,6 @@ class Runner(object):
                 getattr(plugin, hook)(*args, **kwargs)
 
     def setup(self):
-        self.load_plugins()
-
         self.parser = argparse.ArgumentParser(description='PDC Client')
         self.parser.add_argument('-s', '--server', default='stage',
                                  help='API URL or shortcut from config file')
@@ -88,6 +112,7 @@ class Runner(object):
         self.parser.add_argument('--version', action='version',
                                  version='%(prog)s ' + pdc_client.__version__)
 
+        self.load_plugins()
         subparsers = self.parser.add_subparsers(metavar='COMMAND')
 
         for plugin in self.plugins:

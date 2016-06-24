@@ -42,6 +42,11 @@ Other possible keys are:
     This is only useful for working with servers which don't require
     authentication.
 
+* `plugins`
+
+    Plugins are configurable which depends on the user's needs.
+    If no plugins are configured, the default plugins will be used.
+
 ### Example system configuration
 
 This config defines connection to development server running on
@@ -55,6 +60,7 @@ localhost and a production server. :
         },
         "prod": {
             "host": "https://pdc.example.com/rest_api/v1/",
+            "plugins": ["permission.py", "release.py"]
         }
     }
 
