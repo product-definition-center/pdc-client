@@ -24,9 +24,9 @@ def debug_request(func):
     def wrap(*args, **kwargs):
         self = args[0]
         if self.debug:
-            print "> ", func.__name__.upper(), self.client[self.resource]._
-            for key, value in self.client.session.headers.items():
-                print "> ", key, ": ", value
+            print("> ", func.__name__.upper(), self.client[self.resource]._)
+            for key, value in list(self.client.session.headers.items()):
+                print("> ", key, ": ", value)
         return func(*args, **kwargs)
 
     return wrap
@@ -51,7 +51,7 @@ class RequestMethod(object):
     @debug_request
     def get(self, data):
         if not isinstance(data, dict):
-            print 'For GET request, the data must be a JSON object, not a list.'
+            print('For GET request, the data must be a JSON object, not a list.')
             sys.exit(1)
         return self.client[self.resource]._(**data)
 
@@ -80,8 +80,8 @@ class RequestMethod(object):
     def __exit__(self, exc_type, exc_val, exc_tb):
         if all((exc_type, exc_val, exc_tb)):
             if exc_type is BeanBagException:
-                print "%d %s" % (
-                    exc_val.response.status_code, exc_val.response.content)
+                print("%d %s" % (
+                    exc_val.response.status_code, exc_val.response.content))
 
             if self.traceback:
                 import traceback
@@ -110,9 +110,9 @@ def load_data(options):
         return {}
     try:
         return json.loads(data)
-    except ValueError, err:
-        print "Request data is not a valid JSON input."
-        print err
+    except ValueError as err:
+        print("Request data is not a valid JSON input.")
+        print(err)
         sys.exit(1)
 
 
@@ -141,23 +141,23 @@ if __name__ == "__main__":
     options, args = parser.parse_args()
 
     if len(args):
-        print "Can not parse the positional arguments: %s" % ", ".join(args)
+        print("Can not parse the positional arguments: %s" % ", ".join(args))
         parser.print_help()
         sys.exit(1)
 
     if not options.server:
-        print "Error: -s is required.\n"
+        print("Error: -s is required.\n")
         parser.print_help()
         sys.exit(1)
 
     if options.data and options.file:
-        print "Error: can not load data from file and command line at the same time."
+        print("Error: can not load data from file and command line at the same time.")
         sys.exit(1)
 
     data = load_data(options)
 
     if isinstance(data, dict):
-        for key, value in data.iteritems():
+        for key, value in data.items():
             if options.request.upper() == 'GET' and not value and value is not False:
                 # empty string won't be lost
                 data[key] = ''
@@ -167,11 +167,11 @@ if __name__ == "__main__":
         if options.comment:
             client.set_comment(options.comment)
     except BeanBagException as e:
-        print "%d %s" % (e.response.status_code, e.response.content)
+        print("%d %s" % (e.response.status_code, e.response.content))
     except Exception as e:
-        print str(e)
+        print(str(e))
     else:
         with RequestMethod(client, options.resource,
                            options.traceback, options.debug) as request:
-            print json.dumps(request.dispatch(options.request, data),
-                             indent=4, sort_keys=True)
+            print(json.dumps(request.dispatch(options.request, data),
+                             indent=4, sort_keys=True))

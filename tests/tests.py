@@ -5,10 +5,11 @@
 # http://opensource.org/licenses/MIT
 #
 import unittest
-from StringIO import StringIO
 
 from pdc_client import plugin_helpers
 from pdc_client import utils
+# Python 3 compatibility
+from pdc_client.compat import StringIO
 
 
 class PluginHelperTestCase(unittest.TestCase):

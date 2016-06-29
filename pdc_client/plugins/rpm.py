@@ -4,6 +4,9 @@
 # Licensed under The MIT License (MIT)
 # http://opensource.org/licenses/MIT
 #
+
+from __future__ import print_function
+
 import json
 
 
@@ -66,48 +69,48 @@ class RPMPlugin(PDCClientPlugin):
             self.subparsers.choices.get('list').error('At least some filter must be used.')
         rpms = self.client.get_paged(self.client.rpms._, **filters)
         if args.json:
-            print json.dumps(list(rpms))
+            print(json.dumps(list(rpms)))
             return
 
         start_line = True
         for rpm in rpms:
             if start_line:
                 start_line = False
-                print '{0:<10} {1:45} {2}'.format('ID', 'Name', 'Epoch:Version-Release.Arch')
-                print
-            print '{id:<10} {name:45} {epoch}:{version}-{release}.{arch}'.format(**rpm)
+                print('{0:<10} {1:45} {2}'.format('ID', 'Name', 'Epoch:Version-Release.Arch'))
+                print()
+            print('{id:<10} {name:45} {epoch}:{version}-{release}.{arch}'.format(**rpm))
 
     def rpm_info(self, args, rpm_id=None):
         response = self.client.rpms[rpm_id or args.rpmid]._()
         if args.json:
-            print json.dumps(response)
+            print(json.dumps(response))
             return
         fmt = '{0:20} {1}'
-        print fmt.format('ID', response['id'])
-        print fmt.format('Name', response['name'])
-        print fmt.format('Epoch', response['epoch'])
-        print fmt.format('Version', response['version'])
-        print fmt.format('Release', response['release'])
-        print fmt.format('Arch', response['arch'])
-        print fmt.format('SRPM Name', response['srpm_name'])
-        print fmt.format('SRPM NEVRA', response['srpm_nevra'] or '')
-        print fmt.format('Filename', response['filename'])
+        print(fmt.format('ID', response['id']))
+        print(fmt.format('Name', response['name']))
+        print(fmt.format('Epoch', response['epoch']))
+        print(fmt.format('Version', response['version']))
+        print(fmt.format('Release', response['release']))
+        print(fmt.format('Arch', response['arch']))
+        print(fmt.format('SRPM Name', response['srpm_name']))
+        print(fmt.format('SRPM NEVRA', response['srpm_nevra'] or ''))
+        print(fmt.format('Filename', response['filename']))
 
         if response['linked_composes']:
-            print '\nIncluded in composes:'
+            print('\nIncluded in composes:')
             for compose in sorted(response['linked_composes']):
-                print compose
+                print(compose)
 
         if response['linked_releases']:
-            print '\nLinked to releases:'
+            print('\nLinked to releases:')
             for release in sorted(response['linked_releases']):
-                print release
+                print(release)
 
         for type in ('recommends', 'suggests', 'obsoletes', 'provides', 'conflicts', 'requires'):
             if response['dependencies'][type]:
-                print '\n{0}:'.format(type.capitalize())
+                print('\n{0}:'.format(type.capitalize()))
                 for dep in response['dependencies'][type]:
-                    print dep
+                    print(dep)
 
     def rpm_create(self, args):
         data = extract_arguments(args)

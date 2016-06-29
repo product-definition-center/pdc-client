@@ -4,6 +4,9 @@
 # Licensed under The MIT License (MIT)
 # http://opensource.org/licenses/MIT
 #
+
+from __future__ import print_function
+
 import json
 
 from pdc_client.plugin_helpers import PDCClientPlugin, add_parser_arguments, extract_arguments
@@ -39,38 +42,38 @@ class ComposeImageRTTTestsPlugin(PDCClientPlugin):
 
     def _print_compose_image_rtt_test_list(self, rtt_tests):
         if rtt_tests:
-            print '{0:<50} {1:20} {2:10} {3:70} {4}\n'.format(
+            print('{0:<50} {1:20} {2:10} {3:70} {4}\n'.format(
                 'Compose',
                 'Variant',
                 'Arch',
                 'File Name',
-                'Test Result')
+                'Test Result'))
             for test in rtt_tests:
-                print '{0:<50} {1:20} {2:10} {3:70} {4}'.format(
+                print('{0:<50} {1:20} {2:10} {3:70} {4}'.format(
                     test['compose'],
                     test['variant'],
                     test['arch'],
                     test['file_name'],
-                    test['test_result'])
+                    test['test_result']))
 
     def list_compose_image_rtt_tests(self, args):
         filters = extract_arguments(args)
         rtt_tests = self.client.get_paged(self.client['compose-image-rtt-tests']._, **filters)
         if args.json:
-            print json.dumps(list(rtt_tests))
+            print(json.dumps(list(rtt_tests)))
             return
         self._print_compose_image_rtt_test_list(rtt_tests)
 
     def _display_test_info_detail(self, args, test_info):
         if args.json:
-            print json.dumps(test_info)
+            print(json.dumps(test_info))
             return
         fmt = '{0:20} {1}'
-        print fmt.format('Compose', test_info['compose'])
-        print fmt.format('Variant', test_info['variant'])
-        print fmt.format('Arch', test_info['arch'])
-        print fmt.format('File Name', test_info['file_name'])
-        print fmt.format('Test Result', test_info['test_result'])
+        print(fmt.format('Compose', test_info['compose']))
+        print(fmt.format('Variant', test_info['variant']))
+        print(fmt.format('Arch', test_info['arch']))
+        print(fmt.format('File Name', test_info['file_name']))
+        print(fmt.format('Test Result', test_info['test_result']))
 
     def compose_image_rtt_test_info(self, args):
         test_info =\

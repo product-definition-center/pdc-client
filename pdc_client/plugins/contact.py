@@ -4,6 +4,9 @@
 # Licensed under The MIT License (MIT)
 # http://opensource.org/licenses/MIT
 #
+
+from __future__ import print_function
+
 import json
 
 from pdc_client.plugin_helpers import (PDCClientPlugin,
@@ -14,9 +17,9 @@ from pdc_client.plugin_helpers import (PDCClientPlugin,
 
 def print_component_contacts(component_contacts):
     fmt = '{0:<10} {1:40} {2:10} {3:25} {4}'
-    print fmt.format('ID', 'Component', 'Role', 'Email', 'Name')
+    print(fmt.format('ID', 'Component', 'Role', 'Email', 'Name'))
     for component_contact in component_contacts:
-        print fmt.format(
+        print(fmt.format(
             component_contact['id'],
             'release' in component_contact['component'] and
             ''.join([component_contact['component']['release'],
@@ -28,7 +31,7 @@ def print_component_contacts(component_contacts):
             'username' in component_contact['contact'] and
             component_contact['contact']['username'] or
             component_contact['contact']['mail_name']
-        )
+        ))
 
 
 class GlobalComponentContactPlugin(PDCClientPlugin):
@@ -79,7 +82,7 @@ class GlobalComponentContactPlugin(PDCClientPlugin):
         global_component_contacts = self.client.get_paged(self.client['global-component-contacts']._, **filters)
 
         if args.json:
-            print json.dumps(list(global_component_contacts))
+            print(json.dumps(list(global_component_contacts)))
             return
         if global_component_contacts:
             print_component_contacts(global_component_contacts)
@@ -89,18 +92,18 @@ class GlobalComponentContactPlugin(PDCClientPlugin):
         global_component_contact = self.client['global-component-contacts'][global_component_contact_id]._()
 
         if args.json:
-            print json.dumps(global_component_contact)
+            print(json.dumps(global_component_contact))
             return
 
         fmt = '{0:20} {1}'
-        print fmt.format('ID:', global_component_contact['id'])
-        print fmt.format('Component:', global_component_contact['component'])
-        print fmt.format('Role:', global_component_contact['role'])
-        print 'Contact:'
+        print(fmt.format('ID:', global_component_contact['id']))
+        print(fmt.format('Component:', global_component_contact['component']))
+        print(fmt.format('Role:', global_component_contact['role']))
+        print('Contact:')
         for name in ('username', 'mail_name'):
             if name in global_component_contact['contact']:
-                print ''.join(['\tName:\t', global_component_contact['contact'][name]])
-        print ''.join(['\tEmail:\t', global_component_contact['contact']['email']])
+                print(''.join(['\tName:\t', global_component_contact['contact'][name]]))
+        print(''.join(['\tEmail:\t', global_component_contact['contact']['email']]))
 
     def create_global_component_contact(self, args):
         data = extract_arguments(args)
@@ -127,9 +130,9 @@ class GlobalComponentContactPlugin(PDCClientPlugin):
             self.client['global-component-contacts'
                         ][global_component_contacts[0]['id']]._("DELETE", {})
         elif match_count < 1:
-            print "No match, nothing to do."
+            print("No match, nothing to do.")
         else:
-            print "Multi matches, please delete via ID or provide more restrictions."
+            print("Multi matches, please delete via ID or provide more restrictions.")
             print_component_contacts(global_component_contacts)
 
 
@@ -182,7 +185,7 @@ class ReleaseComponentContactPlugin(PDCClientPlugin):
         release_component_contacts = self.client.get_paged(self.client['release-component-contacts']._, **filters)
 
         if args.json:
-            print json.dumps(list(release_component_contacts))
+            print(json.dumps(list(release_component_contacts)))
             return
         if release_component_contacts:
             print_component_contacts(release_component_contacts)
@@ -192,20 +195,20 @@ class ReleaseComponentContactPlugin(PDCClientPlugin):
         release_component_contact = self.client['release-component-contacts'][release_component_contact_id]._()
 
         if args.json:
-            print json.dumps(release_component_contact)
+            print(json.dumps(release_component_contact))
             return
 
         fmt = '{0:20} {1}'
-        print fmt.format('ID:', release_component_contact['id'])
-        print fmt.format('Component:', ''.join([release_component_contact['component']['release'],
+        print(fmt.format('ID:', release_component_contact['id']))
+        print(fmt.format('Component:', ''.join([release_component_contact['component']['release'],
                                                 '/',
-                                                release_component_contact['component']['name']]))
-        print fmt.format('Role:', release_component_contact['role'])
-        print 'Contact:'
+                                                release_component_contact['component']['name']])))
+        print(fmt.format('Role:', release_component_contact['role']))
+        print('Contact:')
         for name in ('username', 'mail_name'):
             if name in release_component_contact['contact']:
-                print ''.join(['\tName:\t', release_component_contact['contact'][name]])
-        print ''.join(['\tEmail:\t', release_component_contact['contact']['email']])
+                print(''.join(['\tName:\t', release_component_contact['contact'][name]]))
+        print(''.join(['\tEmail:\t', release_component_contact['contact']['email']]))
 
     def create_release_component_contact(self, args):
         data = extract_arguments(args)
@@ -232,9 +235,9 @@ class ReleaseComponentContactPlugin(PDCClientPlugin):
             self.client['release-component-contacts'
                         ][release_component_contacts[0]['id']]._("DELETE", {})
         elif match_count < 1:
-            print "No match, nothing to do."
+            print("No match, nothing to do.")
         else:
-            print "Multi matches, please delete via ID or provide more restrictions."
+            print("Multi matches, please delete via ID or provide more restrictions.")
             print_component_contacts(release_component_contacts)
 
 

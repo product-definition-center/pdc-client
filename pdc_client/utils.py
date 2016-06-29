@@ -4,9 +4,12 @@
 # Licensed under The MIT License (MIT)
 # http://opensource.org/licenses/MIT
 #
+
 from __future__ import print_function
 
 import sys
+
+from pdc_client.compat import iteritems, string_type
 
 
 def _pprint_str(file, s, indent, lead=''):
@@ -22,14 +25,14 @@ def _pprint_list(file, items, indent):
 
 def _pprint_dict(file, data, indent):
     """Print a dict as an indented definition list."""
-    for key, value in data.iteritems():
+    for key, value in iteritems(data):
         _pprint_str(file, key + ':', indent)
         pretty_print(value, indent + 1, file)
 
 
 def pretty_print(data, indent=0, file=sys.stdout):
     """Pretty print a data structure."""
-    if isinstance(data, basestring):
+    if isinstance(data, string_type):
         _pprint_list(file, [data], indent)
     elif isinstance(data, list):
         _pprint_list(file, data, indent)

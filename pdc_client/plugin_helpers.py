@@ -34,6 +34,9 @@
 
 import logging
 
+# Python 3 compatibility
+from pdc_client.compat import iteritems
+
 
 DATA_PREFIX = 'data__'
 
@@ -89,7 +92,7 @@ def add_parser_arguments(parser, args, group=None, prefix=DATA_PREFIX):
     """
     if group:
         parser = parser.add_argument_group(group)
-    for arg, kwargs in args.iteritems():
+    for arg, kwargs in iteritems(args):
         arg_name = kwargs.pop('arg', arg.replace('_', '-'))
         if 'metavar' not in kwargs:
             kwargs['metavar'] = arg.upper()
@@ -111,7 +114,7 @@ def add_mutually_exclusive_args(parser, args, required=False, prefix=DATA_PREFIX
     to indicate that at least one of the mutually exclusive arguments is required.
     """
     parser = parser.add_mutually_exclusive_group(required=required)
-    for arg, kwargs in args.iteritems():
+    for arg, kwargs in iteritems(args):
         arg_name = kwargs.pop('arg', arg.replace('_', '-'))
         if 'metavar' not in kwargs:
             kwargs['metavar'] = arg.upper()
@@ -148,7 +151,7 @@ def extract_arguments(args, prefix=DATA_PREFIX):
     stripped away and does not appear in the result.
     """
     data = {}
-    for key, value in args.__dict__.iteritems():
+    for key, value in iteritems(args.__dict__):
         if key.startswith(prefix) and value is not None:
             parts = key[len(prefix):].split('__')
             # Think of `d` as a pointer into the resulting nested dictionary.

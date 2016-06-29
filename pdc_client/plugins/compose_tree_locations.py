@@ -4,6 +4,9 @@
 # Licensed under The MIT License (MIT)
 # http://opensource.org/licenses/MIT
 #
+
+from __future__ import print_function
+
 import json
 
 from pdc_client.plugin_helpers import (PDCClientPlugin,
@@ -69,43 +72,43 @@ class ComposeTreeLocationsPlugin(PDCClientPlugin):
 
     def _display_compose_tree_location_info(self, args, compose_tree_location_info):
         if args.json:
-            print json.dumps(compose_tree_location_info)
+            print(json.dumps(compose_tree_location_info))
             return
         fmt = '{0:20} {1}'
-        print fmt.format('Compose', compose_tree_location_info['compose'])
-        print fmt.format('Variant', compose_tree_location_info['variant'])
-        print fmt.format('Arch', compose_tree_location_info['arch'])
-        print fmt.format('Location', compose_tree_location_info['location'])
-        print fmt.format('Scheme', compose_tree_location_info['scheme'])
-        print fmt.format('Synced Content', compose_tree_location_info['synced_content'])
-        print fmt.format('Url', compose_tree_location_info['url'])
+        print(fmt.format('Compose', compose_tree_location_info['compose']))
+        print(fmt.format('Variant', compose_tree_location_info['variant']))
+        print(fmt.format('Arch', compose_tree_location_info['arch']))
+        print(fmt.format('Location', compose_tree_location_info['location']))
+        print(fmt.format('Scheme', compose_tree_location_info['scheme']))
+        print(fmt.format('Synced Content', compose_tree_location_info['synced_content']))
+        print(fmt.format('Url', compose_tree_location_info['url']))
 
     def compose_tree_location_list(self, args):
         filters = extract_arguments(args)
         compose_tree_locations = self.client.get_paged(self.client['compose-tree-locations']._, **filters)
         if args.json:
-            print json.dumps(list(compose_tree_locations))
+            print(json.dumps(list(compose_tree_locations)))
             return
         fmt = '{0:<50} {1:20} {2:10} {3:10} {4:10} {5:40} {6}'
         if compose_tree_locations:
-            print fmt.format(
+            print(fmt.format(
                 'Compose',
                 'Variant',
                 'Arch',
                 'Location',
                 'Scheme',
                 'Synced Content',
-                'Url')
-            print
+                'Url'))
+            print()
             for compose_tree_location in compose_tree_locations:
-                print fmt.format(
+                print(fmt.format(
                     compose_tree_location['compose'],
                     compose_tree_location['variant'],
                     compose_tree_location['arch'],
                     compose_tree_location['location'],
                     compose_tree_location['scheme'],
                     compose_tree_location['synced_content'],
-                    compose_tree_location['url'])
+                    compose_tree_location['url']))
 
     def compose_tree_location_info(self, args):
         compose_tree_location_info =\

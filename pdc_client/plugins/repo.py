@@ -4,6 +4,9 @@
 # Licensed under The MIT License (MIT)
 # http://opensource.org/licenses/MIT
 #
+
+from __future__ import print_function
+
 import json
 
 
@@ -63,34 +66,34 @@ class RepoPlugin(PDCClientPlugin):
             self.subparsers.choices.get('list').error('At least some filter must be used.')
         repos = self.client.get_paged(self.client['content-delivery-repos']._, **filters)
         if args.json:
-            print json.dumps(list(repos))
+            print(json.dumps(list(repos)))
             return
 
         start_line = True
         for repo in repos:
             if start_line:
                 start_line = False
-                print '{0:<10} {1:120} {2:20} {3}'.format('ID', 'Name', 'Content Format', 'Content Category')
-                print
-            print '{id:<10} {name:120} {content_format:20} {content_category}'.format(**repo)
+                print('{0:<10} {1:120} {2:20} {3}'.format('ID', 'Name', 'Content Format', 'Content Category'))
+                print()
+            print('{id:<10} {name:120} {content_format:20} {content_category}'.format(**repo))
 
     def repo_info(self, args, repo_id=None):
         response = self.client['content-delivery-repos'][repo_id or args.repoid]._()
         if args.json:
-            print json.dumps(response)
+            print(json.dumps(response))
             return
         fmt = '{0:20} {1}'
-        print fmt.format('ID', response['id'])
-        print fmt.format('Name', response['name'])
-        print fmt.format('Content Format', response['content_format'])
-        print fmt.format('Content Category', response['content_category'])
-        print fmt.format('Release ID', response['release_id'])
-        print fmt.format('Arch', response['arch'])
-        print fmt.format('Repo Family', response['repo_family'])
-        print fmt.format('Service', response['service'])
-        print fmt.format('Variant UID', response['variant_uid'])
-        print fmt.format('Shadow', response['shadow'])
-        print fmt.format('Product ID', response['product_id'] or '')
+        print(fmt.format('ID', response['id']))
+        print(fmt.format('Name', response['name']))
+        print(fmt.format('Content Format', response['content_format']))
+        print(fmt.format('Content Category', response['content_category']))
+        print(fmt.format('Release ID', response['release_id']))
+        print(fmt.format('Arch', response['arch']))
+        print(fmt.format('Repo Family', response['repo_family']))
+        print(fmt.format('Service', response['service']))
+        print(fmt.format('Variant UID', response['variant_uid']))
+        print(fmt.format('Shadow', response['shadow']))
+        print(fmt.format('Product ID', response['product_id'] or ''))
 
     def repo_create(self, args):
         data = extract_arguments(args)

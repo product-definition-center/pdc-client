@@ -4,6 +4,9 @@
 # Licensed under The MIT License (MIT)
 # http://opensource.org/licenses/MIT
 #
+
+from __future__ import print_function
+
 import json
 
 from pdc_client.plugin_helpers import (PDCClientPlugin,
@@ -17,12 +20,12 @@ def print_build_image_rtt_list(rtt_tests):
     for rtt_test in rtt_tests:
         if start_line:
             start_line = False
-            print fmt.format('ID', 'BUILD_NVR', 'FORMAT', 'TEST_RESULT')
-            print
-        print fmt.format(rtt_test['id'],
+            print(fmt.format('ID', 'BUILD_NVR', 'FORMAT', 'TEST_RESULT'))
+            print()
+        print(fmt.format(rtt_test['id'],
                          rtt_test['build_nvr'],
                          rtt_test['format'],
-                         rtt_test['test_result'])
+                         rtt_test['test_result']))
 
 
 class BuildImageRttTest(PDCClientPlugin):
@@ -54,7 +57,7 @@ class BuildImageRttTest(PDCClientPlugin):
         filters = extract_arguments(args)
         build_images_rrt = self.client.get_paged(self.client['build-image-rtt-tests']._, **filters)
         if args.json:
-            print json.dumps(list(build_images_rrt))
+            print(json.dumps(list(build_images_rrt)))
             return
         if build_images_rrt:
             print_build_image_rtt_list(build_images_rrt)
@@ -62,13 +65,13 @@ class BuildImageRttTest(PDCClientPlugin):
     def build_image_rrt_tests_info(self, args):
         build_image_rtts = self.client['build-image-rtt-tests'][args.build_nvr][args.image_format]._()
         if args.json:
-            print json.dumps(build_image_rtts)
+            print(json.dumps(build_image_rtts))
             return
         fmt = '{0:20} {1}'
-        print fmt.format('ID', build_image_rtts['id'])
-        print fmt.format('BUILD_NVR', build_image_rtts['build_nvr'])
-        print fmt.format('FORMAT', build_image_rtts['format'])
-        print fmt.format('TEST_RESULT', build_image_rtts['test_result'])
+        print(fmt.format('ID', build_image_rtts['id']))
+        print(fmt.format('BUILD_NVR', build_image_rtts['build_nvr']))
+        print(fmt.format('FORMAT', build_image_rtts['format']))
+        print(fmt.format('TEST_RESULT', build_image_rtts['test_result']))
 
     def build_image_rrt_tests_update(self, args):
         data = extract_arguments(args)

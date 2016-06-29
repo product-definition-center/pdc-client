@@ -4,6 +4,9 @@
 # Licensed under The MIT License (MIT)
 # http://opensource.org/licenses/MIT
 #
+
+from __future__ import print_function
+
 import sys
 import json
 
@@ -65,7 +68,7 @@ class GlobalComponentPlugin(PDCClientPlugin):
         global_components = self.client.get_paged(self.client['global-components']._, **filters)
 
         if args.json:
-            print json.dumps(list(global_components))
+            print(json.dumps(list(global_components)))
             return
 
         start_line = True
@@ -73,11 +76,11 @@ class GlobalComponentPlugin(PDCClientPlugin):
         for global_component in global_components:
             if start_line:
                 start_line = False
-                print fmt.format('ID', 'Name')
-                print
-            print fmt.format(
+                print(fmt.format('ID', 'Name'))
+                print()
+            print(fmt.format(
                 global_component['id'],
-                global_component['name'])
+                global_component['name']))
 
     def _get_component_id(self, args):
         global_component = self.client['global-components']._(name=args)
@@ -97,32 +100,32 @@ class GlobalComponentPlugin(PDCClientPlugin):
         update_component_contacts(global_component, component_contacts)
 
         if args.json:
-            print json.dumps(global_component)
+            print(json.dumps(global_component))
             return
 
         fmt = '{0:20} {1}'
-        print fmt.format('ID', global_component['id'])
-        print fmt.format('Name', global_component['name'])
-        print fmt.format('Dist Git Path', global_component['dist_git_path'] or '')
-        print fmt.format('Dist Git URL', global_component['dist_git_web_url'] or '')
+        print(fmt.format('ID', global_component['id']))
+        print(fmt.format('Name', global_component['name']))
+        print(fmt.format('Dist Git Path', global_component['dist_git_path'] or ''))
+        print(fmt.format('Dist Git URL', global_component['dist_git_web_url'] or ''))
         if global_component['labels']:
-            print 'Labels:'
+            print('Labels:')
             for label in global_component['labels']:
-                print ''.join(['\t', label['name']])
+                print(''.join(['\t', label['name']]))
 
         if global_component['upstream']:
-            print 'Upstream:'
+            print('Upstream:')
             for key in ('homepage', 'scm_type', 'scm_url'):
-                print ''.join(['\t', key, ':', '\t', global_component['upstream'][key]])
+                print(''.join(['\t', key, ':', '\t', global_component['upstream'][key]]))
 
         if global_component['contacts']:
-            print 'Contacts:'
+            print('Contacts:')
             for global_component_contact in global_component['contacts']:
-                print ''.join(['\tRole:\t', global_component_contact['role']])
+                print(''.join(['\tRole:\t', global_component_contact['role']]))
                 for name in ('username', 'mail_name'):
                     if name in global_component_contact['contact']:
-                        print ''.join(['\t\tName:\t', global_component_contact['contact'][name]])
-                print ''.join(['\t\tEmail:\t', global_component_contact['contact']['email']])
+                        print(''.join(['\t\tName:\t', global_component_contact['contact'][name]]))
+                print(''.join(['\t\tEmail:\t', global_component_contact['contact']['email']]))
 
     def global_component_create(self, args):
         data = extract_arguments(args)
@@ -209,20 +212,20 @@ class ReleaseComponentPlugin(PDCClientPlugin):
         release_components = self.client.get_paged(self.client['release-components']._, **filters)
 
         if args.json:
-            print json.dumps(list(release_components))
+            print(json.dumps(list(release_components)))
             return
         fmt = '{0:<10} {1:25} {2}'
         start_line = True
         for release_component in release_components:
             if start_line:
                 start_line = False
-                print fmt.format('ID', 'Release_ID', 'Name')
-                print
+                print(fmt.format('ID', 'Release_ID', 'Name'))
+                print()
             release_id = self._get_release_id(release_component)
-            print fmt.format(
+            print(fmt.format(
                 release_component['id'],
                 release_id,
-                release_component['name'])
+                release_component['name']))
 
     def release_component_info(self, args, release_component_id=None):
         if not release_component_id:
@@ -242,32 +245,32 @@ class ReleaseComponentPlugin(PDCClientPlugin):
         update_component_contacts(release_component, component_contacts)
 
         if args.json:
-            print json.dumps(release_component)
+            print(json.dumps(release_component))
             return
 
         fmt = '{0:20} {1}'
-        print fmt.format('ID', release_component['id'])
-        print fmt.format('Name', release_component['name'])
-        print fmt.format('Release ID', release_id)
-        print fmt.format('Global Component', release_component['global_component'])
-        print fmt.format('Bugzilla Component',
+        print(fmt.format('ID', release_component['id']))
+        print(fmt.format('Name', release_component['name']))
+        print(fmt.format('Release ID', release_id))
+        print(fmt.format('Global Component', release_component['global_component']))
+        print(fmt.format('Bugzilla Component',
                          release_component['bugzilla_component']['name']
-                         if release_component['bugzilla_component'] else '')
-        print fmt.format('Brew Package', release_component['brew_package'] or '')
-        print fmt.format('Dist Git Branch', release_component['dist_git_branch'] or '')
-        print fmt.format('Dist Git URL', release_component['dist_git_web_url'] or '')
-        print fmt.format('Activity', 'active' if release_component['active'] else 'inactive')
-        print fmt.format('Type', release_component['type'])
-        print fmt.format('Srpm Name', release_component['srpm']['name'] if release_component['srpm'] else 'null')
+                         if release_component['bugzilla_component'] else ''))
+        print(fmt.format('Brew Package', release_component['brew_package'] or ''))
+        print(fmt.format('Dist Git Branch', release_component['dist_git_branch'] or ''))
+        print(fmt.format('Dist Git URL', release_component['dist_git_web_url'] or ''))
+        print(fmt.format('Activity', 'active' if release_component['active'] else 'inactive'))
+        print(fmt.format('Type', release_component['type']))
+        print(fmt.format('Srpm Name', release_component['srpm']['name'] if release_component['srpm'] else 'null'))
 
         if release_component['contacts']:
-            print 'Contacts:'
+            print('Contacts:')
             for release_component_contact in release_component['contacts']:
-                print ''.join(['\tRole:\t', release_component_contact['role']])
+                print(''.join(['\tRole:\t', release_component_contact['role']]))
                 for name in ('username', 'mail_name'):
                     if name in release_component_contact['contact']:
-                        print ''.join(['\t\tName:\t', release_component_contact['contact'][name]])
-                print ''.join(['\t\tEmail:\t', release_component_contact['contact']['email']])
+                        print(''.join(['\t\tName:\t', release_component_contact['contact'][name]]))
+                print(''.join(['\t\tEmail:\t', release_component_contact['contact']['email']]))
 
     def release_component_create(self, args):
         data = extract_arguments(args)
