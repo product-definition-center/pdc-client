@@ -19,10 +19,6 @@ import requests
 import requests_kerberos
 import warnings
 
-from pdc_client import monkey_patch
-
-monkey_patch.monkey_patch_kerberos()
-
 GLOBAL_CONFIG_DIR = '/etc/pdc.d/'
 USER_SPECIFIC_CONFIG_FILE = expanduser('~/.config/pdc/client_config.json')
 CONFIG_URL_KEY_NAME = 'host'
