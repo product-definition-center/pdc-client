@@ -72,8 +72,10 @@ class Runner(object):
             raise TypeError('Server must be specified')
         config = pdc_client.read_config_file(server)
         plugins = DEFAULT_PLUGINS
-        if config and config[CONFIG_PLUGINS_KEY_NAME]:
-            plugins = config[CONFIG_PLUGINS_KEY_NAME]
+        if config and config.get(CONFIG_PLUGINS_KEY_NAME):
+            plugins = config.get(CONFIG_PLUGINS_KEY_NAME)
+        if not isinstance(plugins, list):
+            raise TypeError('Plugins must be a list')
 
         for dir in PLUGIN_DIRS:
             self.logger.debug('Loading plugins from {0}'.format(dir))
