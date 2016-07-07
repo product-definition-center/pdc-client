@@ -11,7 +11,7 @@ from pdc_client.runner import Runner
 class PermissionTestCase(CLITestCase):
     def setUp(self):
         self.runner = Runner()
-        self.runner.setup()
+        self.runner.setup(True)
 
     def _setup_list(self, api):
         api.add_endpoint('auth/current-user', 'GET',

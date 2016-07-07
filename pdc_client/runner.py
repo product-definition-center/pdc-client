@@ -65,17 +65,26 @@ class Runner(object):
         self.plugins = []
         self.logger = logging.getLogger('pdc')
 
-    def load_plugins(self):
-        ns, _ = self.parser.parse_known_args()
-        server = ns.__getattribute__('server')
-        if not server:
-            raise TypeError('Server must be specified')
-        config = pdc_client.read_config_file(server)
+    def load_plugins(self, isTest):
+        config = None
+        if not isTest:
+            args = sys.argv[1:]
+            try:
+                idx = args.index("-s")
+                server = args[idx + 1]
+            except ValueError:
+                raise Exception('Server must be specified')
+            except IndexError:
+                raise Exception('Server must be specified')
+            config = pdc_client.read_config_file(server)
+            if not config:
+                raise Exception('No configuration for server %s.' % server)
+
         plugins = DEFAULT_PLUGINS
         if config and config.get(CONFIG_PLUGINS_KEY_NAME):
             plugins = config.get(CONFIG_PLUGINS_KEY_NAME)
-        if not isinstance(plugins, list):
-            raise TypeError('Plugins must be a list')
+            if not isinstance(plugins, list):
+                raise TypeError('Plugins must be a list')
 
         for dir in PLUGIN_DIRS:
             self.logger.debug('Loading plugins from {0}'.format(dir))
@@ -102,7 +111,9 @@ class Runner(object):
                 self.logger.debug('Calling hook {0} in plugin {1}'.format(hook, plugin.__name__))
                 getattr(plugin, hook)(*args, **kwargs)
 
-    def setup(self):
+    def setup(self, isTest=False):
+        self.load_plugins(isTest)
+
         self.parser = argparse.ArgumentParser(description='PDC Client')
         self.parser.add_argument('-s', '--server', default='stage',
                                  help='API URL or shortcut from config file')
@@ -114,7 +125,6 @@ class Runner(object):
         self.parser.add_argument('--version', action='version',
                                  version='%(prog)s ' + pdc_client.__version__)
 
-        self.load_plugins()
         subparsers = self.parser.add_subparsers(metavar='COMMAND')
 
         for plugin in self.plugins:

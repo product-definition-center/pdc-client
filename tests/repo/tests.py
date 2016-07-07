@@ -11,7 +11,7 @@ from pdc_client.runner import Runner
 class RepoTestCase(CLITestCase):
     def setUp(self):
         self.runner = Runner()
-        self.runner.setup()
+        self.runner.setup(True)
         self.maxDiff = None
 
     def test_list_without_filters(self, api):

@@ -11,7 +11,7 @@ from pdc_client.test_helpers import CLITestCase
 class BuildImageRttTestsTestCase(CLITestCase):
     def setUp(self):
         self.runner = Runner()
-        self.runner.setup()
+        self.runner.setup(True)
         self.detail = {
             "id": 3,
             "build_nvr": "EjaErg-1",

@@ -11,7 +11,7 @@ from pdc_client.runner import Runner
 class RpmTestCase(CLITestCase):
     def setUp(self):
         self.runner = Runner()
-        self.runner.setup()
+        self.runner.setup(True)
 
     def test_list_without_filters(self, api):
         with self.expect_failure():
