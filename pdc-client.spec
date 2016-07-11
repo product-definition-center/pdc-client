@@ -10,7 +10,7 @@
 
 Name:           pdc-client
 Version:        1.0.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Console client for interacting with Product Definition Center
 Group:          Development/Libraries
 License:        MIT
@@ -174,6 +174,9 @@ EOF
 
 
 %changelog
+* Mon Jul 11 2016 bliu <bliu@redhat.com> 1.0.0-2
+- new package built with tito
+
 * Thu May 05 2016 bliu <bliu@redhat.com> 0.9.0-3
 - Change filtering arguments's underscore to minus to be consistent.
   (ycheng@redhat.com)
