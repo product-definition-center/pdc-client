@@ -177,6 +177,9 @@ EOF
 * Sun Jul 17 2016 bliu <bliu@redhat.com> 1.0.0-2
 - new package built with tito
 
+* Sun Jul 17 2016 bliu <bliu@redhat.com> 1.0.0-2
+- new package built with tito
+
 * Mon Jul 11 2016 bliu <bliu@redhat.com> 1.0.0-2
 - new package built with tito
 
