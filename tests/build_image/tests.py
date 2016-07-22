@@ -11,7 +11,7 @@ from pdc_client.runner import Runner
 class BuildImageTestCase(CLITestCase):
     def setUp(self):
         self.runner = Runner()
-        self.runner.setup(True)
+        self.runner.setup()
 
     def _setup_list_1(self, api):
         api.add_endpoint('build-images', 'GET', [

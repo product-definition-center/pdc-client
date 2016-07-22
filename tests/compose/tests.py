@@ -11,7 +11,7 @@ from pdc_client.runner import Runner
 class ComposeTestCase(CLITestCase):
     def setUp(self):
         self.runner = Runner()
-        self.runner.setup(True)
+        self.runner.setup()
         self.compose_detail = {
             "compose_id": "awesome-product-20130203.7",
             "compose_date": "2013-02-03",

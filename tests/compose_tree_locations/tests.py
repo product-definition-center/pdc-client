@@ -12,7 +12,7 @@ from copy import deepcopy
 class ComposeTreeLocationsTestCase(CLITestCase):
     def setUp(self):
         self.runner = Runner()
-        self.runner.setup(True)
+        self.runner.setup()
         self.compose_tree_location_detail = {"arch": "x86_64",
                                              "compose": "Awesome-product-7.0-0",
                                              "variant": "Server",

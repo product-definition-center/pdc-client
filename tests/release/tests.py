@@ -11,7 +11,7 @@ from pdc_client.runner import Runner
 class ReleaseTestCase(CLITestCase):
     def setUp(self):
         self.runner = Runner()
-        self.runner.setup(True)
+        self.runner.setup()
         self.release_detail = {
             'release_id': 'release-1.0',
             'active': True,

@@ -47,7 +47,7 @@ from pdc_client.runner import Runner
 class {name}TestCase(CLITestCase):
     def setUp(self):
         self.runner = Runner()
-        self.runner.setup(True)
+        self.runner.setup()
 '''
 
 

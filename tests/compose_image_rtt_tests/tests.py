@@ -12,7 +12,7 @@ from copy import deepcopy
 class ComposeImageRTTTestsTestCase(CLITestCase):
     def setUp(self):
         self.runner = Runner()
-        self.runner.setup(True)
+        self.runner.setup()
 
     def _setup_list(self, api):
         api.add_endpoint('compose-image-rtt-tests', 'GET', [
