@@ -10,7 +10,7 @@
 
 Name:           pdc-client
 Version:        1.0.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Console client for interacting with Product Definition Center
 Group:          Development/Libraries
 License:        MIT
@@ -103,7 +103,7 @@ rm -rf %{py3dir}
 cp -a . %{py3dir}
 find %{py3dir} -name '*.py' | xargs sed -i '1s|^#!python|#!%{__python3}|'
 %endif # with_python3
-
+find -name 'test_helper*'  -delete
 find -name '*.py' | xargs sed -i '1s|^#!python|#!%{__python}|'
 
 %build
@@ -133,7 +133,7 @@ cp docs/pdc_client.1 %{buildroot}/%{_mandir}/man1/
 
 # Move all plugins in upstream to /usr/share/pdc-client/
 mkdir -p %{buildroot}/%{_datadir}/pdc-client/plugins
-cp pdc_client/plugins/*  %{_datadir}/pdc-client/plugins/
+cp pdc_client/plugins/*  %{buildroot}/%{_datadir}/pdc-client/plugins
 
 mkdir -p %{buildroot}/%{_sysconfdir}/bash_completion.d/
 cp pdc.bash %{buildroot}/%{_sysconfdir}/bash_completion.d/
@@ -141,7 +141,7 @@ cp pdc.bash %{buildroot}/%{_sysconfdir}/bash_completion.d/
 mkdir -p %{buildroot}/%{_sysconfdir}/pdc.d
 cat > %{buildroot}/%{_sysconfdir}/pdc.d/fedora.json << EOF
 {
-    "dev": {
+    "fedora": {
         "host": "https://pdc.fedoraproject.org/rest_api/v1/",
         "develop": false,
         "insecure": false
@@ -174,6 +174,12 @@ EOF
 
 
 %changelog
+* Sun Jul 17 2016 bliu <bliu@redhat.com> 1.0.0-2
+- Move plugins outside of python_sitelib. (bliu@redhat.com)
+- Allow specifying plugins in the config file. (chuzhang@redhat.com)
+- Change configuration files for pdc-client. (bliu@redhat.com)
+- Add field 'subvariant' to image sub-command. (ycheng@redhat.com)
+
 * Thu May 05 2016 bliu <bliu@redhat.com> 0.9.0-3
 - Change filtering arguments's underscore to minus to be consistent.
   (ycheng@redhat.com)
