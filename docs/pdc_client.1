@@ -43,7 +43,18 @@ Print traceback information in case of an error.
 .TP
 .BR \-\-debug
 Show details about performed requests.
+.SH FILES
+.I /etc/pdc/client_config.json
+.RS
+Site-wide host configuration file. Has to be valid JSON.
+.RE
+.I $HOME/.config/pdc/client_config.json
+.RS
+Personal host configuration file which overrides identical keys from
+site-wide configuration file.
+.RE
+
 .SH BUGS
 If you find a bug in the client, report at
 .br
-https://github.com/release-engineering/product-definition-center/issues/.
+https://github.com/product-definition-center/pdc-client/issues/.
