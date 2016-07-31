@@ -103,7 +103,7 @@ rm -rf %{py3dir}
 cp -a . %{py3dir}
 find %{py3dir} -name '*.py' | xargs sed -i '1s|^#!python|#!%{__python3}|'
 %endif # with_python3
-find -name 'test_helper*'  -delete
+find -name 'test_helpers_py3*'  -delete
 find -name '*.py' | xargs sed -i '1s|^#!python|#!%{__python}|'
 
 %build
