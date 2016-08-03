@@ -190,8 +190,12 @@ class PDCClient(object):
             for release in client.get_paged(client['releases']._, active=True):
                 ...
         """
-        if self.page_size:
+        if self.page_size is not None:
             kwargs['page_size'] = self.page_size
+
+        if self.page_size <= 0 and self.page_size is not None:
+            # If page_size <= 0, pagination will be disable.
+            return res(**kwargs)
 
         def worker():
             kwargs['page'] = 1
