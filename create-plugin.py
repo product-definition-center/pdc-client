@@ -47,7 +47,7 @@ from pdc_client.runner import Runner
 class {name}TestCase(CLITestCase):
     def setUp(self):
         self.runner = Runner()
-        self.runner.setup(True)
+        self.runner.setup()
 '''
 
 
@@ -66,7 +66,7 @@ def write_file(name, contents):
 
 def create_plugin(name):
     filepath = os.path.join('pdc_client', 'plugins', name + '.py')
-    class_name = '{}Plugin'.format(name.capitalize())
+    class_name = '{0}Plugin'.format(name.capitalize())
     data = PLUGIN_TEMPLATE.format(class_name=class_name).lstrip()
     write_file(filepath, data)
 

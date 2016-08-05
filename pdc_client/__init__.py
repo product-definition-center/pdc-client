@@ -19,10 +19,6 @@ import requests
 import requests_kerberos
 import warnings
 
-from pdc_client import monkey_patch
-
-monkey_patch.monkey_patch_kerberos()
-
 GLOBAL_CONFIG_DIR = '/etc/pdc.d/'
 USER_SPECIFIC_CONFIG_FILE = expanduser('~/.config/pdc/client_config.json')
 CONFIG_URL_KEY_NAME = 'host'
@@ -194,8 +190,12 @@ class PDCClient(object):
             for release in client.get_paged(client['releases']._, active=True):
                 ...
         """
-        if self.page_size:
+        if self.page_size is not None:
             kwargs['page_size'] = self.page_size
+
+        if self.page_size <= 0 and self.page_size is not None:
+            # If page_size <= 0, pagination will be disable.
+            return res(**kwargs)
 
         def worker():
             kwargs['page'] = 1

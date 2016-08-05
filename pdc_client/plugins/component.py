@@ -173,20 +173,19 @@ class ReleaseComponentPlugin(PDCClientPlugin):
         update_parser = self.add_action('update', help='update an existing release component')
         update_parser.add_argument('release', metavar='RELEASE')
         update_parser.add_argument('name', metavar='NAME')
-        self.add_release_component_arguments(update_parser, is_update=True)
+        self.add_release_component_arguments(update_parser, {'name': {}}, is_update=True)
         update_parser.set_defaults(func=self.release_component_update)
 
         create_parser = self.add_action('create', help='create new release component')
-        self.add_release_component_arguments(create_parser, required=True)
-        create_parser.add_argument('--release', dest='release', required=True)
-        create_parser.add_argument('--global-component', dest='global_component', required=True)
+        required_args = {'name': {}, 'release': {}, 'global_component': {}}
+        self.add_release_component_arguments(create_parser, required_args, required=True)
         create_parser.set_defaults(func=self.release_component_create)
 
     def add_include_inactive_release_argument(self, parser):
         parser.add_argument('--include-inactive-release', action='store_true',
                             help='show component(s) in both active and inactive releases')
 
-    def add_release_component_arguments(self, parser, required=False, is_update=False):
+    def add_release_component_arguments(self, parser, required_args, required=False, is_update=False, ):
         group = parser.add_mutually_exclusive_group()
         group.add_argument('--activate', action='store_const', const=True, dest='active')
         group.add_argument('--deactivate', action='store_const', const=False, dest='active')
@@ -198,7 +197,7 @@ class ReleaseComponentPlugin(PDCClientPlugin):
         if is_update:
             optional_arguments.update({'global_component': {}})
         add_create_update_args(parser,
-                               {'name': {}},
+                               required_args,
                                optional_arguments,
                                required)
 
@@ -274,10 +273,6 @@ class ReleaseComponentPlugin(PDCClientPlugin):
 
     def release_component_create(self, args):
         data = extract_arguments(args)
-        if args.release is not None:
-            data['release'] = args.release
-        if args.global_component is not None:
-            data['global_component'] = args.global_component
         if args.active is not None:
             data['active'] = args.active
         self.logger.debug('Creating release component with data %r', data)

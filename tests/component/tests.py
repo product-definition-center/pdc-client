@@ -11,7 +11,7 @@ from pdc_client.runner import Runner
 class GlobalComponentTestCase(CLITestCase):
     def setUp(self):
         self.runner = Runner()
-        self.runner.setup(True)
+        self.runner.setup()
         self.detail = {
             'id': '1',
             'name': 'Test Global Component',
@@ -165,7 +165,7 @@ class GlobalComponentTestCase(CLITestCase):
 class ReleaseComponentTestCase(CLITestCase):
     def setUp(self):
         self.runner = Runner()
-        self.runner.setup(True)
+        self.runner.setup()
         self.detail = {
             'id': '1',
             'release': {

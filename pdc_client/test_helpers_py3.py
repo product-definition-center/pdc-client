@@ -123,9 +123,9 @@ class MockAPI(object):
         if callable(data):
             data = data()
         self.calls.setdefault(self.will_call, []).append(('GET', filters))
-        if isinstance(data, list):
+        page_size = filters.get('page_size', 20)
+        if isinstance(data, list) and page_size > 0:
             page = filters.get('page', 1)
-            page_size = 20
             pages = int(math.ceil(float(len(data)) / page_size))
             data = data[(page - 1) * page_size:(page - 1) * page_size + page_size]
             return {

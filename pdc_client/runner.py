@@ -65,22 +65,20 @@ class Runner(object):
         self.plugins = []
         self.logger = logging.getLogger('pdc')
 
-    def load_plugins(self, isTest):
+    def load_plugins(self):
         config = None
-        if not isTest:
-            args = sys.argv[1:]
-            try:
-                idx = args.index("-s")
-                server = args[idx + 1]
-            except ValueError:
-                raise Exception('Server must be specified')
-            except IndexError:
-                raise Exception('Server must be specified')
-            config = pdc_client.read_config_file(server)
-            if not config:
-                raise Exception('No configuration for server %s.' % server)
-
+        server = None
         plugins = DEFAULT_PLUGINS
+        args = sys.argv[1:]
+        try:
+            idx = args.index("-s")
+            server = args[idx + 1]
+        except ValueError:
+            pass
+        except IndexError:
+            pass
+        if server:
+            config = pdc_client.read_config_file(server)
         if config and config.get(CONFIG_PLUGINS_KEY_NAME):
             plugins = config.get(CONFIG_PLUGINS_KEY_NAME)
             if not isinstance(plugins, list):
@@ -111,8 +109,8 @@ class Runner(object):
                 self.logger.debug('Calling hook {0} in plugin {1}'.format(hook, plugin.__name__))
                 getattr(plugin, hook)(*args, **kwargs)
 
-    def setup(self, isTest=False):
-        self.load_plugins(isTest)
+    def setup(self):
+        self.load_plugins()
 
         self.parser = argparse.ArgumentParser(description='PDC Client')
         self.parser.add_argument('-s', '--server', default='stage',
