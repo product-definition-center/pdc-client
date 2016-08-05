@@ -9,8 +9,8 @@
 %global with_python3 0
 
 Name:           pdc-client
-Version:        1.0.0
-Release:        2%{?dist}
+Version:        1.1.0
+Release:        1%{?dist}
 Summary:        Console client for interacting with Product Definition Center
 Group:          Development/Libraries
 License:        MIT
@@ -158,6 +158,8 @@ EOF
 %config(noreplace) %{_sysconfdir}/pdc.d/fedora.json
 %{_bindir}/pdc
 %{_bindir}/pdc_client
+%dir %{_datadir}/pdc-client
+%dir %{_datadir}/pdc-client/plugins
 %{_datadir}/pdc-client/plugins/*
 
 %files -n python2-pdc-client
