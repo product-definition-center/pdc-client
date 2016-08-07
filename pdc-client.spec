@@ -176,6 +176,15 @@ EOF
 
 
 %changelog
+* Sun Aug 07 2016 bliu <bliu@redhat.com> 1.1.0-1
+- When page_size <= 0; the pagination will be disabled. (bliu@redhat.com)
+- Handle page_size in mocked API calls. (nils@redhat.com)
+- Move necessary arguments to required argument list. (ycheng@redhat.com)
+- Make format strings compatible with python 2.6 (chuzhang@redhat.com)
+- Fix failure with requests-kerberos 0.9+ and Python 3 (drop monkey_patch.py)
+  (mzibrick@redhat.com)
+- Add FILES section and fix issue link in manpage (sochotnicky@redhat.com)
+
 * Sun Jul 17 2016 bliu <bliu@redhat.com> 1.0.0-2
 - Move plugins outside of python_sitelib. (bliu@redhat.com)
 - Allow specifying plugins in the config file. (chuzhang@redhat.com)
