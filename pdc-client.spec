@@ -158,6 +158,8 @@ EOF
 %config(noreplace) %{_sysconfdir}/pdc.d/fedora.json
 %{_bindir}/pdc
 %{_bindir}/pdc_client
+%dir %{_datadir}/pdc-client
+%dir %{_datadir}/pdc-client/plugins
 %{_datadir}/pdc-client/plugins/*
 
 %files -n python2-pdc-client
