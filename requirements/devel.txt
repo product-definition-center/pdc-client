@@ -1,6 +1,6 @@
 -r production.txt
 mock
-flake8
+flake8<=3.0.3
 coverage
 argcomplete
 # docs
