@@ -5,12 +5,9 @@
 %{!?python2_sitelib: %global python2_sitelib %(%{__python2} -c "from distutils.sysconfig import get_python_lib; print (get_python_lib())")}
 %endif
 
-# upstream has no support now, some dependencies are missing
-%global with_python3 0
-
 Name:           pdc-client
 Version:        1.1.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Console client for interacting with Product Definition Center
 Group:          Development/Libraries
 License:        MIT
@@ -125,7 +122,7 @@ popd
 %install
 %py2_install
 %if 0%{?with_python3}
-py3_install
+%py3_install
 %endif # with_python3
 
 mkdir -p %{buildroot}/%{_mandir}/man1
@@ -176,6 +173,9 @@ EOF
 
 
 %changelog
+* Fri Aug 12 2016 Jiri Popelka <jpopelka@redhat.com> - 1.1.0-2
+- Python3 build
+
 * Sun Aug 07 2016 bliu <bliu@redhat.com> 1.1.0-1
 - When page_size <= 0; the pagination will be disabled. (bliu@redhat.com)
 - Handle page_size in mocked API calls. (nils@redhat.com)
