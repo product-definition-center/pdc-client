@@ -68,7 +68,7 @@ class Runner(object):
     def load_plugins(self):
         config = None
         server = None
-        plugins = DEFAULT_PLUGINS
+        plugins_set = set(DEFAULT_PLUGINS)
         args = sys.argv[1:]
         try:
             idx = args.index("-s")
@@ -83,11 +83,12 @@ class Runner(object):
             plugins = config.get(CONFIG_PLUGINS_KEY_NAME)
             if not isinstance(plugins, list):
                 raise TypeError('Plugins must be a list')
+            plugins_set.update(set(plugins))
 
         for dir in PLUGIN_DIRS:
             self.logger.debug('Loading plugins from {0}'.format(dir))
             for name in os.listdir(dir):
-                if not name.endswith('.py') or name not in plugins:
+                if not name.endswith('.py') or name not in plugins_set:
                     continue
                 file, pathname, description = imp.find_module(name[:-3], [dir])
                 plugin = imp.load_module(name[:-3], file, pathname, description)

@@ -46,6 +46,7 @@ Other possible keys are:
 
     Plugins are configurable which depends on the user's needs.
     If no plugins are configured, the default plugins will be used.
+    If plugins are configured, they will be merged to the default ones.
 
 ### Example system configuration
 
