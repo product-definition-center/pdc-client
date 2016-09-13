@@ -11,7 +11,7 @@ You can obtain the client from the same repository where PDC server is.
 
 The client can read server connection details from a configuration file.
 The configuration file should be located in
-`/etc/pdc/client_config.json` or in `~/.config/pdc/client_config.json`.
+`/etc/pdc.d/` directory which contains `fedora.json`, or in `~/.config/pdc/client_config.json`.
 If both files are present, the system one is loaded first and the user
 configuration is applied on top of it (to add other options or overwrite
 existing ones).
