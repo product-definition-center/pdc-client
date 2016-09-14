@@ -3,6 +3,8 @@
 %else
 %{!?__python2: %global __python2 /usr/bin/python2}
 %{!?python2_sitelib: %global python2_sitelib %(%{__python2} -c "from distutils.sysconfig import get_python_lib; print (get_python_lib())")}
+%{!?py2_build: %global py2_build %{expand: CFLAGS="%{optflags}" %{__python2} setup.py %{?py_setup_args} build --executable="%{__python2} -s"}}
+%{!?py2_install: %global py2_install %{expand: CFLAGS="%{optflags}" %{__python2} setup.py %{?py_setup_args} install -O1 --skip-build --root %{buildroot}}}
 %endif
 
 Name:           pdc-client
@@ -36,6 +38,10 @@ BuildRequires:  python3-mock
 BuildRequires:  python3-beanbag
 %endif # if with_python3
 
+%if 0%{?rhel} <= 6 || 0%{?centos} <=6
+BuildRequires:       python-unittest2
+BuildRequires:       python-argparse
+%endif
 
 # default to v2 since py3 doesnt' exist really
 Requires:  python2-pdc-client = %{version}-%{release}
@@ -146,6 +152,9 @@ cat > %{buildroot}/%{_sysconfdir}/pdc.d/fedora.json << EOF
 }
 EOF
 
+%if 0%{?rhel} && 0%{?rhel} < 7
+%global license %%doc
+%endif
 
 %files
 %doc README.markdown
