@@ -47,6 +47,7 @@ DEFAULT_PLUGINS = [
     'component.py',
     'compose_image_rtt_tests.py',
     'compose.py',
+    'compose_full_import.py',
     'compose_tree_locations.py',
     'contact.py',
     'image.py',

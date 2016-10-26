@@ -191,6 +191,9 @@ else:
             with open(os.path.join(self._data_dir, file), 'r') as f:
                 return f.read()
 
+        def data_file_abspath(self, file):
+            return os.path.join(self._data_dir, file)
+
         @contextlib.contextmanager
         def expect_output(self, file, parse_json=False):
             """Expect contents of the with statement to print contents of file.

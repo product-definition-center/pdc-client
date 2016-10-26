@@ -1,0 +1,4 @@
+Compose              Awesome-product-7.0-0
+Imported Images      1
+Imported Rpms        1
+Set_locations        1
