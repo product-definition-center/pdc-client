@@ -17,7 +17,6 @@ from subprocess import Popen, PIPE
 import beanbag
 import requests
 import requests_kerberos
-import warnings
 
 GLOBAL_CONFIG_DIR = '/etc/pdc.d/'
 USER_SPECIFIC_CONFIG_FILE = expanduser('~/.config/pdc/client_config.json')
