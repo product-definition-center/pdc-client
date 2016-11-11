@@ -147,7 +147,7 @@ cat > %{buildroot}/%{_sysconfdir}/pdc.d/fedora.json << EOF
     "fedora": {
         "host": "https://pdc.fedoraproject.org/rest_api/v1/",
         "develop": false,
-        "insecure": false
+        "ssl-verify": true
     }
 }
 EOF

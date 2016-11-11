@@ -22,7 +22,7 @@ import warnings
 GLOBAL_CONFIG_DIR = '/etc/pdc.d/'
 USER_SPECIFIC_CONFIG_FILE = expanduser('~/.config/pdc/client_config.json')
 CONFIG_URL_KEY_NAME = 'host'
-CONFIG_INSECURE_KEY_NAME = 'insecure'
+CONFIG_SSL_VERIFY_KEY_NAME = 'ssl-verify'
 CONFIG_DEVELOP_KEY_NAME = 'develop'
 CONFIG_TOKEN_KEY_NAME = 'token'
 # PDC warning field in response header
@@ -97,7 +97,7 @@ class PDCClient(object):
     connections. The authentication token is automatically retrieved (if
     needed).
     """
-    def __init__(self, server, token=None, develop=False, insecure=False, page_size=None):
+    def __init__(self, server, token=None, develop=False, ssl_verify=True, page_size=None):
         """Create new client instance.
 
         Once the class is instantiated, use it as you would use a regular
@@ -120,9 +120,11 @@ class PDCClient(object):
             except KeyError:
                 print("'%s' must be specified in configuration file." % CONFIG_URL_KEY_NAME)
                 sys.exit(1)
-            insecure = config.get(CONFIG_INSECURE_KEY_NAME, insecure)
+            ssl_verify = config.get(CONFIG_SSL_VERIFY_KEY_NAME, ssl_verify)
             develop = config.get(CONFIG_DEVELOP_KEY_NAME, develop)
             token = config.get(CONFIG_TOKEN_KEY_NAME, token)
+
+        self.session.verify = ssl_verify
 
         if not develop:
             # For local environment, we don't need to require a token,
@@ -130,17 +132,6 @@ class PDCClient(object):
             # REQUIRED, OPTIONAL, DISABLED
             self.session.auth = requests_kerberos.HTTPKerberosAuth(
                 mutual_authentication=requests_kerberos.DISABLED)
-
-        if insecure:
-            # turn off for servers with insecure certificates
-            self.session.verify = False
-            # turn off warnings about making insecure calls
-            if [int(x) for x in requests.__version__.split('.')] < [2, 4, 0]:
-                print("Requests version is too old, please upgrade to 2.4.0 or latest.")
-                # disable all warnings, it had better to upgrade requests.
-                warnings.filterwarnings("ignore")
-            else:
-                requests.packages.urllib3.disable_warnings()
 
         def decode(req):
             result = json.loads(req.text or req.content)

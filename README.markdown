@@ -31,9 +31,9 @@ Other possible keys are:
     If specified, this token will be used for authentication. The client
     will not try to obtain any token from the server.
 
-* `insecure`
+* `ssl_verify`
 
-    If set to `true`, server certificate will not be validated.
+    If set to `false`, server certificate will not be validated. See [Python requests documentation](http://docs.python-requests.org/en/master/user/advanced/#ssl-cert-verification) for other possible values.
 
 * `develop`
 
