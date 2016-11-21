@@ -21,6 +21,7 @@ import requests_kerberos
 GLOBAL_CONFIG_DIR = '/etc/pdc.d/'
 USER_SPECIFIC_CONFIG_FILE = expanduser('~/.config/pdc/client_config.json')
 CONFIG_URL_KEY_NAME = 'host'
+CONFIG_INSECURE_KEY_NAME = 'insecure'
 CONFIG_SSL_VERIFY_KEY_NAME = 'ssl-verify'
 CONFIG_DEVELOP_KEY_NAME = 'develop'
 CONFIG_TOKEN_KEY_NAME = 'token'
@@ -120,6 +121,11 @@ class PDCClient(object):
                 print("'%s' must be specified in configuration file." % CONFIG_URL_KEY_NAME)
                 sys.exit(1)
             ssl_verify = config.get(CONFIG_SSL_VERIFY_KEY_NAME, ssl_verify)
+            insecure = config.get(CONFIG_SSL_VERIFY_KEY_NAME)
+            if insecure is not None:
+                sys.stderr.write("Warning: '%s' option is deprecated; please use '%s' instead" % (
+                    CONFIG_INSECURE_KEY_NAME, CONFIG_SSL_VERIFY_KEY_NAME))
+                ssl_verify = not insecure
             develop = config.get(CONFIG_DEVELOP_KEY_NAME, develop)
             token = config.get(CONFIG_TOKEN_KEY_NAME, token)
 
