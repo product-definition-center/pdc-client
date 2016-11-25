@@ -69,15 +69,22 @@ class Runner(object):
     def load_plugins(self):
         config = None
         server = None
+        idx_s, idx_server = (None, None)
         plugins_set = set(DEFAULT_PLUGINS)
         args = sys.argv[1:]
         try:
-            idx = args.index("-s")
-            server = args[idx + 1]
-        except ValueError:
+            idx_s = args.index('-s')
+        except (ValueError, IndexError):
             pass
-        except IndexError:
+        try:
+            idx_server = args.index('--server')
+        except (ValueError, IndexError):
             pass
+        try:
+            server = args[max(idx_s, idx_server) + 1]
+        except TypeError:
+            pass
+
         if server:
             config = pdc_client.read_config_file(server)
         if config and config.get(CONFIG_PLUGINS_KEY_NAME):
