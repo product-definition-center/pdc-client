@@ -42,6 +42,7 @@ INSTALLED_DIR = os.path.join('/usr/share/pdc-client', 'plugins')
 PLUGIN_DIRS = [LOCAL_DIR] if not os.path.exists(INSTALLED_DIR) else [INSTALLED_DIR]
 
 DEFAULT_PLUGINS = [
+    'group_resource_permissions.py',
     'build_image_rtt_tests.py',
     'build_images.py',
     'component.py',

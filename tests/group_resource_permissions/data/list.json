@@ -1,0 +1,176 @@
+[
+  {
+    "id": 1,
+    "group": "group1",
+    "resource": "arches",
+    "permission": "create"
+  },
+  {
+    "id": 2,
+    "group": "group2",
+    "resource": "arches",
+    "permission": "create"
+  },
+  {
+    "id": 3,
+    "group": "group3",
+    "resource": "arches",
+    "permission": "create"
+  },
+  {
+    "id": 4,
+    "group": "group4",
+    "resource": "arches",
+    "permission": "create"
+  },
+  {
+    "id": 5,
+    "group": "group5",
+    "resource": "arches",
+    "permission": "create"
+  },
+  {
+    "id": 6,
+    "group": "group6",
+    "resource": "arches",
+    "permission": "create"
+  },
+  {
+    "id": 7,
+    "group": "group7",
+    "resource": "arches",
+    "permission": "create"
+  },
+  {
+    "id": 8,
+    "group": "group8",
+    "resource": "arches",
+    "permission": "create"
+  },
+  {
+    "id": 9,
+    "group": "group9",
+    "resource": "arches",
+    "permission": "create"
+  },
+  {
+    "id": 10,
+    "group": "group10",
+    "resource": "arches",
+    "permission": "create"
+  },
+    {
+    "id": 11,
+    "group": "group11",
+    "resource": "arches",
+    "permission": "create"
+  },
+  {
+    "id": 12,
+    "group": "group12",
+    "resource": "arches",
+    "permission": "create"
+  },
+  {
+    "id": 13,
+    "group": "group13",
+    "resource": "arches",
+    "permission": "create"
+  },
+  {
+    "id": 14,
+    "group": "group14",
+    "resource": "arches",
+    "permission": "create"
+  },
+  {
+    "id": 15,
+    "group": "group15",
+    "resource": "arches",
+    "permission": "create"
+  },
+  {
+    "id": 16,
+    "group": "group16",
+    "resource": "arches",
+    "permission": "create"
+  },
+  {
+    "id": 17,
+    "group": "group17",
+    "resource": "arches",
+    "permission": "create"
+  },
+  {
+    "id": 18,
+    "group": "group18",
+    "resource": "arches",
+    "permission": "create"
+  },
+  {
+    "id": 19,
+    "group": "group19",
+    "resource": "arches",
+    "permission": "create"
+  },
+  {
+    "id": 20,
+    "group": "group20",
+    "resource": "arches",
+    "permission": "create"
+  },
+  {
+    "id": 21,
+    "group": "group21",
+    "resource": "arches",
+    "permission": "create"
+  },
+  {
+    "id": 22,
+    "group": "group22",
+    "resource": "arches",
+    "permission": "create"
+  },
+  {
+    "id": 23,
+    "group": "group23",
+    "resource": "arches",
+    "permission": "create"
+  },
+  {
+    "id": 24,
+    "group": "group24",
+    "resource": "arches",
+    "permission": "create"
+  },
+  {
+    "id": 25,
+    "group": "group25",
+    "resource": "arches",
+    "permission": "create"
+  },
+  {
+    "id": 26,
+    "group": "group26",
+    "resource": "arches",
+    "permission": "create"
+  },
+  {
+    "id": 27,
+    "group": "group27",
+    "resource": "arches",
+    "permission": "create"
+  },
+  {
+    "id": 28,
+    "group": "group28",
+    "resource": "arches",
+    "permission": "create"
+  },
+  {
+    "id": 29,
+    "group": "group29",
+    "resource": "arches",
+    "permission": "create"
+  }
+]
