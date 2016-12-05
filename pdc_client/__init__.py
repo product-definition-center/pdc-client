@@ -121,7 +121,7 @@ class PDCClient(object):
                 print("'%s' must be specified in configuration file." % CONFIG_URL_KEY_NAME)
                 sys.exit(1)
             ssl_verify = config.get(CONFIG_SSL_VERIFY_KEY_NAME, ssl_verify)
-            insecure = config.get(CONFIG_SSL_VERIFY_KEY_NAME)
+            insecure = config.get(CONFIG_INSECURE_KEY_NAME)
             if insecure is not None:
                 sys.stderr.write("Warning: '%s' option is deprecated; please use '%s' instead" % (
                     CONFIG_INSECURE_KEY_NAME, CONFIG_SSL_VERIFY_KEY_NAME))
