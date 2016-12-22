@@ -97,7 +97,7 @@ class PDCClient(object):
     connections. The authentication token is automatically retrieved (if
     needed).
     """
-    def __init__(self, server, token=None, develop=False, ssl_verify=True, page_size=None):
+    def __init__(self, server, token=None, develop=False, ssl_verify=None, page_size=None):
         """Create new client instance.
 
         Once the class is instantiated, use it as you would use a regular
@@ -120,10 +120,10 @@ class PDCClient(object):
             except KeyError:
                 print("'%s' must be specified in configuration file." % CONFIG_URL_KEY_NAME)
                 sys.exit(1)
-            ssl_verify = config.get(CONFIG_SSL_VERIFY_KEY_NAME, ssl_verify)
+            ssl_verify = config.get(CONFIG_SSL_VERIFY_KEY_NAME) if ssl_verify is None else ssl_verify
             insecure = config.get(CONFIG_INSECURE_KEY_NAME)
             if insecure is not None:
-                sys.stderr.write("Warning: '%s' option is deprecated; please use '%s' instead" % (
+                sys.stderr.write("Warning: '%s' option is deprecated; please use '%s' instead\n" % (
                     CONFIG_INSECURE_KEY_NAME, CONFIG_SSL_VERIFY_KEY_NAME))
                 ssl_verify = not insecure
             develop = config.get(CONFIG_DEVELOP_KEY_NAME, develop)

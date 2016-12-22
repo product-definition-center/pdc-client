@@ -97,6 +97,10 @@ run this in your terminal (assuming pdc is somewhere on path).
 
 or put `pdc.bash` to `/etc/bash_completion.d/`.
 
+### `Info`
+
+The client command line parameters take precedence over configuration file values.
+
 ## Python API
 
 When writing a client code interfacing with PDC server, you might find

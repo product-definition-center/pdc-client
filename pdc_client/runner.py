@@ -10,6 +10,7 @@ from __future__ import print_function
 import sys
 import argparse
 import beanbag
+import requests
 import os
 import os.path
 import logging
@@ -125,6 +126,13 @@ class Runner(object):
         self.parser = argparse.ArgumentParser(description='PDC Client')
         self.parser.add_argument('-s', '--server', default='stage',
                                  help='API URL or shortcut from config file')
+
+        self.parser.add_argument('-k', '--insecure', action='store_true',
+                                 help='Disable SSL certificate verification')
+        # ca-cert corresponds to requests session verify attribute:
+        # http://docs.python-requests.org/en/master/user/advanced/#ssl-cert-verification
+        self.parser.add_argument("--ca-cert", help="Path to CA certificate file or directory")
+
         self.parser.add_argument('--debug', action='store_true', help=argparse.SUPPRESS)
         self.parser.add_argument('--json', action='store_true',
                                  help='display output as JSON')
@@ -143,7 +151,12 @@ class Runner(object):
 
     def run(self, args=None):
         self.args = self.parser.parse_args(args=args)
-        self.client = pdc_client.PDCClient(self.args.server, page_size=self.args.page_size)
+        ssl_verify = self.args.ca_cert or not self.args.insecure
+        if self.args.insecure:
+            requests.packages.urllib3.disable_warnings(
+                requests.packages.urllib3.exceptions.InsecureRequestWarning)
+        self.client = pdc_client.PDCClient(self.args.server, page_size=self.args.page_size,
+                                           ssl_verify=ssl_verify)
         try:
             self.args.func(self.args)
         except beanbag.BeanBagException as exc:

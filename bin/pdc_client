@@ -14,6 +14,7 @@ except ImportError:
 import optparse
 import sys
 
+import requests
 from beanbag import BeanBagException
 import pdc_client
 from pdc_client import PDCClient
@@ -119,6 +120,11 @@ def load_data(options):
 if __name__ == "__main__":
     parser = optparse.OptionParser(version=__version__)
     parser.add_option("-s", "--server", help="PDC instance url or shortcut.")
+    parser.add_option("-k", "--insecure", action="store_true",
+                      help="Disable SSL certificate verification")
+    # ca-cert corresponds to requests session verify attribute:
+    # http://docs.python-requests.org/en/master/user/advanced/#ssl-cert-verification
+    parser.add_option("--ca-cert", help="Path to CA certificate file or directory")
     parser.add_option("-x", "--request", default="GET", help="Request method.")
     parser.add_option("-r", "--resource",
                       help=("Resource name.\n" +
@@ -163,7 +169,11 @@ if __name__ == "__main__":
                 data[key] = ''
 
     try:
-        client = PDCClient(options.server)
+        ssl_verify = options.ca_cert or not options.insecure
+        if options.insecure:
+            requests.packages.urllib3.disable_warnings(
+                requests.packages.urllib3.exceptions.InsecureRequestWarning)
+        client = PDCClient(options.server, ssl_verify=ssl_verify)
         if options.comment:
             client.set_comment(options.comment)
     except BeanBagException as e:
