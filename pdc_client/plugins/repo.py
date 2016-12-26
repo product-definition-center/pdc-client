@@ -39,8 +39,6 @@ class RepoPlugin(PDCClientPlugin):
                                                    'which releases should be cloned. If any are '
                                                    'omitted, all values for that attribute will '
                                                    'be cloned.')
-        clone_parser.add_argument('release_id_from', metavar='RELEASE_ID_FROM')
-        clone_parser.add_argument('release_id_to', metavar='RELEASE_ID_TO')
         self.add_clone_arguments(clone_parser)
         clone_parser.set_defaults(func=self.repo_clone)
 
@@ -70,14 +68,18 @@ class RepoPlugin(PDCClientPlugin):
 
         add_create_update_args(parser, required_args, optional_args, required)
 
-    def add_clone_arguments(self, parser, required=False):
-        optional_args = {
-            'include_service': {'metavar': 'SERVICE'},
-            'include_repo_family': {'metavar': 'REPO_FAMILY'},
-            'include_content_format': {'metavar': 'CONTENT_FORMAT'},
-            'include_content_category': {'metavar': 'CONTENT_CATEGORY'},
+    def add_clone_arguments(self, parser):
+        necessary_args = {
+            'release_id_from': {'metavar': 'RELEASE_ID_FROM'},
+            'release_id_to': {'metavar': 'RELEASE_ID_TO'},
         }
-        add_create_update_args(parser, {}, optional_args, required)
+        optional_args = {
+            'include_service': {'nargs': '*', 'metavar': 'SERVICE'},
+            'include_repo_family': {'nargs': '*', 'metavar': 'REPO_FAMILY'},
+            'include_content_format': {'nargs': '*', 'metavar': 'CONTENT_FORMAT'},
+            'include_content_category': {'nargs': '*', 'metavar': 'CONTENT_CATEGORY'},
+        }
+        add_create_update_args(parser, necessary_args, optional_args, True)
 
         shadow_group = parser.add_mutually_exclusive_group()
         shadow_group.add_argument('--include-shadow', action='store_true')
@@ -86,7 +88,7 @@ class RepoPlugin(PDCClientPlugin):
         optional_args = {
             'include_product_id': {'metavar': 'PRODUCT_ID', 'type': int},
         }
-        add_create_update_args(parser, {}, optional_args, required)
+        add_create_update_args(parser, {}, optional_args, False)
 
     def repo_list(self, args, data=None):
         filters = extract_arguments(args, prefix='filter_')
@@ -131,8 +133,6 @@ class RepoPlugin(PDCClientPlugin):
 
     def repo_clone(self, args):
         data = extract_arguments(args)
-        data['release_id_from'] = args.release_id_from
-        data['release_id_to'] = args.release_id_to
         self.logger.debug('Clone repos with data {0}'.format(data))
         response = self.client.rpc['content-delivery-repos'].clone._(data)
         self.repo_list(args, response)
