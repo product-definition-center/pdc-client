@@ -8,8 +8,8 @@
 %endif
 
 Name:           pdc-client
-Version:        1.1.0
-Release:        2%{?dist}
+Version:        1.2.0
+Release:        1%{?dist}
 Summary:        Console client for interacting with Product Definition Center
 Group:          Development/Libraries
 License:        MIT
@@ -182,6 +182,25 @@ EOF
 
 
 %changelog
+* Tue Dec 27 2016 bliu <bliu@redhat.com> 1.2.0-1
+- Fix the porblem in repo clone (ycheng@redhat.com)
+- Add the SSL and remove the Warning Info (bliu@redhat.com)
+- Add RPC "clone" command to content-delivery-repo (ahills@redhat.com)
+- Bug about ssl verify (bliu@redhat.com)
+- Add a new plugin of group-resource-permission (bliu@redhat.com)
+- Support option --server as well. (chuzhang@redhat.com)
+- Add insecure configuration option back with a warning (ahills@redhat.com)
+- Fix PEP8 violation (ahills@redhat.com)
+- More flexible SSL certificate verification configuration (ahills@redhat.com)
+- Create a new plugin of compose-full-import (bliu@redhat.com)
+- Update the SPEC file (bliu@redhat.com)
+- Update the README.markdown file in pdc-client repo (bliu@redhat.com)
+- Merge plugins in config file with default plugins. (chuzhang@redhat.com)
+- fix TypeError: unorderable types: NoneType() <= int() (jpopelka@redhat.com)
+- [spec] Python3 build (jpopelka@redhat.com)
+- update the requirements file with flake<=3.0.3 (bliu@redhat.com)
+- Update the SPEC file for removing the directories. (bliu@redhat.com)
+
 * Fri Aug 12 2016 Jiri Popelka <jpopelka@redhat.com> - 1.1.0-2
 - Python3 build
 
