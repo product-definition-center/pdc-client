@@ -90,6 +90,8 @@ class RepoPlugin(PDCClientPlugin):
         }
         add_create_update_args(parser, {}, optional_args, False)
 
+        self.run_hook('repo_parser_setup', parser)
+
     def repo_list(self, args, data=None):
         filters = extract_arguments(args, prefix='filter_')
         if not filters and not data:
@@ -132,7 +134,7 @@ class RepoPlugin(PDCClientPlugin):
         self.repo_info(args, response['id'])
 
     def repo_clone(self, args):
-        data = extract_arguments(args)
+        data = self.get_repo_data(args)
         self.logger.debug('Clone repos with data {0}'.format(data))
         response = self.client.rpc['content-delivery-repos'].clone._(data)
         self.repo_list(args, response)
@@ -150,6 +152,15 @@ class RepoPlugin(PDCClientPlugin):
         data = extract_arguments(args)
         self.logger.debug('Deleting content delivery repo: %s', args.repoid)
         self.client['content-delivery-repos'][args.repoid]._("DELETE", data)
+
+    def get_repo_data(self, args):
+        data = extract_arguments(args)
+        if args.include_shadow is not None:
+            data['include_shadow'] = args.include_shadow
+
+        self.run_hook('repo_parser_setup', args, data)
+
+        return data
 
 
 PLUGIN_CLASSES = [RepoPlugin]

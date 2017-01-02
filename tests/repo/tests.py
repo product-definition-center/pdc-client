@@ -131,3 +131,101 @@ class RepoTestCase(CLITestCase):
         self._setup_detail(api)
         self.runner.run(['content-delivery-repo', 'delete', '1'])
         self.assertEqual(api.calls['content-delivery-repos/1'], [('DELETE', {})])
+
+    def test_clone(self, api):
+        api.add_endpoint('rpc/content-delivery-repos/clone', 'POST', [
+            {
+                "arch": "x86_64",
+                "content_category": "binary",
+                "content_format": "iso",
+                "id": x,
+                "name": "rhel-x86_64-workstation-7-shadow",
+                "product_id": x,
+                "release_id": "rhel-7.1",
+                "repo_family": "dist",
+                "service": "rhn",
+                "shadow": True,
+                "variant_uid": "Workstation"
+            }
+
+            for x in range(1, 20)
+        ])
+        self._setup_list(api)
+        with self.expect_output('list_clone.json', parse_json=True):
+            self.runner.run(['--json', 'content-delivery-repo', 'clone',
+                             '--release-id-from', 'rhel-7.1-updates',
+                             '--release-id-to', 'rhel-7.1'
+                             ])
+
+    def test_clone_with_include_shadow(self, api):
+        api.add_endpoint('rpc/content-delivery-repos/clone', 'POST', [
+            {
+                "arch": "x86_64",
+                "content_category": "binary",
+                "content_format": "iso",
+                "id": x,
+                "name": "rhel-x86_64-workstation-7-shadow",
+                "product_id": x,
+                "release_id": "rhel-7.1",
+                "repo_family": "dist",
+                "service": "rhn",
+                "shadow": True,
+                "variant_uid": "Workstation"
+            }
+
+            for x in range(1, 20)
+        ])
+        self._setup_list(api)
+        with self.expect_output('list_clone.json', parse_json=True):
+            self.runner.run(['--json', 'content-delivery-repo', 'clone',
+                             '--release-id-from', 'rhel-7.1-updates',
+                             '--release-id-to', 'rhel-7.1',
+                             '--include-shadow',
+                             ])
+
+    def test_clone_with_exclude_shadow(self, api):
+        api.add_endpoint('rpc/content-delivery-repos/clone', 'POST', [
+            {
+                "arch": "x86_64",
+                "content_category": "binary",
+                "content_format": "iso",
+                "id": x,
+                "name": "rhel-x86_64-workstation-7-shadow",
+                "product_id": x,
+                "release_id": "rhel-7.1",
+                "repo_family": "dist",
+                "service": "rhn",
+                "shadow": False,
+                "variant_uid": "Workstation"
+            }
+
+            for x in range(1, 20)
+        ])
+        api.add_endpoint('content-delivery-repos', 'GET', [
+            {
+                "arch": "x86_64",
+                "content_category": "binary",
+                "content_format": "iso",
+                "id": x,
+                "name": "rhel-x86_64-workstation-7-shadow",
+                "product_id": x,
+                "release_id": "rhel-7.1-updates",
+                "repo_family": "dist",
+                "service": "rhn",
+                "shadow": False,
+                "variant_uid": "Workstation"
+            }
+
+            for x in range(1, 20)
+        ])
+        with self.expect_output('list_clone_shadow_false.json', parse_json=True):
+            self.runner.run(['--json', 'content-delivery-repo', 'clone',
+                             '--release-id-from', 'rhel-7.1-updates',
+                             '--release-id-to', 'rhel-7.1',
+                             '--exclude-shadow',
+                             ])
+
+    def test_clone_fails(self, api):
+        with self.expect_failure():
+            self.runner.run(['release', 'clone', '--release-id-from', 'rhel-7.1-updates'])
+        self.assertEqual(api.calls, {})
