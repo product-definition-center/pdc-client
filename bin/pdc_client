@@ -169,11 +169,11 @@ if __name__ == "__main__":
                 data[key] = ''
 
     try:
-        ssl_verify = options.ca_cert or not options.insecure
+        ca_cert_or_insecure = options.ca_cert or options.insecure
         if options.insecure:
             requests.packages.urllib3.disable_warnings(
                 requests.packages.urllib3.exceptions.InsecureRequestWarning)
-        client = PDCClient(options.server, ssl_verify=ssl_verify)
+        client = PDCClient(options.server, ca_cert_or_insecure=ca_cert_or_insecure)
         if options.comment:
             client.set_comment(options.comment)
     except BeanBagException as e:

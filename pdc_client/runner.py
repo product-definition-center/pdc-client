@@ -151,12 +151,12 @@ class Runner(object):
 
     def run(self, args=None):
         self.args = self.parser.parse_args(args=args)
-        ssl_verify = self.args.ca_cert or not self.args.insecure
+        ca_cert_or_insecure = self.args.ca_cert or self.args.insecure
         if self.args.insecure:
             requests.packages.urllib3.disable_warnings(
                 requests.packages.urllib3.exceptions.InsecureRequestWarning)
         self.client = pdc_client.PDCClient(self.args.server, page_size=self.args.page_size,
-                                           ssl_verify=ssl_verify)
+                                           ca_cert_or_insecure=ca_cert_or_insecure)
         try:
             self.args.func(self.args)
         except beanbag.BeanBagException as exc:

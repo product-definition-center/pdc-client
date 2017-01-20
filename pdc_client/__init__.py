@@ -97,7 +97,7 @@ class PDCClient(object):
     connections. The authentication token is automatically retrieved (if
     needed).
     """
-    def __init__(self, server, token=None, develop=False, ssl_verify=None, page_size=None):
+    def __init__(self, server, token=None, develop=False, ca_cert_or_insecure=None, page_size=None):
         """Create new client instance.
 
         Once the class is instantiated, use it as you would use a regular
@@ -106,6 +106,7 @@ class PDCClient(object):
 
         :param server:     server API url or server name from configuration
         :paramtype server: string
+        :param ca_cert_or_insecure: it's from command line，value with the/path/to/CA/file or True/None.
         """
         self.page_size = page_size
         if not server:
@@ -120,12 +121,27 @@ class PDCClient(object):
             except KeyError:
                 print("'%s' must be specified in configuration file." % CONFIG_URL_KEY_NAME)
                 sys.exit(1)
-            ssl_verify = config.get(CONFIG_SSL_VERIFY_KEY_NAME) if ssl_verify is None else ssl_verify
-            insecure = config.get(CONFIG_INSECURE_KEY_NAME)
-            if insecure is not None:
-                sys.stderr.write("Warning: '%s' option is deprecated; please use '%s' instead\n" % (
-                    CONFIG_INSECURE_KEY_NAME, CONFIG_SSL_VERIFY_KEY_NAME))
-                ssl_verify = not insecure
+            if ca_cert_or_insecure is None:
+                # In client command, it's priority to use the optional parameters form command line,
+                # and then use the optional parameters which gotten from the config file.
+                ssl_verify = config.get(CONFIG_SSL_VERIFY_KEY_NAME)
+                insecure = config.get(CONFIG_INSECURE_KEY_NAME)
+                if ssl_verify == insecure:
+                    # Give a warning if ssl_verify == insecure in config file
+                    print("In config file, the values of ssl_verify and insecure can't be the same")
+                    sys.exit(1)
+                if insecure is not None:
+                    sys.stderr.write("Warning: '%s' option is deprecated; please use '%s' instead\n" % (
+                        CONFIG_INSECURE_KEY_NAME, CONFIG_SSL_VERIFY_KEY_NAME))
+                    if insecure:
+                        ssl_verify = not insecure
+                    else:
+                        # The value of ssl_verify is the path to CA file or not insecure.
+                        ssl_verify = ssl_verify or not insecure
+            elif ca_cert_or_insecure is True:
+                ssl_verify = False
+            else:
+                ssl_verify = ca_cert_or_insecure
             develop = config.get(CONFIG_DEVELOP_KEY_NAME, develop)
             token = config.get(CONFIG_TOKEN_KEY_NAME, token)
 
