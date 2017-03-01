@@ -11,7 +11,7 @@ try:
 except ImportError:
     import simplejson as json
 
-import optparse
+import argparse
 import sys
 
 import requests
@@ -20,6 +20,7 @@ import pdc_client
 from pdc_client import PDCClient
 
 __version__ = pdc_client.get_version()
+
 
 def debug_request(func):
     def wrap(*args, **kwargs):
@@ -118,47 +119,39 @@ def load_data(options):
 
 
 if __name__ == "__main__":
-    parser = optparse.OptionParser(version=__version__)
-    parser.add_option("-s", "--server", help="PDC instance url or shortcut.")
-    parser.add_option("-k", "--insecure", action="store_true",
-                      help="Disable SSL certificate verification")
+    parser = argparse.ArgumentParser(version=__version__)
+    parser.add_argument("-s", "--server", help="PDC instance url or shortcut.")
+
+    ssl_group = parser.add_mutually_exclusive_group()
+    ssl_group.add_argument("-k", "--insecure", action="store_true",
+                           help="Disable SSL certificate verification")
     # ca-cert corresponds to requests session verify attribute:
     # http://docs.python-requests.org/en/master/user/advanced/#ssl-cert-verification
-    parser.add_option("--ca-cert", help="Path to CA certificate file or directory")
-    parser.add_option("-x", "--request", default="GET", help="Request method.")
-    parser.add_option("-r", "--resource",
-                      help=("Resource name.\n" +
-                            "NOTE: All available resources can be got by a request " +
-                            "to the API Root. Since API Root does not belong to any " +
-                            "resources, while requesting, please omit the `-r` option.\n" +
-                            "The response of API Root request is a dict with resource names " +
-                            "as keys and resource URIs as values."),
-                      default="")
-    parser.add_option("-d", "--data", help="Request data to server.")
-    parser.add_option("-f", "--file",
-                      help="File to load request data from (or - for stdin).")
-    parser.add_option("-t", "--traceback",
-                      help="Show the traceback when an error occurs",
-                      action="store_true", default=False)
-    parser.add_option("--debug", help="Show request headers and path for "
-                                      "debugging.",
-                      action="store_true", default=False)
-    parser.add_option("-c", "--comment", help="Reasons for the PDC change.")
-    options, args = parser.parse_args()
+    ssl_group.add_argument("--ca-cert", help="Path to CA certificate file or directory")
 
-    if len(args):
-        print("Can not parse the positional arguments: %s" % ", ".join(args))
-        parser.print_help()
-        sys.exit(1)
+    parser.add_argument("-x", "--request", default="GET", help="Request method.")
+    parser.add_argument("-r", "--resource",
+                        help=("Resource name.\n" +
+                              "NOTE: All available resources can be got by a request " +
+                              "to the API Root. Since API Root does not belong to any " +
+                              "resources, while requesting, please omit the `-r` option.\n" +
+                              "The response of API Root request is a dict with resource names " +
+                              "as keys and resource URIs as values."),
+                        default="")
 
-    if not options.server:
-        print("Error: -s is required.\n")
-        parser.print_help()
-        sys.exit(1)
+    data_group = parser.add_mutually_exclusive_group()
+    data_group.add_argument("-d", "--data", help="Request data to server.")
+    data_group.add_argument("-f", "--file",
+                            help="File to load request data from (or - for stdin).")
 
-    if options.data and options.file:
-        print("Error: can not load data from file and command line at the same time.")
-        sys.exit(1)
+    parser.add_argument("-t", "--traceback",
+                        help="Show the traceback when an error occurs",
+                        action="store_true", default=False)
+    parser.add_argument("--debug", help="Show request headers and path for "
+                                        "debugging.",
+                        action="store_true", default=False)
+    parser.add_argument("-c", "--comment", help="Reasons for the PDC change.")
+    options = parser.parse_args()
 
     data = load_data(options)
 
@@ -169,11 +162,15 @@ if __name__ == "__main__":
                 data[key] = ''
 
     try:
-        ca_cert_or_insecure = options.ca_cert or options.insecure
         if options.insecure:
             requests.packages.urllib3.disable_warnings(
                 requests.packages.urllib3.exceptions.InsecureRequestWarning)
-        client = PDCClient(options.server, ca_cert_or_insecure=ca_cert_or_insecure)
+            ssl_verify = False
+        elif options.ca_cert:
+            ssl_verify = options.ca_cert
+        else:
+            ssl_verify = True
+        client = PDCClient(options.server, ssl_verify=ssl_verify)
         if options.comment:
             client.set_comment(options.comment)
     except BeanBagException as e:
