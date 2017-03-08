@@ -54,6 +54,7 @@ DEFAULT_PLUGINS = [
     'contact.py',
     'image.py',
     'permission.py',
+    'product.py',
     'release.py',
     'repo.py',
     'rpm.py'

@@ -1,0 +1,3 @@
+Short Name           test-product
+Name                 Test Product
+Active               no
