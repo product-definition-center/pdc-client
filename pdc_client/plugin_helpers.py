@@ -96,7 +96,11 @@ def add_parser_arguments(parser, args, group=None, prefix=DATA_PREFIX):
         arg_name = kwargs.pop('arg', arg.replace('_', '-'))
         if 'metavar' not in kwargs:
             kwargs['metavar'] = arg.upper()
-        parser.add_argument('--' + arg_name, dest=prefix + arg, **kwargs)
+        if 'dest' in kwargs:
+            kwargs['dest'] = prefix + kwargs['dest']
+        else:
+            kwargs['dest'] = prefix + arg
+        parser.add_argument('--' + arg_name, **kwargs)
 
 
 def add_mutually_exclusive_args(parser, args, required=False, prefix=DATA_PREFIX):
