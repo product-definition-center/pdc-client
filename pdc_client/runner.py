@@ -159,7 +159,7 @@ class Runner(object):
         elif self.args.ca_cert:
             ssl_verify = self.args.ca_cert
         else:
-            ssl_verify = True
+            ssl_verify = None
         self.client = pdc_client.PDCClient(self.args.server, page_size=self.args.page_size, ssl_verify=ssl_verify)
         try:
             self.args.func(self.args)
