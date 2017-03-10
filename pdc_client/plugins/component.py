@@ -24,8 +24,10 @@ def update_component_contacts(component, component_contacts):
 
 
 class GlobalComponentPlugin(PDCClientPlugin):
+    command = 'global-component'
+
     def register(self):
-        self.set_command('global-component')
+        self.set_command()
 
         list_parser = self.add_action('list', help='list all global components')
         filters = ('dist_git_path label name upstream_homepage upstream_scm_type '
@@ -146,8 +148,10 @@ class GlobalComponentPlugin(PDCClientPlugin):
 
 
 class ReleaseComponentPlugin(PDCClientPlugin):
+    command = 'release-component'
+
     def register(self):
-        self.set_command('release-component')
+        self.set_command()
 
         list_parser = self.add_action('list', help='list all release components')
         self.add_include_inactive_release_argument(list_parser)

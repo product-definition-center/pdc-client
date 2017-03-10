@@ -20,8 +20,10 @@ from pdc_client.plugin_helpers import (PDCClientPlugin,
 
 
 class ReleaseVariantPlugin(PDCClientPlugin):
+    command = 'release-variant'
+
     def register(self):
-        self.set_command('release-variant')
+        self.set_command()
 
         # CRUD: CREATE
         create_parser = self.add_action('create', help='create new release_variant')

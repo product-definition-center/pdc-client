@@ -33,8 +33,10 @@ def print_component_contacts(component_contacts):
 
 
 class GlobalComponentContactPlugin(PDCClientPlugin):
+    command = 'global-component-contact'
+
     def register(self):
-        self.set_command('global-component-contact')
+        self.set_command()
 
         list_parser = self.add_action('list', help='list all global component contacts')
         self.add_query_arguments(list_parser)
@@ -136,8 +138,10 @@ class GlobalComponentContactPlugin(PDCClientPlugin):
 
 
 class ReleaseComponentContactPlugin(PDCClientPlugin):
+    command = 'release-component-contact'
+
     def register(self):
-        self.set_command('release-component-contact')
+        self.set_command()
 
         list_parser = self.add_action('list', help='list all release component contacts')
         self.add_query_arguments(list_parser)

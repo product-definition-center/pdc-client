@@ -11,8 +11,10 @@ from pdc_client.plugin_helpers import PDCClientPlugin, add_parser_arguments, ext
 
 
 class ComposePlugin(PDCClientPlugin):
+    command = 'compose'
+
     def register(self):
-        self.set_command('compose')
+        self.set_command()
 
         list_parser = self.add_action('list', help='list all composes')
         list_parser.add_argument('--deleted', action='store_true',

@@ -27,8 +27,10 @@ def print_build_image_rtt_list(rtt_tests):
 
 
 class BuildImageRttTest(PDCClientPlugin):
+    command = 'build-image-rtt-tests'
+
     def register(self):
-        self.set_command('build-image-rtt-tests')
+        self.set_command()
         list_parser = self.add_action('list', help='list all build image rtt tests')
         add_parser_arguments(list_parser, {'build_nvr': {},
                                            'image_format': {},

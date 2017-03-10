@@ -14,8 +14,10 @@ from pdc_client.plugin_helpers import PDCClientPlugin, add_create_update_args, e
 
 
 class ComposeFullImportPlugin(PDCClientPlugin):
+    command = 'compose-full-import'
+
     def register(self):
-        self.set_command('compose-full-import')
+        self.set_command()
         create_parser = self.add_action('create', help='Import RPMs, images, create new compose and set compose tree location',
                                         description='The composeinfo, rpm_manifest and image_manifest values ' +
                                                     'should be actual JSON representation of composeinfo, ' +

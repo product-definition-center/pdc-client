@@ -11,8 +11,10 @@ from pdc_client.plugin_helpers import PDCClientPlugin, add_parser_arguments, ext
 
 
 class ComposeImageRTTTestsPlugin(PDCClientPlugin):
+    command = 'compose-image-rtt-tests'
+
     def register(self):
-        self.set_command('compose-image-rtt-tests')
+        self.set_command()
         list_parser = self.add_action('list', help='list all compose image rtt tests')
         add_parser_arguments(list_parser, {'compose': {},
                                            'variant': {},

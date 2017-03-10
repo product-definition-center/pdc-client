@@ -13,8 +13,10 @@ from pdc_client.plugin_helpers import (PDCClientPlugin,
 
 
 class ReleasePlugin(PDCClientPlugin):
+    command = 'release'
+
     def register(self):
-        self.set_command('release')
+        self.set_command()
 
         list_parser = self.add_action('list', help='list all releases')
         list_parser.add_argument('--inactive', action='store_true',

@@ -14,8 +14,10 @@ from pdc_client.plugin_helpers import (PDCClientPlugin,
 
 
 class ComposeTreeLocationsPlugin(PDCClientPlugin):
+    command = 'compose-tree-locations'
+
     def register(self):
-        self.set_command('compose-tree-locations')
+        self.set_command()
 
         list_parser = self.add_action('list', help='list all compose-variant-arch \
                                                     relevant to location')

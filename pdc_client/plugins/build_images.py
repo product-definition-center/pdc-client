@@ -13,8 +13,10 @@ from pdc_client.plugin_helpers import PDCClientPlugin, add_parser_arguments, ext
 
 
 class BuildImagePlugin(PDCClientPlugin):
+    command = 'build-image'
+
     def register(self):
-        self.set_command('build-image')
+        self.set_command()
 
         list_parser = self.add_action('list', help='list all build images')
         list_parser.add_argument('--show-md5', action='store_true',
