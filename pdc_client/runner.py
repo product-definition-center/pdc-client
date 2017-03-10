@@ -15,6 +15,7 @@ import os
 import os.path
 import logging
 import imp
+import json
 
 # The client supports Bash completion if argcomplete Python package is
 # installed. To enable it, run this in your terminal (assuming pdc is somewhere
@@ -33,7 +34,6 @@ except ImportError:
             pass
 
 import pdc_client
-from pdc_client.utils import pretty_print
 
 
 # A list of paths to directories where plugins should be loaded from.
@@ -167,32 +167,13 @@ class Runner(object):
         self.client = pdc_client.PDCClient(self.args.server, page_size=self.args.page_size, ssl_verify=ssl_verify)
         try:
             self.args.func(self.args)
-        except beanbag.BeanBagException as exc:
-            self.print_error_header(exc)
-            json = None
+        except beanbag.BeanBagException as ex:
+            print("Server returned following error: [{0}] {1}".format(ex.response.status_code, ex.response.reason), file=sys.stderr)
+            print("Details:", file=sys.stderr)
             try:
-                json = exc.response.json()
-                pretty_print(json, file=sys.stderr)
-            except ValueError:
-                # Response was not JSON
-                print('Failed to parse error response.', file=sys.stderr)
-            except TypeError as e:
-                # Failed to pretty print.
-                print('Failed to correctly display error message. Please file a bug.',
-                      file=sys.stderr)
-                self.logger.info(json, exc_info=e)
+                data = ex.response.json()
+                json.dump(data, sys.stderr, indent=2, sort_keys=True, separators=(",", ": "))
+            except Exception:
+                # response was not JSON
+                print(ex.response.text, file=sys.stderr)
             sys.exit(1)
-
-    def print_error_header(self, exc):
-        if exc.response.status_code > 500:
-            print('Internal server error. Please consider reporting a bug.',
-                  file=sys.stderr)
-        else:
-            headers = {
-                400: 'bad request data',
-                401: 'unauthorized',
-                404: 'not found',
-                409: 'conflict',
-            }
-            print('Client error: {0}.'.format(headers.get(exc.response.status_code, 'unknown')),
-                  file=sys.stderr)
