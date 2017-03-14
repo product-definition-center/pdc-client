@@ -97,6 +97,11 @@ class GroupResourcePermissionTestCase(CLITestCase):
                           ('GET', {})])
 
     def test_delete(self, api):
-        self._setup_detail(api)
+        api.add_endpoint('auth/group-resource-permissions', 'DELETE', {})
         self.runner.run(['group-resource-permissions', 'delete', '1'])
-        self.assertEqual(api.calls['auth/group-resource-permissions/1'], [('DELETE', {})])
+        self.assertEqual(api.calls['auth/group-resource-permissions'], [('DELETE', [1])])
+
+    def test_delete_many(self, api):
+        api.add_endpoint('auth/group-resource-permissions', 'DELETE', {})
+        self.runner.run(['group-resource-permissions', 'delete', '1', '2'])
+        self.assertEqual(api.calls['auth/group-resource-permissions'], [('DELETE', [1, 2])])

@@ -39,7 +39,7 @@ class GroupResourcePermissionsPlugin(PDCClientPlugin):
         create_parser.set_defaults(func=self.group_resource_permission_create)
 
         delete_parser = self.add_action('delete', help='revoke a resource permission from a group')
-        delete_parser.add_argument('id', metavar='ID')
+        delete_parser.add_argument('id', metavar='ID', type=int, nargs='+')
         delete_parser.set_defaults(func=self.group_resource_permission_delete)
 
     def add_create_argument(self, parser, required=True):
@@ -97,9 +97,10 @@ class GroupResourcePermissionsPlugin(PDCClientPlugin):
         self.group_resource_permission_info(args, response['id'])
 
     def group_resource_permission_delete(self, args):
-        data = extract_arguments(args)
-        self.logger.debug('Deleting : group resource permission %s', args.id)
-        self.client['auth/group-resource-permissions'][args.id]._("DELETE", data)
+        perm_id_list = args.id
+        for perm_id in perm_id_list:
+            self.logger.debug('Deleting : group resource permission %s', perm_id)
+        self.client['auth/group-resource-permissions']._("DELETE", perm_id_list)
 
 
 PLUGIN_CLASSES = [GroupResourcePermissionsPlugin]
