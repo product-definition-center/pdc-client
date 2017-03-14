@@ -20,6 +20,7 @@ setup(
     packages = find_packages(exclude=["*.tests", "*.tests.*", "tests.*",
         "tests"]),
     scripts = ["bin/pdc", "bin/pdc_client"],
+    test_suite = "tests",
     classifiers = [
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
