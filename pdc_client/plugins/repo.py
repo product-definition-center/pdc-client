@@ -48,7 +48,27 @@ class RepoPlugin(PDCClientPlugin):
         delete_parser.add_argument('repoid', metavar='ID', type=int, nargs='+')
         delete_parser.set_defaults(func=self.repo_delete)
 
-    def add_repo_arguments(self, parser, required=False):
+        # export
+        # This command is almost identical to the 'list' command.
+        # It is intentional to keep it as a separate command,
+        # because it's tailored to a certain use case:
+        #  * export repos from a release
+        #  * dump the repos to a JSON file
+        #  * edit data (change release_id, change versions in repo names)
+        #  * import repos to a new release
+        export_parser = self.add_action('export', help='export repos from a release into a json file')
+        export_parser.add_argument('release_id')
+        export_parser.add_argument('json_file')
+        self.add_repo_arguments(export_parser, exclude=['release_id'])
+        export_parser.set_defaults(func=self.repo_export)
+
+        # import
+        import_parser = self.add_action('import', help='import repos from a json file into a release')
+        import_parser.add_argument('release_id')
+        import_parser.add_argument('json_file')
+        import_parser.set_defaults(func=self.repo_import)
+
+    def add_repo_arguments(self, parser, required=False, exclude=None):
         required_args = {
             'arch': {},
             'content_category': {},
@@ -62,6 +82,12 @@ class RepoPlugin(PDCClientPlugin):
         optional_args = {'product_id': {'type': int},
                          'shadow': {'help': 'default is false when create a content delivery repo',
                                     'metavar': 'SHADOW_FLAG'}}
+
+        if exclude:
+            # TODO: consider moving this into add_create_update_args()
+            for i in exclude:
+                required_args.pop(i, None)
+                optional_args.pop(i, None)
 
         add_create_update_args(parser, required_args, optional_args, required)
 
@@ -162,6 +188,32 @@ class RepoPlugin(PDCClientPlugin):
         self.run_hook('repo_parser_setup', args, data)
 
         return data
+
+    def repo_export(self, args):
+        filters = extract_arguments(args, prefix='data__')
+        filters["release_id"] = args.release_id
+        repos = self.client.get_paged(self.client['content-delivery-repos']._, **filters)
+        repos = list(repos)
+        for repo in repos:
+            # remove IDs, they are not needed for import
+            repo.pop("id")
+
+        with open(args.json_file, "w") as f:
+            f.write(self.to_json(repos))
+
+    def repo_import(self, args):
+        release_id = args.release_id
+
+        with open(args.json_file, "r") as f:
+            repos = self.from_json(f.read())
+
+        for repo in repos:
+            # remove IDs, new ones will be assigned to the new repos
+            repo.pop("id", None)
+            if repo["release_id"] != release_id:
+                raise ValueError("Inconsistent release_id provided by user '{0}' vs. found in json '{1}'.".format(release_id, repo["release_id"]))
+
+        self.client['content-delivery-repos']._(repos)
 
 
 PLUGIN_CLASSES = [RepoPlugin]

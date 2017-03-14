@@ -4,6 +4,8 @@
 # Licensed under The MIT License (MIT)
 # http://opensource.org/licenses/MIT
 #
+import os
+
 from pdc_client.test_helpers import CLITestCase
 from pdc_client.runner import Runner
 
@@ -54,7 +56,7 @@ class RepoTestCase(CLITestCase):
                           ('GET', {'page': 2, 'content_format': 'iso'})])
 
     def _setup_detail(self, api):
-        obj = {
+        self.repo_detail = {
             "id": 1,
             "arch": "x86_64",
             "content_category": "binary",
@@ -68,9 +70,9 @@ class RepoTestCase(CLITestCase):
             "variant_uid": "Workstation"
         }
 
-        api.add_endpoint('content-delivery-repos/1', 'GET', obj)
-        api.add_endpoint('content-delivery-repos/1', 'PATCH', obj)
-        api.add_endpoint('content-delivery-repos', 'POST', obj)
+        api.add_endpoint('content-delivery-repos/1', 'GET', self.repo_detail)
+        api.add_endpoint('content-delivery-repos/1', 'PATCH', self.repo_detail)
+        api.add_endpoint('content-delivery-repos', 'POST', self.repo_detail)
         api.add_endpoint('content-delivery-repos/1', 'DELETE', {})
 
     def test_info(self, api):
@@ -234,3 +236,54 @@ class RepoTestCase(CLITestCase):
         with self.expect_failure():
             self.runner.run(['release', 'clone', '--release-id-from', 'rhel-7.1-updates'])
         self.assertEqual(api.calls, {})
+
+    def test_export(self, api):
+        self._setup_detail(api)
+        api.add_endpoint('content-delivery-repos', 'GET', [self.repo_detail])
+
+        # compare stdout with data/empty.txt
+        with self.expect_output('empty.txt'):
+            # run the command
+            self.runner.run([
+                'content-delivery-repo',
+                'export',
+                'rhel-7.1-updates',
+                'export.json',
+            ])
+
+        # test api calls made by the command
+        self.assertEqual(api.calls, {
+            'content-delivery-repos': [
+                ('GET', {
+                    'release_id': 'rhel-7.1-updates',
+                    'page': 1,
+                }),
+            ],
+        })
+
+    def test_import(self, api):
+        self._setup_detail(api)
+
+        # the repo 'id' is not used in export/import
+        detail = self.repo_detail.copy()
+        del detail["id"]
+        api.add_endpoint('content-delivery-repos', 'POST', [detail])
+
+        # compare stdout with data/empty.txt
+        with self.expect_output('empty.txt'):
+            # run the command
+            self.runner.run([
+                'content-delivery-repo',
+                'import',
+                'rhel-7.1-updates',
+                os.path.join(os.path.dirname(__file__), 'data/import.json'),
+            ])
+
+        # test api calls made by the command
+        self.assertEqual(api.calls, {
+            'content-delivery-repos': [
+                ('POST', [
+                    detail,
+                ]),
+            ],
+        })
