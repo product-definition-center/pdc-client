@@ -48,7 +48,7 @@ class RepoPlugin(PDCClientPlugin):
         update_parser.set_defaults(func=self.repo_update)
 
         delete_parser = self.add_action('delete', help='delete an existing content delivery repo')
-        delete_parser.add_argument('repoid', metavar='ID')
+        delete_parser.add_argument('repoid', metavar='ID', type=int, nargs='+')
         delete_parser.set_defaults(func=self.repo_delete)
 
     def add_repo_arguments(self, parser, required=False):
@@ -149,9 +149,10 @@ class RepoPlugin(PDCClientPlugin):
         self.repo_info(args)
 
     def repo_delete(self, args):
-        data = extract_arguments(args)
-        self.logger.debug('Deleting content delivery repo: %s', args.repoid)
-        self.client['content-delivery-repos'][args.repoid]._("DELETE", data)
+        repo_id_list = args.repoid
+        for repo_id in repo_id_list:
+            self.logger.debug('Deleting content delivery repo: %s', repo_id)
+        self.client['content-delivery-repos']._("DELETE", repo_id_list)
 
     def get_repo_data(self, args):
         data = extract_arguments(args)

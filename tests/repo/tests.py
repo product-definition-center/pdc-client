@@ -128,9 +128,14 @@ class RepoTestCase(CLITestCase):
                           ('GET', {})])
 
     def test_delete(self, api):
-        self._setup_detail(api)
+        api.add_endpoint('content-delivery-repos', 'DELETE', {})
         self.runner.run(['content-delivery-repo', 'delete', '1'])
-        self.assertEqual(api.calls['content-delivery-repos/1'], [('DELETE', {})])
+        self.assertEqual(api.calls['content-delivery-repos'], [('DELETE', [1])])
+
+    def test_delete_many(self, api):
+        api.add_endpoint('content-delivery-repos', 'DELETE', {})
+        self.runner.run(['content-delivery-repo', 'delete', '1', '2'])
+        self.assertEqual(api.calls['content-delivery-repos'], [('DELETE', [1, 2])])
 
     def test_clone(self, api):
         api.add_endpoint('rpc/content-delivery-repos/clone', 'POST', [
