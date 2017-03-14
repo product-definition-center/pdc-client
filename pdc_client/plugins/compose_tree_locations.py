@@ -7,8 +7,6 @@
 
 from __future__ import print_function
 
-import json
-
 from pdc_client.plugin_helpers import (PDCClientPlugin,
                                        extract_arguments,
                                        add_parser_arguments,
@@ -72,8 +70,9 @@ class ComposeTreeLocationsPlugin(PDCClientPlugin):
 
     def _display_compose_tree_location_info(self, args, compose_tree_location_info):
         if args.json:
-            print(json.dumps(compose_tree_location_info))
+            print(self.to_json(compose_tree_location_info))
             return
+
         fmt = '{0:20} {1}'
         print(fmt.format('Compose', compose_tree_location_info['compose']))
         print(fmt.format('Variant', compose_tree_location_info['variant']))
@@ -86,9 +85,11 @@ class ComposeTreeLocationsPlugin(PDCClientPlugin):
     def compose_tree_location_list(self, args):
         filters = extract_arguments(args)
         compose_tree_locations = self.client.get_paged(self.client['compose-tree-locations']._, **filters)
+
         if args.json:
-            print(json.dumps(list(compose_tree_locations)))
+            print(self.to_json(list(compose_tree_locations)))
             return
+
         fmt = '{0:<50} {1:20} {2:10} {3:10} {4:10} {5:40} {6}'
         if compose_tree_locations:
             print(fmt.format(

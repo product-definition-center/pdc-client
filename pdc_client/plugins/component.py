@@ -8,8 +8,6 @@
 from __future__ import print_function
 
 import sys
-import json
-
 from pdc_client.plugin_helpers import (PDCClientPlugin,
                                        add_parser_arguments,
                                        extract_arguments,
@@ -68,7 +66,7 @@ class GlobalComponentPlugin(PDCClientPlugin):
         global_components = self.client.get_paged(self.client['global-components']._, **filters)
 
         if args.json:
-            print(json.dumps(list(global_components)))
+            print(self.to_json(list(global_components)))
             return
 
         start_line = True
@@ -100,7 +98,7 @@ class GlobalComponentPlugin(PDCClientPlugin):
         update_component_contacts(global_component, component_contacts)
 
         if args.json:
-            print(json.dumps(global_component))
+            print(self.to_json(global_component))
             return
 
         fmt = '{0:20} {1}'
@@ -211,8 +209,9 @@ class ReleaseComponentPlugin(PDCClientPlugin):
         release_components = self.client.get_paged(self.client['release-components']._, **filters)
 
         if args.json:
-            print(json.dumps(list(release_components)))
+            print(self.to_json(list(release_components)))
             return
+
         fmt = '{0:<10} {1:25} {2}'
         start_line = True
         for release_component in release_components:
@@ -244,7 +243,7 @@ class ReleaseComponentPlugin(PDCClientPlugin):
         update_component_contacts(release_component, component_contacts)
 
         if args.json:
-            print(json.dumps(release_component))
+            print(self.to_json(release_component))
             return
 
         fmt = '{0:20} {1}'

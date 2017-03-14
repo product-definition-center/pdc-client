@@ -7,8 +7,6 @@
 
 from __future__ import print_function
 
-import json
-
 from pdc_client.plugin_helpers import (PDCClientPlugin,
                                        extract_arguments,
                                        add_create_update_args)
@@ -96,8 +94,9 @@ class ReleasePlugin(PDCClientPlugin):
             filters['active'] = True
 
         releases = self.client.get_paged(self.client.releases._, **filters)
+
         if args.json:
-            print(json.dumps(list(releases)))
+            print(self.to_json(list(releases)))
             return
 
         fmt = '{0:25} {1:35} {2}'
@@ -114,9 +113,10 @@ class ReleasePlugin(PDCClientPlugin):
         release_id = release_id or args.release_id
         release = self.client.releases[release_id]._()
         variants = self.client.get_paged(self.client['release-variants']._, release=release_id)
+
         if args.json:
             release['variants'] = list(variants)
-            print(json.dumps(release))
+            print(self.to_json(release))
             return
 
         fmt = '{0:20} {1}'

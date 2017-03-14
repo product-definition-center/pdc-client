@@ -7,7 +7,6 @@
 
 from __future__ import print_function
 
-import json
 import sys
 import os
 
@@ -40,8 +39,9 @@ class ComposeFullImportPlugin(PDCClientPlugin):
 
     def _display_compose_import_info(self, args, compose_import_info):
         if args.json:
-            print(json.dumps(compose_import_info))
+            print(self.to_json(compose_import_info))
             return
+
         fmt = '{0:20} {1}'
         print(fmt.format('Compose', compose_import_info['compose']))
         print(fmt.format('Imported Images', compose_import_info['imported images']))
@@ -63,7 +63,7 @@ class ComposeFullImportPlugin(PDCClientPlugin):
     def _read_json_file(self, path):
         if os.path.isfile(path):
             with open(path, 'r') as f:
-                data = json.load(f)
+                data = self.from_json(f.read())
         else:
             print("Error: '%s' file can't find, please verify it" % path)
             sys.exit(1)

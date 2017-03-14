@@ -93,7 +93,7 @@ class ProductPlugin(PDCClientPlugin):
         products = self.client.get_paged(self.client["products"]._, **filters)
 
         if args.json:
-            print(json.dumps(list(products)))
+            print(self.to_json(list(products)))
             return
 
         fmt = '{0:25} {1:35} {2}'

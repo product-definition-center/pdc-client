@@ -7,8 +7,6 @@
 
 from __future__ import print_function
 
-import json
-
 from pdc_client.plugin_helpers import (PDCClientPlugin,
                                        extract_arguments,
                                        add_parser_arguments,
@@ -63,8 +61,9 @@ class GroupResourcePermissionsPlugin(PDCClientPlugin):
     def list_group_resource_permission(self, args):
         filters = extract_arguments(args)
         results = self.client.get_paged(self.client['auth/group-resource-permissions']._, **filters)
+
         if args.json:
-            print(json.dumps(list(results)))
+            print(self.to_json(list(results)))
             return
 
         self.print_group_resource_permissions(results)
@@ -72,9 +71,11 @@ class GroupResourcePermissionsPlugin(PDCClientPlugin):
     def group_resource_permission_info(self, args, id=None):
         obj_id = id or args.id
         results = self.client['auth/group-resource-permissions'][obj_id]._()
+
         if args.json:
-            print(json.dumps(results))
+            print(self.to_json(results))
             return
+
         fmt = '{0:20} {1}'
         print(fmt.format('ID', results['id']))
         print(fmt.format('Resource', results['resource']))

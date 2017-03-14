@@ -7,8 +7,6 @@
 
 from __future__ import print_function
 
-import json
-
 from pdc_client.plugin_helpers import (PDCClientPlugin,
                                        extract_arguments,
                                        add_parser_arguments)
@@ -56,17 +54,21 @@ class BuildImageRttTest(PDCClientPlugin):
     def list_build_image_rrt_tests(self, args):
         filters = extract_arguments(args)
         build_images_rrt = self.client.get_paged(self.client['build-image-rtt-tests']._, **filters)
+
         if args.json:
-            print(json.dumps(list(build_images_rrt)))
+            print(self.to_json(list(build_images_rrt)))
             return
+
         if build_images_rrt:
             print_build_image_rtt_list(build_images_rrt)
 
     def build_image_rrt_tests_info(self, args):
         build_image_rtts = self.client['build-image-rtt-tests'][args.build_nvr][args.image_format]._()
+
         if args.json:
-            print(json.dumps(build_image_rtts))
+            print(self.to_json(build_image_rtts))
             return
+
         fmt = '{0:20} {1}'
         print(fmt.format('ID', build_image_rtts['id']))
         print(fmt.format('BUILD_NVR', build_image_rtts['build_nvr']))

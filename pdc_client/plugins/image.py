@@ -7,12 +7,11 @@
 
 from __future__ import print_function
 
-import json
 import sys
 from datetime import datetime
 
-
 from pdc_client.plugin_helpers import PDCClientPlugin, add_parser_arguments, extract_arguments
+
 
 info_desc = """Generally there may be duplicate file names. If the file name
 you provide matches more that image, you will get a list of all those images
@@ -72,8 +71,9 @@ class ImagePlugin(PDCClientPlugin):
     def image_list(self, args):
         filters = extract_arguments(args)
         images = self.client.get_paged(self.client.images._, **filters)
+
         if args.json:
-            print(json.dumps(list(images)))
+            print(self.to_json(list(images)))
             return
 
         self._print_image_list(images, args.show_sha256)
@@ -92,8 +92,9 @@ class ImagePlugin(PDCClientPlugin):
             sys.exit(1)
         else:
             image = image['results'][0]
+
             if args.json:
-                print(json.dumps(image))
+                print(self.to_json(image))
                 return
 
             mtime = datetime.utcfromtimestamp(image['mtime'])

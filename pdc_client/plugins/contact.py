@@ -7,8 +7,6 @@
 
 from __future__ import print_function
 
-import json
-
 from pdc_client.plugin_helpers import (PDCClientPlugin,
                                        extract_arguments,
                                        add_create_update_args,
@@ -82,8 +80,9 @@ class GlobalComponentContactPlugin(PDCClientPlugin):
         global_component_contacts = self.client.get_paged(self.client['global-component-contacts']._, **filters)
 
         if args.json:
-            print(json.dumps(list(global_component_contacts)))
+            print(self.to_json(list(global_component_contacts)))
             return
+
         if global_component_contacts:
             print_component_contacts(global_component_contacts)
 
@@ -92,7 +91,7 @@ class GlobalComponentContactPlugin(PDCClientPlugin):
         global_component_contact = self.client['global-component-contacts'][global_component_contact_id]._()
 
         if args.json:
-            print(json.dumps(global_component_contact))
+            print(self.to_json(global_component_contact))
             return
 
         fmt = '{0:20} {1}'
@@ -185,8 +184,9 @@ class ReleaseComponentContactPlugin(PDCClientPlugin):
         release_component_contacts = self.client.get_paged(self.client['release-component-contacts']._, **filters)
 
         if args.json:
-            print(json.dumps(list(release_component_contacts)))
+            print(self.to_json(list(release_component_contacts)))
             return
+
         if release_component_contacts:
             print_component_contacts(release_component_contacts)
 
@@ -195,7 +195,7 @@ class ReleaseComponentContactPlugin(PDCClientPlugin):
         release_component_contact = self.client['release-component-contacts'][release_component_contact_id]._()
 
         if args.json:
-            print(json.dumps(release_component_contact))
+            print(self.to_json(release_component_contact))
             return
 
         fmt = '{0:20} {1}'

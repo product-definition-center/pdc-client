@@ -7,9 +7,6 @@
 
 from __future__ import print_function
 
-import json
-
-
 from pdc_client.plugin_helpers import PDCClientPlugin, add_parser_arguments, extract_arguments
 
 
@@ -50,9 +47,11 @@ class ComposePlugin(PDCClientPlugin):
             filters['deleted'] = args.deleted
 
         composes = self.client.get_paged(self.client.composes._, **filters)
+
         if args.json:
-            print((json.dumps(list(composes))))
+            print((self.to_json(list(composes))))
             return
+
         start_line = True
         for compose in composes:
             if start_line:
@@ -63,8 +62,9 @@ class ComposePlugin(PDCClientPlugin):
     def compose_info(self, args, compose_id=None):
         compose_id = compose_id or args.compose_id
         compose = self.client.composes[compose_id]._()
+
         if args.json:
-            print((json.dumps(compose)))
+            print((self.to_json(compose)))
             return
 
         fmt = '{0:25} {1}'

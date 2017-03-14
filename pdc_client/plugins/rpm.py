@@ -7,9 +7,6 @@
 
 from __future__ import print_function
 
-import json
-
-
 from pdc_client.plugin_helpers import (PDCClientPlugin,
                                        add_parser_arguments,
                                        extract_arguments,
@@ -68,8 +65,9 @@ class RPMPlugin(PDCClientPlugin):
         if not filters:
             self.subparsers.choices.get('list').error('At least some filter must be used.')
         rpms = self.client.get_paged(self.client.rpms._, **filters)
+
         if args.json:
-            print(json.dumps(list(rpms)))
+            print(self.to_json(list(rpms)))
             return
 
         start_line = True
@@ -82,9 +80,11 @@ class RPMPlugin(PDCClientPlugin):
 
     def rpm_info(self, args, rpm_id=None):
         response = self.client.rpms[rpm_id or args.rpmid]._()
+
         if args.json:
-            print(json.dumps(response))
+            print(self.to_json(response))
             return
+
         fmt = '{0:20} {1}'
         print(fmt.format('ID', response['id']))
         print(fmt.format('Name', response['name']))

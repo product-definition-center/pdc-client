@@ -7,8 +7,6 @@
 
 from __future__ import print_function
 
-import json
-
 from pdc_client.plugin_helpers import PDCClientPlugin, add_parser_arguments, extract_arguments
 
 
@@ -59,15 +57,18 @@ class ComposeImageRTTTestsPlugin(PDCClientPlugin):
     def list_compose_image_rtt_tests(self, args):
         filters = extract_arguments(args)
         rtt_tests = self.client.get_paged(self.client['compose-image-rtt-tests']._, **filters)
+
         if args.json:
-            print(json.dumps(list(rtt_tests)))
+            print(self.to_json(list(rtt_tests)))
             return
+
         self._print_compose_image_rtt_test_list(rtt_tests)
 
     def _display_test_info_detail(self, args, test_info):
         if args.json:
-            print(json.dumps(test_info))
+            print(self.to_json(test_info))
             return
+
         fmt = '{0:20} {1}'
         print(fmt.format('Compose', test_info['compose']))
         print(fmt.format('Variant', test_info['variant']))

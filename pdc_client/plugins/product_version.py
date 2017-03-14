@@ -95,8 +95,9 @@ class ProductVersionPlugin(PDCClientPlugin):
             filters['active'] = True
 
         product_versions = self.client.get_paged(self.client["product-versions"]._, **filters)
+
         if args.json:
-            print(json.dumps(list(product_versions)))
+            print(self.to_json(list(product_versions)))
             return
 
         fmt = '{0:25} {1:25} {2:35} {3:15} {4}'

@@ -7,9 +7,7 @@
 
 from __future__ import print_function
 
-import json
 import sys
-
 
 from pdc_client.plugin_helpers import PDCClientPlugin, add_parser_arguments, extract_arguments
 
@@ -51,9 +49,11 @@ class BuildImagePlugin(PDCClientPlugin):
     def list_build_image(self, args):
         filters = extract_arguments(args)
         build_images = self.client.get_paged(self.client['build-images']._, **filters)
+
         if args.json:
-            print(json.dumps(list(build_images)))
+            print(self.to_json(list(build_images)))
             return
+
         self._print_build_image_list(build_images, args.show_md5)
 
     def build_image_info(self, args, image_id=None):
@@ -63,9 +63,11 @@ class BuildImagePlugin(PDCClientPlugin):
             print('Not found')
             sys.exit(1)
         build_image = build_images['results'][0]
+
         if args.json:
-            print(json.dumps(build_image))
+            print(self.to_json(build_image))
             return
+
         fmt = '{0:20} {1}'
         print(fmt.format('Image ID', build_image['image_id']))
         print(fmt.format('Image Format', build_image['image_format']))

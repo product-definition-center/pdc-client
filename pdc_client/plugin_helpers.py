@@ -32,6 +32,7 @@
 # The base client does not define and use any hooks.
 #
 
+import json
 import logging
 
 # Python 3 compatibility
@@ -75,6 +76,14 @@ class PDCClientPlugin(object):
 
     def add_action(self, *args, **kwargs):
         return self.subparsers.add_parser(*args, **kwargs)
+
+    @staticmethod
+    def to_json(data):
+        return json.dumps(data, indent=2, sort_keys=True, separators=(",", ": "))
+
+    @staticmethod
+    def from_json(data):
+        return json.loads(data)
 
 
 def add_parser_arguments(parser, args, group=None, prefix=DATA_PREFIX):

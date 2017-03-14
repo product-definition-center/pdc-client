@@ -7,9 +7,6 @@
 
 from __future__ import print_function
 
-import json
-
-
 from pdc_client.plugin_helpers import (PDCClientPlugin,
                                        extract_arguments,
                                        add_create_update_args)
@@ -97,8 +94,9 @@ class RepoPlugin(PDCClientPlugin):
         if not filters and not data:
             self.subparsers.choices.get('list').error('At least some filter must be used.')
         repos = data or self.client.get_paged(self.client['content-delivery-repos']._, **filters)
+
         if args.json:
-            print(json.dumps(list(repos)))
+            print(self.to_json(list(repos)))
             return
 
         start_line = True
@@ -111,9 +109,11 @@ class RepoPlugin(PDCClientPlugin):
 
     def repo_info(self, args, repo_id=None):
         response = self.client['content-delivery-repos'][repo_id or args.repoid]._()
+
         if args.json:
-            print(json.dumps(response))
+            print(self.to_json(response))
             return
+
         fmt = '{0:20} {1}'
         print(fmt.format('ID', response['id']))
         print(fmt.format('Name', response['name']))
