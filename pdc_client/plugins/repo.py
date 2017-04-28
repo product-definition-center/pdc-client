@@ -6,6 +6,7 @@
 #
 
 from __future__ import print_function
+from collections import OrderedDict
 
 from pdc_client.plugin_helpers import (PDCClientPlugin,
                                        extract_arguments,
@@ -117,23 +118,39 @@ class RepoPlugin(PDCClientPlugin):
 
         self.run_hook('repo_parser_setup', parser)
 
+    def prep_for_print(self, record):
+        result = OrderedDict()
+        result["ID"] = record["id"]
+        result["Release ID"] = record["release_id"]
+        result["Variant UID"] = record["variant_uid"]
+        result["Arch"] = record["arch"]
+        result["Service"] = record["service"]
+        result["Name"] = record["name"]
+        result["Repo Family"] = record["repo_family"]
+        result["Content Format"] = record["content_format"]
+        result["Content Category"] = record["content_category"]
+        result["Shadow"] = record["shadow"] and "yes" or "no"
+        result["Product ID"] = record["product_id"] or ""
+        return result
+
     def repo_list(self, args, data=None):
         filters = extract_arguments(args, prefix='filter_')
         if not filters and not data:
             self.subparsers.choices.get('list').error('At least some filter must be used.')
+        # TODO: enable ordering; can't be done due to lack of functionality on server
+        # filters["ordering"] = ["release_id", "variant_uid", "arch", "service", "repo_family", "content_format", "content_category", "shadow", "name"]
         repos = data or self.client.get_paged(self.client['content-delivery-repos']._, **filters)
 
         if args.json:
             print(self.to_json(list(repos)))
             return
 
-        start_line = True
-        for repo in repos:
-            if start_line:
-                start_line = False
-                print('{0:<10} {1:120} {2:20} {3}'.format('ID', 'Name', 'Content Format', 'Content Category'))
-                print()
-            print('{id:<10} {name:120} {content_format:20} {content_category}'.format(**repo))
+        fmt = '{0:6} {1:25} {2:25} {3:8} {4:10} {5:80} {6:12} {7:14} {8:16} {9:14} {10}'
+        for num, repo in enumerate(repos):
+            data = self.prep_for_print(repo)
+            if num == 0:
+                print(fmt.format(*data.keys()))
+            print(fmt.format(*data.values()))
 
     def repo_info(self, args, repo_id=None):
         response = self.client['content-delivery-repos'][repo_id or args.repoid]._()
@@ -143,17 +160,8 @@ class RepoPlugin(PDCClientPlugin):
             return
 
         fmt = '{0:20} {1}'
-        print(fmt.format('ID', response['id']))
-        print(fmt.format('Name', response['name']))
-        print(fmt.format('Content Format', response['content_format']))
-        print(fmt.format('Content Category', response['content_category']))
-        print(fmt.format('Release ID', response['release_id']))
-        print(fmt.format('Arch', response['arch']))
-        print(fmt.format('Repo Family', response['repo_family']))
-        print(fmt.format('Service', response['service']))
-        print(fmt.format('Variant UID', response['variant_uid']))
-        print(fmt.format('Shadow', response['shadow']))
-        print(fmt.format('Product ID', response['product_id'] or ''))
+        for key, value in self.prep_for_print(response).items():
+            print(fmt.format(key, value))
 
     def repo_create(self, args):
         data = extract_arguments(args)
