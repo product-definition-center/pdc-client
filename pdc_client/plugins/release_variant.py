@@ -47,7 +47,10 @@ class ReleaseVariantPlugin(PDCClientPlugin):
         update_parser.set_defaults(func=self.release_variant_update)
 
         # CRUD: DELETE
-        # not implemented
+        delete_parser = self.add_action('delete', help='delete a release_variant')
+        delete_parser.add_argument('release')
+        delete_parser.add_argument('uid', nargs="+")
+        delete_parser.set_defaults(func=self.release_variant_delete)
 
     def add_release_variant_arguments(self, parser, required=False):
         required_args = OrderedDict()
@@ -126,6 +129,15 @@ class ReleaseVariantPlugin(PDCClientPlugin):
             self.logger.info('No change required, not making a request')
 
         self.release_variant_info(args, release, uid)
+
+    def release_variant_delete(self, args):
+        release = args.release
+
+        for uid in args.uid:
+            self.logger.debug('Deleting release_variant {0} {1}'.format(release, uid))
+            self.release_variant_info(args, release, uid)
+            print()
+            self.client["release-variants"][release][uid]._('DELETE', {})
 
     def get_release_variant_data(self, args):
         data = extract_arguments(args)
