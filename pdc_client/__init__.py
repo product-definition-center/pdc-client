@@ -97,7 +97,7 @@ class PDCClient(object):
     connections. The authentication token is automatically retrieved (if
     needed).
     """
-    def __init__(self, server, token=None, develop=False, ssl_verify=None, page_size=None):
+    def __init__(self, server, token=None, develop=None, ssl_verify=None, page_size=None):
         """Create new client instance.
 
         Once the class is instantiated, use it as you would use a regular
