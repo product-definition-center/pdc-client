@@ -31,7 +31,7 @@ Other possible keys are:
     If specified, this token will be used for authentication. The client
     will not try to obtain any token from the server.
 
-* `ssl_verify`
+* `ssl-verify`
 
     If set to `false`, server certificate will not be validated. See [Python requests documentation](http://docs.python-requests.org/en/master/user/advanced/#ssl-cert-verification) for other possible values.
 
@@ -57,7 +57,7 @@ localhost and a production server. :
         "local": {
             "host": "http://localhost:8000/rest_api/v1/",
             "develop": true,
-            "insecure": false
+            "ssl-verify": false
         },
         "prod": {
             "host": "https://pdc.example.com/rest_api/v1/",
