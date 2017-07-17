@@ -8,7 +8,11 @@
 from __future__ import print_function
 
 import json
-from collections import OrderedDict
+try:
+    from collections import OrderedDict
+except ImportError:
+    # Python 2.6 needs this back-port
+    from ordereddict import OrderedDict
 
 from pdc_client.plugin_helpers import (PDCClientPlugin,
                                        extract_arguments,
@@ -71,6 +75,9 @@ class ProductPlugin(PDCClientPlugin):
     def product_info(self, args, short=None):
         short = short or args.short
         product = self.client.products[short]._()
+        if args.json:
+            print(json.dumps(product))
+            return
 
         fmt = '{0:20} {1}'
         for key, value in self.prep_for_print(product).items():
@@ -83,7 +90,8 @@ class ProductPlugin(PDCClientPlugin):
         elif not args.all:
             filters['active'] = True
 
-        products = self.client.get_paged(self.client.products._, **filters)
+        products = self.client.get_paged(self.client["products"]._, **filters)
+
         if args.json:
             print(json.dumps(list(products)))
             return
