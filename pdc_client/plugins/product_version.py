@@ -8,7 +8,11 @@
 from __future__ import print_function
 
 import json
-from collections import OrderedDict
+try:
+    from collections import OrderedDict
+except ImportError:
+    # Python 2.6 needs this back-port
+    from ordereddict import OrderedDict
 
 from pdc_client.plugin_helpers import (PDCClientPlugin,
                                        extract_arguments,
@@ -75,6 +79,9 @@ class ProductVersionPlugin(PDCClientPlugin):
     def product_version_info(self, args, product_version_id=None):
         product_version_id = product_version_id or args.product_version_id
         product_version = self.client["product-versions"][product_version_id]._()
+        if args.json:
+            print(json.dumps(product_version))
+            return
 
         fmt = '{0:20} {1}'
         for key, value in self.prep_for_print(product_version).items():
