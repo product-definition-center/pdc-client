@@ -60,7 +60,7 @@ class BaseProductTestCase(CLITestCase):
 
         # compare stdout with data/info.txt
         with self.expect_output('info.txt'):
-           self.runner.run([
+            self.runner.run([
                 'base-product',
                 'info',
                 'test-base-product-1',
@@ -93,7 +93,6 @@ class BaseProductTestCase(CLITestCase):
                 }),
             ],
         })
-
 
     def test_update(self, api):
         api.add_endpoint('base-products/test-base-product-0.9', 'PATCH', self.base_product_detail)
