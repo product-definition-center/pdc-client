@@ -7,7 +7,12 @@
 
 from __future__ import print_function
 
-from collections import OrderedDict
+import json
+try:
+    from collections import OrderedDict
+except ImportError:
+    # Python 2.6 needs this back-port
+    from ordereddict import OrderedDict
 
 from pdc_client.plugin_helpers import (PDCClientPlugin,
                                        extract_arguments,
@@ -75,6 +80,9 @@ class ReleaseVariantPlugin(PDCClientPlugin):
         release = release or args.release
         uid = uid or args.uid
         variant = self.client["release-variants"][release][uid]._()
+        if args.json:
+            print(json.dumps(variant))
+            return
         fmt = '{0:20} {1}'
         for key, value in self.prep_for_print(variant).items():
             print(fmt.format(key, value))
@@ -91,6 +99,10 @@ class ReleaseVariantPlugin(PDCClientPlugin):
 
         # TODO: ordering doesn't seem to be working correctly (arg order has to be reversed)
         release_variants = self.client.get_paged(self.client["release-variants"]._, ordering=["variant_uid", "release"], **filters)
+
+        if args.json:
+            print(json.dumps(list(release_variants)))
+            return
 
         fmt = '{0:35} {1:25} {2:25} {3:35} {4}'
         for num, release_variant in enumerate(release_variants):

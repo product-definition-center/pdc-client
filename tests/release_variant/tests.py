@@ -61,7 +61,7 @@ class ProductVersionTestCase(CLITestCase):
 
         # compare stdout with data/info.txt
         with self.expect_output('info.txt'):
-           self.runner.run([
+            self.runner.run([
                 'release-variant',
                 'info',
                 'test-release-1.0',
