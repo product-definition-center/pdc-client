@@ -1,0 +1,5 @@
+Product Version ID   test-product-version-1
+Short Name           test-product-version
+Name                 Test Product Version
+Product              test-product
+Active               no

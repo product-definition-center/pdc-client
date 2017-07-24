@@ -55,6 +55,7 @@ DEFAULT_PLUGINS = [
     'image.py',
     'permission.py',
     'product.py',
+    'product_version.py',
     'release.py',
     'repo.py',
     'rpm.py'
