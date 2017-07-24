@@ -1,0 +1,2 @@
+Release                             UID                       ID                        Name                                Type
+test-release-1.0                    Server                    Server                    Server Variant                      variant

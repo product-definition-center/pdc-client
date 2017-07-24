@@ -1,0 +1,6 @@
+Release              test-release-1.0
+UID                  Server
+ID                   Server
+Name                 Server Variant
+Type                 variant
+Arches               ppc64,s390x,x86_64
