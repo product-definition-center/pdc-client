@@ -44,6 +44,7 @@ PLUGIN_DIRS = [LOCAL_DIR] if not os.path.exists(INSTALLED_DIR) else [INSTALLED_D
 
 DEFAULT_PLUGINS = [
     'group_resource_permissions.py',
+    'base_product.py',
     'build_image_rtt_tests.py',
     'build_images.py',
     'component.py',

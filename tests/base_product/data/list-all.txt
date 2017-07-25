@@ -1,0 +1,2 @@
+Base Product ID                Short Name           Name                                Version    Type
+test-base-product-1            test-base-product    Test Base Product                   1          ga
