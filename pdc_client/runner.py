@@ -40,7 +40,7 @@ from pdc_client.utils import pretty_print
 # The purpose of the plugins is to extend the default behaviour.
 LOCAL_DIR = os.path.join(os.path.dirname(__file__), 'plugins')
 INSTALLED_DIR = os.path.join('/usr/share/pdc-client', 'plugins')
-PLUGIN_DIRS = [LOCAL_DIR] if not os.path.exists(INSTALLED_DIR) else [INSTALLED_DIR]
+PLUGIN_DIRS = [LOCAL_DIR] if os.path.exists(LOCAL_DIR) else [INSTALLED_DIR]
 
 DEFAULT_PLUGINS = [
     'group_resource_permissions.py',
