@@ -7,8 +7,6 @@
 import unittest
 
 from pdc_client import plugin_helpers
-# Python 3 compatibility
-from pdc_client.compat import StringIO
 
 
 class PluginHelperTestCase(unittest.TestCase):
