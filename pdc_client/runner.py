@@ -175,5 +175,5 @@ class Runner(object):
                 json.dump(data, sys.stderr, indent=2, sort_keys=True, separators=(",", ": "))
             except Exception:
                 # response was not JSON
-                print(ex.response.text, file=sys.stderr)
+                print('Failed to parse error response.', file=sys.stderr)
             sys.exit(1)
