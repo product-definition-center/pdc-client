@@ -36,7 +36,7 @@ class ReleaseVariantPlugin(PDCClientPlugin):
 
         # CRUD: READ many (list)
         list_parser = self.add_action('list', help='list all release_variants')
-        self.add_release_variant_arguments(list_parser)
+        self.add_release_variant_arguments(list_parser, exclude_arches=True)
         list_parser.set_defaults(func=self.release_variant_list)
 
         # CRUD: UPDATE
@@ -52,7 +52,7 @@ class ReleaseVariantPlugin(PDCClientPlugin):
         delete_parser.add_argument('uid', nargs="+")
         delete_parser.set_defaults(func=self.release_variant_delete)
 
-    def add_release_variant_arguments(self, parser, required=False):
+    def add_release_variant_arguments(self, parser, required=False, exclude_arches=False):
         required_args = OrderedDict()
         required_args["release"] = {}
         required_args["uid"] = {}
@@ -60,6 +60,9 @@ class ReleaseVariantPlugin(PDCClientPlugin):
         required_args["name"] = {}
         required_args["type"] = {}
         required_args["arch"] = {"action": "append", "dest": "arches"}
+        if exclude_arches:
+            required_args.pop("arch")
+
         optional_args = OrderedDict()
         add_create_update_args(parser, required_args, optional_args, required)
 
