@@ -6,11 +6,24 @@
 #
 
 from __future__ import print_function
-from collections import OrderedDict
 
 from pdc_client.plugin_helpers import (PDCClientPlugin,
                                        extract_arguments,
                                        add_create_update_args)
+
+_FIELD_WITH_NAME = [
+    ("id", "ID"),
+    ("release_id", "Release ID"),
+    ("variant_uid", "Variant UID"),
+    ("arch", "Arch"),
+    ("service", "Service"),
+    ("name", "Name"),
+    ("repo_family", "Repo Family"),
+    ("content_format", "Content Format"),
+    ("content_category", "Content Category"),
+    ("shadow", "Shadow"),
+    ("product_id", "Product ID"),
+]
 
 
 class RepoPlugin(PDCClientPlugin):
@@ -118,21 +131,6 @@ class RepoPlugin(PDCClientPlugin):
 
         self.run_hook('repo_parser_setup', parser)
 
-    def prep_for_print(self, record):
-        result = OrderedDict()
-        result["ID"] = record["id"]
-        result["Release ID"] = record["release_id"]
-        result["Variant UID"] = record["variant_uid"]
-        result["Arch"] = record["arch"]
-        result["Service"] = record["service"]
-        result["Name"] = record["name"]
-        result["Repo Family"] = record["repo_family"]
-        result["Content Format"] = record["content_format"]
-        result["Content Category"] = record["content_category"]
-        result["Shadow"] = record["shadow"]
-        result["Product ID"] = record["product_id"] or ""
-        return result
-
     def repo_list(self, args, data=None):
         filters = extract_arguments(args, prefix='filter_')
         if not filters and not data:
@@ -145,12 +143,28 @@ class RepoPlugin(PDCClientPlugin):
             print(self.to_json(list(repos)))
             return
 
-        fmt = '{0:6} {1:25} {2:25} {3:8} {4:10} {5:80} {6:12} {7:14} {8:16} {9:14} {10}'
-        for num, repo in enumerate(repos):
-            data = self.prep_for_print(repo)
-            if num == 0:
-                print(fmt.format(*data.keys()))
-            print(fmt.format(*data.values()))
+        # Create transposed table before printing to find out minimal
+        # widths for each column.
+        columns = [[name] for _, name in _FIELD_WITH_NAME]
+        for repo in repos:
+            for index, column in enumerate(columns):
+                field = _FIELD_WITH_NAME[index][0]
+                value = repo[field]
+                if value is None:
+                    value = ""
+                column.append(value)
+
+        # Create formating string for rows.
+        fmt = ''
+        for index, column in enumerate(columns):
+            width = max([len(str(cell)) for cell in column])
+            fmt += '{' + str(index) + ':' + str(width) + '}  '
+        fmt = fmt.rstrip()
+
+        # Transpose table and print.
+        rows = zip(*columns)
+        for row in rows:
+            print(fmt.format(*row))
 
     def repo_info(self, args, repo_id=None):
         response = self.client['content-delivery-repos'][repo_id or args.repoid]._()
@@ -160,8 +174,11 @@ class RepoPlugin(PDCClientPlugin):
             return
 
         fmt = '{0:20} {1}'
-        for key, value in self.prep_for_print(response).items():
-            print(fmt.format(key, value))
+        for field, name in _FIELD_WITH_NAME:
+            value = response[field]
+            if value is None:
+                value = ""
+            print(fmt.format(name, value))
 
     def repo_create(self, args):
         data = extract_arguments(args)
