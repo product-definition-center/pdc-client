@@ -129,7 +129,7 @@ class RepoPlugin(PDCClientPlugin):
         result["Repo Family"] = record["repo_family"]
         result["Content Format"] = record["content_format"]
         result["Content Category"] = record["content_category"]
-        result["Shadow"] = record["shadow"] and "yes" or "no"
+        result["Shadow"] = record["shadow"]
         result["Product ID"] = record["product_id"] or ""
         return result
 
