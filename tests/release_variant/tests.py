@@ -91,7 +91,7 @@ class ProductVersionTestCase(CLITestCase):
         self.assertEqual(api.calls, {
             'release-variants': [
                 ('GET', {
-                    'ordering': ['variant_uid', 'release'],
+                    'ordering': "release,variant_uid",
                     'page': 1,
                 }),
             ],
@@ -114,7 +114,7 @@ class ProductVersionTestCase(CLITestCase):
             'release-variants': [
                 ('GET', {
                     'release': 'test-release-1.0',
-                    'ordering': ['variant_uid', 'release'],
+                    'ordering': "release,variant_uid",
                     'page': 1,
                 }),
             ],

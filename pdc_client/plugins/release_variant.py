@@ -105,8 +105,7 @@ class ReleaseVariantPlugin(PDCClientPlugin):
             if value is not None:
                 filters[key] = value
 
-        # TODO: ordering doesn't seem to be working correctly (arg order has to be reversed)
-        release_variants = self.client.get_paged(self.client["release-variants"]._, ordering=["variant_uid", "release"], **filters)
+        release_variants = self.client.get_paged(self.client["release-variants"]._, ordering="release,variant_uid", **filters)
 
         if args.json:
             print(json.dumps(list(release_variants)))
