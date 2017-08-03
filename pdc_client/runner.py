@@ -169,10 +169,15 @@ class Runner(object):
             self.args.func(self.args)
         except beanbag.BeanBagException as ex:
             print("Server returned following error: [{0}] {1}".format(ex.response.status_code, ex.response.reason), file=sys.stderr)
-            print("Details:", file=sys.stderr)
+            print("Details: ", end='', file=sys.stderr)
             try:
                 data = ex.response.json()
-                json.dump(data, sys.stderr, indent=2, sort_keys=True, separators=(",", ": "))
+                if len(data) == 1 and 'detail' in data:
+                    print(data['detail'], file=sys.stderr)
+                else:
+                    print("", file=sys.stderr)
+                    json.dump(data, sys.stderr, indent=2,
+                              sort_keys=True, separators=(",", ": "))
             except Exception:
                 # response was not JSON
                 print('Failed to parse error response.', file=sys.stderr)
