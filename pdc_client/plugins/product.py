@@ -20,8 +20,10 @@ from pdc_client.plugin_helpers import (PDCClientPlugin,
 
 
 class ProductPlugin(PDCClientPlugin):
+    command = 'product'
+
     def register(self):
-        self.set_command('product')
+        self.set_command()
 
         # CRUD: CREATE
         create_parser = self.add_action('create', help='create new product')

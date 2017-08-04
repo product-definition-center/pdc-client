@@ -14,8 +14,10 @@ from pdc_client.plugin_helpers import (PDCClientPlugin,
 
 
 class RPMPlugin(PDCClientPlugin):
+    command = 'rpm'
+
     def register(self):
-        self.set_command('rpm')
+        self.set_command()
 
         list_parser = self.add_action('list', help='list all rpms')
         filters = ('name version release arch compose conflicts obsoletes provides '

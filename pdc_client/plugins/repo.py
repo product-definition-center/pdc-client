@@ -13,8 +13,10 @@ from pdc_client.plugin_helpers import (PDCClientPlugin,
 
 
 class RepoPlugin(PDCClientPlugin):
+    command = 'content-delivery-repo'
+
     def register(self):
-        self.set_command('content-delivery-repo')
+        self.set_command()
 
         list_parser = self.add_action('list', help='list all content delivery repos')
         filters = ('arch', 'content-category', 'content-format', 'name', 'release-id',

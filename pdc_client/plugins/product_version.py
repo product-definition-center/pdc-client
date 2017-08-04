@@ -20,8 +20,10 @@ from pdc_client.plugin_helpers import (PDCClientPlugin,
 
 
 class ProductVersionPlugin(PDCClientPlugin):
+    command = 'product-version'
+
     def register(self):
-        self.set_command('product-version')
+        self.set_command()
 
         # CRUD: CREATE
         create_parser = self.add_action('create', help='create new product_version')

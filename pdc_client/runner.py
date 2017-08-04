@@ -43,7 +43,6 @@ INSTALLED_DIR = os.path.join('/usr/share/pdc-client', 'plugins')
 PLUGIN_DIRS = [LOCAL_DIR] if os.path.exists(LOCAL_DIR) else [INSTALLED_DIR]
 
 DEFAULT_PLUGINS = [
-    'group_resource_permissions.py',
     'base_product.py',
     'build_image_rtt_tests.py',
     'build_images.py',
@@ -53,6 +52,7 @@ DEFAULT_PLUGINS = [
     'compose_full_import.py',
     'compose_tree_locations.py',
     'contact.py',
+    'group_resource_permissions.py',
     'image.py',
     'permission.py',
     'product.py',
@@ -148,7 +148,7 @@ class Runner(object):
 
         subparsers = self.parser.add_subparsers(metavar='COMMAND')
 
-        for plugin in self.plugins:
+        for plugin in sorted(self.plugins):
             plugin._before_register(subparsers)
             plugin.register()
 

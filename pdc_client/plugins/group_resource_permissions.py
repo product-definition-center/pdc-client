@@ -14,8 +14,10 @@ from pdc_client.plugin_helpers import (PDCClientPlugin,
 
 
 class GroupResourcePermissionsPlugin(PDCClientPlugin):
+    command = 'group-resource-permissions'
+
     def register(self):
-        self.set_command('group-resource-permissions')
+        self.set_command()
         list_parser = self.add_action('list', help='list all groups and their resource permissions')
         add_parser_arguments(list_parser, {'resource': {},
                                            'permission': {},

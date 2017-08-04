@@ -31,8 +31,10 @@ def size_format(num):
 
 
 class ImagePlugin(PDCClientPlugin):
+    command = 'image'
+
     def register(self):
-        self.set_command('image')
+        self.set_command()
 
         list_parser = self.add_action('list', help='list all images')
         list_parser.add_argument('--show-sha256', action='store_true',

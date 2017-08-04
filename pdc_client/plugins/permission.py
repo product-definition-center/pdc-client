@@ -11,8 +11,10 @@ from pdc_client.plugin_helpers import PDCClientPlugin
 
 
 class PermissionPlugin(PDCClientPlugin):
+    command = 'permission'
+
     def register(self):
-        self.set_command('permission')
+        self.set_command()
 
         list_parser = self.add_action('list', help='list my permissions')
         list_parser.set_defaults(func=self.permission_list)

@@ -35,6 +35,8 @@
 import json
 import logging
 
+from pdc_client import compat
+
 # Python 3 compatibility
 from pdc_client.compat import iteritems
 
@@ -42,6 +44,7 @@ from pdc_client.compat import iteritems
 DATA_PREFIX = 'data__'
 
 
+@compat.total_ordering
 class PDCClientPlugin(object):
     """
     Abstract base class for plugins providing their own commands. Each subclass
@@ -50,6 +53,15 @@ class PDCClientPlugin(object):
     def __init__(self, runner):
         self.logger = logging.getLogger(self.__class__.__name__)
         self.runner = runner
+
+    def __eq__(self, other):
+        return self.command == other.command
+
+    def __ne__(self, other):
+        return self != other
+
+    def __lt__(self, other):
+        return self.command < other.command
 
     @property
     def client(self):
@@ -71,7 +83,7 @@ class PDCClientPlugin(object):
         """
         if 'help' not in kwargs:
             kwargs['help'] = ''
-        cmd = self.parser.add_parser(*args, **kwargs)
+        cmd = self.parser.add_parser(self.command, *args, **kwargs)
         self.subparsers = cmd.add_subparsers(metavar='ACTION')
 
     def add_action(self, *args, **kwargs):
