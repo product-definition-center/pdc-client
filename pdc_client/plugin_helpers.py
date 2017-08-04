@@ -35,7 +35,7 @@
 import json
 import logging
 
-import compat
+from pdc_client import compat
 
 # Python 3 compatibility
 from pdc_client.compat import iteritems
