@@ -43,17 +43,23 @@ class RepoTestCase(CLITestCase):
         self._setup_list(api)
         with self.expect_output('list.txt'):
             self.runner.run(['content-delivery-repo', 'list', '--content-format', 'iso'])
-        self.assertEqual(api.calls['content-delivery-repos'],
-                         [('GET', {'page': 1, 'content_format': 'iso'}),
-                          ('GET', {'page': 2, 'content_format': 'iso'})])
+        result = api.calls['content-delivery-repos']
+        # Skip checking 'ordering'.
+        ordering = result[0][1]['ordering']
+        self.assertEqual(result,
+                         [('GET', {'page': 1, 'content_format': 'iso', 'ordering': ordering}),
+                          ('GET', {'page': 2, 'content_format': 'iso', 'ordering': ordering})])
 
     def test_list_json(self, api):
         self._setup_list(api)
         with self.expect_output('list.json', parse_json=True):
             self.runner.run(['--json', 'content-delivery-repo', 'list', '--content-format', 'iso'])
-        self.assertEqual(api.calls['content-delivery-repos'],
-                         [('GET', {'page': 1, 'content_format': 'iso'}),
-                          ('GET', {'page': 2, 'content_format': 'iso'})])
+        result = api.calls['content-delivery-repos']
+        # Skip checking 'ordering'.
+        ordering = result[0][1]['ordering']
+        self.assertEqual(result,
+                         [('GET', {'page': 1, 'content_format': 'iso', 'ordering': ordering}),
+                          ('GET', {'page': 2, 'content_format': 'iso', 'ordering': ordering})])
 
     def _setup_detail(self, api):
         self.repo_detail = {

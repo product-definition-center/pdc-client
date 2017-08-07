@@ -25,6 +25,18 @@ _FIELD_WITH_NAME = [
     ("product_id", "Product ID"),
 ]
 
+_ORDERING = [
+    'variant_arch__variant__release__release_id',
+    'variant_arch__variant__variant_uid',
+    'variant_arch__arch__name',
+    'service',
+    'repo_family',
+    'content_format',
+    'content_category',
+    'shadow',
+    'name'
+]
+
 
 class RepoPlugin(PDCClientPlugin):
     command = 'content-delivery-repo'
@@ -135,9 +147,8 @@ class RepoPlugin(PDCClientPlugin):
         filters = extract_arguments(args, prefix='filter_')
         if not filters and not data:
             self.subparsers.choices.get('list').error('At least some filter must be used.')
-        # TODO: enable ordering; can't be done due to lack of functionality on server
-        # filters["ordering"] = ["release_id", "variant_uid", "arch", "service", "repo_family", "content_format", "content_category", "shadow", "name"]
-        repos = data or self.client.get_paged(self.client['content-delivery-repos']._, **filters)
+        ordering = ','.join(_ORDERING)
+        repos = data or self.client.get_paged(self.client['content-delivery-repos']._, ordering=ordering, **filters)
 
         if args.json:
             print(self.to_json(list(repos)))
