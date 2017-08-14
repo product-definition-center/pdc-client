@@ -169,7 +169,7 @@ if __name__ == "__main__":
         elif options.ca_cert:
             ssl_verify = options.ca_cert
         else:
-            ssl_verify = True
+            ssl_verify = None
         client = PDCClient(options.server, ssl_verify=ssl_verify)
         if options.comment:
             client.set_comment(options.comment)
