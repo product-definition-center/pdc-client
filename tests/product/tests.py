@@ -157,3 +157,29 @@ class ProductTestCase(CLITestCase):
                 }),
             ],
         })
+
+    def test_list_by_page(self, api):
+        api.add_endpoint('products', 'GET', [self.product_detail])
+        api.page = 1
+        api.page_size = 1
+
+        # compare stdout with data/list-all.txt
+        with self.expect_output('list-all.txt'):
+            # run the command
+            self.runner.run([
+                '--page', '1',
+                '--page-size', '1',
+                'product',
+                'list',
+                '--all',
+            ])
+
+        # test api calls made by the command
+        self.assertEqual(api.calls, {
+            'products': [
+                ('GET', {
+                    'page': 1,
+                    'page_size': 1
+                }),
+            ],
+        })

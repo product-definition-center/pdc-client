@@ -53,6 +53,7 @@ def get_version():
         except pkg_resources.DistributionNotFound:
             return 'unknown'
 
+
 __version__ = get_version()
 
 
@@ -189,8 +190,7 @@ class PDCClient(object):
         """
         This call is equivalent to ``res(**kwargs)``, only it retrieves all pages
         and returns the results joined into a single iterable. The advantage over
-        retrieving everything at once is that the result can be consumed
-        immediately.
+        retrieving everything at once is that the result can be consumed immediately.
 
         :param res:     what resource to connect to
         :param kwargs:  filters to be used
@@ -200,10 +200,11 @@ class PDCClient(object):
             # Example: Iterate over all active releases
             for release in client.get_paged(client['releases']._, active=True):
                 ...
+
+        This function is obsolete and not recommended.
         """
         if self.page_size is not None:
             kwargs['page_size'] = self.page_size
-
             if self.page_size <= 0:
                 # If page_size <= 0, pagination will be disable.
                 return res(**kwargs)
@@ -237,3 +238,59 @@ class PDCClient(object):
         :paramtype comment: string
         """
         self.session.headers["PDC-Change-Comment"] = comment
+
+
+class PDCClientWithPage(PDCClient):
+    """
+    PDCClient wrapper specialized for setting page in get_paged function.
+    """
+    def __init__(self, server, token=None, develop=None, ssl_verify=None, page_size=None, page=None):
+        """
+        Create new client instance with page prarameter.
+        Other params are all used for base class.
+        :param page:  the page number of the data.
+        """
+        super(PDCClientWithPage, self).__init__(server, token, develop, ssl_verify, page_size)
+        self.page = page
+
+    def get_paged(self, res, **kwargs):
+        """
+        Re-write the ge_paged here, and add the self.page check.
+        This call is equivalent to ``res(**kwargs)``, if there is no self.page
+        parameter,only it retrieves all pages and returns the results joined into
+        a single iterable. The advantage over retrieving everything at once is that
+        the result can be consumed immediately.
+
+        :param res:     what resource to connect to
+        :param kwargs:  filters to be used
+
+        ::
+
+            # Example: Iterate over all active releases
+            for release in client.get_paged(client['releases']._, active=True):
+                ...
+
+        If there is a self.page parameter here, just return that page's data with the
+        self.page_size.
+        """
+        if self.page_size is not None:
+            kwargs['page_size'] = self.page_size
+            if self.page_size <= 0:
+                # If page_size <= 0, pagination will be disable.
+                return res(**kwargs)
+
+        if self.page is not None:
+            kwargs['page'] = self.page
+            allinfo = res(**kwargs)
+            return allinfo['results']
+
+        def worker():
+            kwargs['page'] = 1
+            while True:
+                response = res(**kwargs)
+                yield response['results']
+                if response['next']:
+                    kwargs['page'] += 1
+                else:
+                    break
+        return itertools.chain.from_iterable(worker())

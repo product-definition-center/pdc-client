@@ -61,9 +61,22 @@ else:
         def __init__(self):
             self.endpoints = {}
             self.calls = {}
+            self.page = None
+            self.page_size = None
 
         def get_paged(self, res, **kwargs):
             """ """
+            if self.page_size is not None:
+                if self.page_size <= 0:
+                    # If page_size <= 0, pagination will be disable.
+                    return res(**kwargs)
+
+            if self.page is not None:
+                kwargs['page'] = self.page
+                kwargs['page_size'] = self.page_size
+                allinfo = res(**kwargs)
+                return allinfo['results']
+
             def worker():
                 kwargs['page'] = 1
                 while True:
@@ -158,7 +171,7 @@ else:
     def mock_api(func):
         @functools.wraps(func)
         def wrapper(self):
-            with mock.patch('pdc_client.PDCClient') as cls:
+            with mock.patch('pdc_client.PDCClientWithPage') as cls:
                 api = MockAPI()
                 cls.return_value = api
                 return func(self, api)
