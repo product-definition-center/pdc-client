@@ -1,22 +1,28 @@
+# Enable Python 3 builds for Fedora
 %if 0%{?fedora}
-%global with_python3 1
+# If the definition isn't available for python3_pkgversion, define it
+%{?!python3_pkgversion:%global python3_pkgversion 3}
+%bcond_without  python3
 %else
+%bcond_with     python3
+%endif
+
 %{!?__python2: %global __python2 /usr/bin/python2}
-%{!?python2_sitelib: %global python2_sitelib %(%{__python2} -c "from distutils.sysconfig import get_python_lib; print (get_python_lib())")}
+%{!?python2_sitelib: %global python2_sitelib %(%{__python2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")}
+%{!?python2_sitearch: %global python2_sitearch %(%{__python2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")}
 %{!?py2_build: %global py2_build %{expand: CFLAGS="%{optflags}" %{__python2} setup.py %{?py_setup_args} build --executable="%{__python2} -s"}}
 %{!?py2_install: %global py2_install %{expand: CFLAGS="%{optflags}" %{__python2} setup.py %{?py_setup_args} install -O1 --skip-build --root %{buildroot}}}
-%endif
 
 Name:           pdc-client
 Version:        1.2.0
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        Console client for interacting with Product Definition Center
 Group:          Development/Libraries
 License:        MIT
 URL:            https://github.com/product-definition-center/pdc-client
 BuildArch:      noarch
 
-Source0:        https://pypi.python.org/packages/source/p/pdc-client/pdc-client-%{version}.tar.gz
+Source0:        https://files.pythonhosted.org/packages/source/p/pdc-client/pdc-client-%{version}.tar.gz
 
 BuildRequires:  python2-devel
 BuildRequires:  python-setuptools
@@ -28,23 +34,26 @@ BuildRequires:  python-mock
 BuildRequires:  python2-beanbag
 
 %if 0%{?with_python3}
-BuildRequires:  python3-devel
-BuildRequires:  python3-setuptools
-BuildRequires:  python3-nose
-BuildRequires:  python3-pytest
-BuildRequires:  python3-requests
+BuildRequires:  python%{python3_pkgversion}-devel
+BuildRequires:  python%{python3_pkgversion}-setuptools
+BuildRequires:  python%{python3_pkgversion}-nose
+BuildRequires:  python%{python3_pkgversion}-pytest
+BuildRequires:  python%{python3_pkgversion}-requests
 BuildRequires:  python3-requests-kerberos
-BuildRequires:  python3-mock
+BuildRequires:  python%{python3_pkgversion}-mock
 BuildRequires:  python3-beanbag
 %endif # if with_python3
 
-%if 0%{?rhel} <= 6 || 0%{?centos} <=6
+%if (0%{?rhel} && 0%{?rhel} <= 6) || (0%{?centos} && 0%{?centos} <= 6)
 BuildRequires:       python-unittest2
 BuildRequires:       python-argparse
 %endif
 
-# default to v2 since py3 doesnt' exist really
+%if 0%{?with_python3}
+Requires:  python%{python3_pkgversion}-pdc-client = %{version}-%{release}
+%else
 Requires:  python2-pdc-client = %{version}-%{release}
+%endif
 
 %description
 This client package contains two separate Product Definition Center clients and
@@ -86,17 +95,19 @@ This is a python module for interacting with Product Definition Center
 programatically. It can handle common authentication and configuration of PDC
 server connections
 
-%package -n python3-pdc-client
+%if 0%{?with_python3}
+%package -n python%{python3_pkgversion}-pdc-client
 Summary:    Python 3 client library for Product Definition Center
 
-%{?python_provide:%python_provide python3-pdc-client}
+%{?python_provide:%python_provide python%{python3_pkgversion}-pdc-client}
 Requires:  python3-beanbag
 Requires:  python3-requests-kerberos
 
-%description -n python3-pdc-client
+%description -n python%{python3_pkgversion}-pdc-client
 This is a python module for interacting with Product Definition Center
 programatically. It can handle common authentication and configuration of PDC
 server connections
+%endif # with_python3
 
 %prep
 %setup -q -n pdc-client-%{version}
@@ -117,11 +128,11 @@ find -name '*.py' | xargs sed -i '1s|^#!python|#!%{__python}|'
 %endif # with_python3
 
 %check
-%{__python2} setup.py nosetests || exit 1
+%{__python2} setup.py nosetests
 
 %if 0%{?with_python3}
 pushd %{py3dir}
-%{__python3} setup.py nosetests || exit 1
+%{__python3} setup.py nosetests
 popd
 %endif # with_python3
 
@@ -174,7 +185,7 @@ EOF
 %{python_sitelib}/pdc_client*
 
 %if 0%{?with_python3}
-%files -n python3-pdc-client
+%files -n python%{python3_pkgversion}-pdc-client
 %doc README.markdown
 %license LICENSE
 %{python3_sitelib}/pdc_client*
@@ -182,6 +193,15 @@ EOF
 
 
 %changelog
+* Thu Jul 27 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
+
+* Wed Jun 21 2017 Lubomír Sedlář <lsedlar@redhat.com> - 1.2.0-3
+- Fix dependencies on Python 3
+
+* Sat Feb 11 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
+
 * Tue Dec 27 2016 bliu <bliu@redhat.com> 1.2.0-1
 - Fix the porblem in repo clone (ycheng@redhat.com)
 - Add the SSL and remove the Warning Info (bliu@redhat.com)
@@ -200,6 +220,9 @@ EOF
 - [spec] Python3 build (jpopelka@redhat.com)
 - update the requirements file with flake<=3.0.3 (bliu@redhat.com)
 - Update the SPEC file for removing the directories. (bliu@redhat.com)
+
+* Mon Dec 19 2016 Miro Hrončok <mhroncok@redhat.com> - 1.1.0-3
+- Rebuild for Python 3.6
 
 * Fri Aug 12 2016 Jiri Popelka <jpopelka@redhat.com> - 1.1.0-2
 - Python3 build
