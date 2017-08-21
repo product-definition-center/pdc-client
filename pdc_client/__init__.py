@@ -14,9 +14,9 @@ from os.path import expanduser, isfile, isdir
 import sys
 from subprocess import Popen, PIPE
 
-import beanbag
 import requests
 import requests_kerberos
+from beanbag import BeanBag, BeanBagException
 
 GLOBAL_CONFIG_DIR = '/etc/pdc.d/'
 USER_SPECIFIC_CONFIG_FILE = expanduser('~/.config/pdc/client_config.json')
@@ -90,6 +90,29 @@ def read_config_file(server_alias):
     return result
 
 
+class NoResultsError(Exception):
+    """ Exception for getting all pages of data
+        Raise this NoResultsError if there is an unexpected data
+        returned when get all pages of data by results() function.
+
+        Data members:
+             * response -- response object
+    """
+    def __init__(self, response):
+        """Create a NoResultsError"""
+
+        self.response = response
+
+    def __repr__(self):
+        return "%s(%r)" % (self.__class__.__name__, self.response)
+
+    def __str__(self):
+        msg = "Unexpected data here"
+        if self.response:
+            msg = "%s - response: %s" % (msg, str(self.response))
+        return msg
+
+
 class PDCClient(object):
     """BeanBag wrapper specialized for PDC access.
 
@@ -97,8 +120,25 @@ class PDCClient(object):
     interface that can use configuration files for specifying server
     connections. The authentication token is automatically retrieved (if
     needed).
-    """
+    ::
+            # Example: Get per page of release
+            client = PDCClient(<server>)
+            client.releases._()
+            client["releases"]._()
+            ...
 
+            # Example: create one release data
+            client["releases"]._(<dict data>)
+            ...
+
+            # Example: Iterate all pages of releases
+            # Will raise NoResultsError with response when return unexpected result.
+            try:
+                for r in client["releases"].results():
+                    ...
+            except NoResultsError as e:
+                # handle e.response ...
+    """
     def __init__(self, server, token=None, develop=None, ssl_verify=None, page_size=None):
         """
         Create new pdc client instance.
@@ -168,7 +208,7 @@ class PDCClient(object):
 
         content_type = "application/json"
         encode = json.dumps
-        self.client = _BeanBagWrapper(beanbag.BeanBag(url, session=self.session, fmt=(content_type, encode, decode)),
+        self.client = _BeanBagWrapper(BeanBag(url, session=self.session, fmt=(content_type, encode, decode)),
                                       page_size)
         if not develop:
             # For develop environment, we don't need to require a token
@@ -188,7 +228,7 @@ class PDCClient(object):
         for end_point in token_end_points:
             try:
                 return self.auth[end_point]._()['token']
-            except beanbag.BeanBagException as e:
+            except BeanBagException as e:
                 if e.response.status_code != 404:
                     raise
         raise Exception('Could not obtain token from any known URL.')
@@ -201,9 +241,7 @@ class PDCClient(object):
 
         :param res:     what resource to connect to
         :param kwargs:  filters to be used
-
         ::
-
             # Example: Iterate over all active releases
             for release in client.get_paged(client['releases']._, active=True):
                 ...
@@ -254,6 +292,7 @@ class _BeanBagWrapper(object):
        This class wraps attributes and items of Beanbag to let page_size of
        PDCClient's constructor work.
     """
+
     def __init__(self, client, page_size):
         self.client = client
         self.page_size = page_size
@@ -268,6 +307,29 @@ class _BeanBagWrapper(object):
 
     def __getitem__(self, *args, **kwargs):
         return _BeanBagWrapper(self.client.__getitem__(*args, **kwargs), self.page_size)
+
+    def results(self, *args, **kwargs):
+        """
+           Return an iterator with all pages of data.
+           Return NoResultsError with response if there is unexpected data.
+        """
+        def worker():
+            kwargs['page'] = 1
+            while True:
+                response = self.client(*args, **kwargs)
+                if isinstance(response, list):
+                    yield response
+                else:
+                    yield response['results']
+                if isinstance(response, dict):
+                    if set(response.keys()) != set(['count', 'previous', 'results', 'next']):
+                        raise NoResultsError(response)
+                    if response['next']:
+                        kwargs['page'] += 1
+                else:
+                    break
+
+        return itertools.chain.from_iterable(worker())
 
 
 class PDCClientWithPage(PDCClient):
