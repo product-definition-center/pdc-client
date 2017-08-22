@@ -14,8 +14,8 @@
 %{!?py2_install: %global py2_install %{expand: CFLAGS="%{optflags}" %{__python2} setup.py %{?py_setup_args} install -O1 --skip-build --root %{buildroot}}}
 
 Name:           pdc-client
-Version:        1.2.0
-Release:        4%{?dist}
+Version:        1.7.0
+Release:        1%{?dist}
 Summary:        Console client for interacting with Product Definition Center
 Group:          Development/Libraries
 License:        MIT
@@ -193,6 +193,50 @@ EOF
 
 
 %changelog
+* Tue Aug 22 2017 Lukas Holecek <lholecek@redhat.com> 1.7.0-1
+- Bump versin in setup.py (lholecek@redhat.com)
+- Update spec file from downstream (lholecek@redhat.com)
+- Bug fix for ssl_verify in old pdc_client (chuzhang@redhat.com)
+- Fix content-delivery-repo list ordering (lholecek@redhat.com)
+- Print table with minimum width for content-deliver-repo list
+  (lholecek@redhat.com)
+- Update test data for content-deliver-repo (lholecek@redhat.com)
+- Update value type for "Shadow" field (lholecek@redhat.com)
+- Increase `pdc content-deliver-repo list` verbosity. (dmach@redhat.com)
+- Fix passing ordering parameter (lholecek@redhat.com)
+- Make error reporting less verbose (lholecek@redhat.com)
+- Omit printing long HTML with error (lholecek@redhat.com)
+- Remove unused import (lholecek@redhat.com)
+- Simplify reporting server errors. (dmach@redhat.com)
+- Modify base_product plugin according to commit 79cbe98 (chuzhang@redhat.com)
+- Sort commands in pdc --help. (dmach@redhat.com)
+- Remove the arch parameter from option (chcao@redhat.com)
+- Use local development plugin directory (lholecek@redhat.com)
+- Add content-delivery-repo export/import sub-commands. (dmach@redhat.com)
+- Unify json output serialization. (dmach@redhat.com)
+- Add base-product command (chcao@redhat.com)
+- Add base-product command. (dmach@redhat.com)
+- Allow deleting multiple repos at once. (dmach@redhat.com)
+- Allow deleting multiple group resource perms at once. (dmach@redhat.com)
+- Fix running tests with Travis (lholecek@redhat.com)
+- Replace a custom test runner with standard setup.py test. (dmach@redhat.com)
+- Allow deleting release variants. (dmach@redhat.com)
+- Add "release-variant" command (chcao@redhat.com)
+- Add "release-variant" command. (dmach@redhat.com)
+- OrderedDict support in python 2.6 (chcao@redhat.com)
+- Add "product-version" command. (dmach@redhat.com)
+- OrderedDict support in python 2.6 (chcao@redhat.com)
+- Add "product" command. (dmach@redhat.com)
+- plugin_helpers: Allow overriding 'dest' option. (dmach@redhat.com)
+- Fix reading "develop" option from settings (lholecek@redhat.com)
+- Fix configuration name in README (lholecek@redhat.com)
+- Fix the Sphix dependency (caochuangxiang@gmail.com)
+- Change the new token secure with chcao (caochuangxiang@gmail.com)
+- Feedback: incorrect place to specify default SSL behavior (ahills@redhat.com)
+- Fix SSL command line options (ahills@redhat.com)
+- Surport SSL cert when swith insecure to false (bliu@redhat.com)
+- Fix the bug about the include-shadow para in repo clone (bliu@redhat.com)
+
 * Thu Jul 27 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
 
