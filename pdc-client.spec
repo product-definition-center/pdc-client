@@ -15,7 +15,7 @@
 
 Name:           pdc-client
 Version:        1.7.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Console client for interacting with Product Definition Center
 Group:          Development/Libraries
 License:        MIT
@@ -142,6 +142,12 @@ popd
 %py3_install
 %endif # with_python3
 
+# Omit installing plugins with Python packages
+rm -r %{buildroot}/%{python_sitelib}/pdc_client/plugins
+%if 0%{?with_python3}
+rm -r %{buildroot}/%{python3_sitelib}/pdc_client/plugins
+%endif # with_python3
+
 mkdir -p %{buildroot}/%{_mandir}/man1
 cp docs/pdc_client.1 %{buildroot}/%{_mandir}/man1/
 
@@ -193,6 +199,9 @@ EOF
 
 
 %changelog
+* Mon Aug 28 2017 Lukas Holecek <lholecek@redhat.com> 1.7.0-2
+- Omit installing plugins with Python packages
+
 * Tue Aug 22 2017 Lukas Holecek <lholecek@redhat.com> 1.7.0-1
 - Bump versin in setup.py (lholecek@redhat.com)
 - Update spec file from downstream (lholecek@redhat.com)
