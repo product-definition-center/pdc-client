@@ -36,11 +36,13 @@ except ImportError:
 import pdc_client
 
 
+# Default path to plugins. This line will be replaced when installing with real
+# install plugin path (usually '/usr/share/pdc-client/plugins').
+DEFAULT_PLUGIN_DIR = os.path.join(os.path.dirname(__file__), 'plugins')
+
 # A list of paths to directories where plugins should be loaded from.
 # The purpose of the plugins is to extend the default behaviour.
-LOCAL_DIR = os.path.join(os.path.dirname(__file__), 'plugins')
-INSTALLED_DIR = os.path.join('/usr/share/pdc-client', 'plugins')
-PLUGIN_DIRS = [LOCAL_DIR] if os.path.exists(LOCAL_DIR) else [INSTALLED_DIR]
+PLUGIN_DIRS = [DEFAULT_PLUGIN_DIR]
 
 DEFAULT_PLUGINS = [
     'base_product.py',

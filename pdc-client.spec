@@ -20,6 +20,8 @@
 %{!?py2_build: %global py2_build %{expand: CFLAGS="%{optflags}" %{__python2} setup.py %{?py_setup_args} build --executable="%{__python2} -s"}}
 %{!?py2_install: %global py2_install %{expand: CFLAGS="%{optflags}" %{__python2} setup.py %{?py_setup_args} install -O1 --skip-build --root %{buildroot}}}
 
+%global plugin_install_path %{_datadir}/pdc-client/plugins
+
 Name:           pdc-client
 Version:        1.7.0
 Release:        2%{?dist}
@@ -119,6 +121,10 @@ server connections
 %prep
 %setup -q -n pdc-client-%{version}
 
+# Replace installation plugin path in code
+sed -i 's|^DEFAULT_PLUGIN_DIR = .*|DEFAULT_PLUGIN_DIR = "%{plugin_install_path}"|' \
+        pdc_client/runner.py
+
 %if 0%{?with_python3}
 rm -rf %{py3dir}
 cp -a . %{py3dir}
@@ -149,18 +155,19 @@ popd
 %py3_install
 %endif # with_python3
 
-# Omit installing plugins with Python packages
-rm -r %{buildroot}/%{python_sitelib}/pdc_client/plugins
+# Plugins are only required in the "pdc" script (not the Python packages). So
+# move plugins to pdc-client package from Python package (this should also
+# contain compiled bytecode).
+mkdir -p %{buildroot}/%{plugin_install_path}
 %if 0%{?with_python3}
-rm -r %{buildroot}/%{python3_sitelib}/pdc_client/plugins
+mv -T %{buildroot}/%{python3_sitelib}/pdc_client/plugins %{buildroot}/%{plugin_install_path}
+rm -r %{buildroot}/%{python_sitelib}/pdc_client/plugins
+%else
+mv -T %{buildroot}/%{python_sitelib}/pdc_client/plugins %{buildroot}/%{plugin_install_path}
 %endif # with_python3
 
 mkdir -p %{buildroot}/%{_mandir}/man1
 cp docs/pdc_client.1 %{buildroot}/%{_mandir}/man1/
-
-# Move all plugins in upstream to /usr/share/pdc-client/
-mkdir -p %{buildroot}/%{_datadir}/pdc-client/plugins
-cp pdc_client/plugins/*  %{buildroot}/%{_datadir}/pdc-client/plugins
 
 mkdir -p %{buildroot}/%{_sysconfdir}/bash_completion.d/
 cp pdc.bash %{buildroot}/%{_sysconfdir}/bash_completion.d/
@@ -189,8 +196,14 @@ EOF
 %{_bindir}/pdc
 %{_bindir}/pdc_client
 %dir %{_datadir}/pdc-client
-%dir %{_datadir}/pdc-client/plugins
-%{_datadir}/pdc-client/plugins/*
+%dir %{plugin_install_path}
+%{plugin_install_path}/*
+
+%if 0%{?with_python3}
+# Omit installing Python 2 bytecode for Python 3.
+%exclude %{plugin_install_path}/*.pyc
+%exclude %{plugin_install_path}/*.pyo
+%endif
 
 %files -n python2-pdc-client
 %doc README.markdown
