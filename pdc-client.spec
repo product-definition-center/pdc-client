@@ -15,7 +15,7 @@
 
 Name:           pdc-client
 Version:        1.7.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Console client for interacting with Product Definition Center
 Group:          Development/Libraries
 License:        MIT
@@ -199,6 +199,10 @@ EOF
 
 
 %changelog
+* Fri Sep 08 2017 Lukas Holecek <lholecek@redhat.com> 1.7.0-3
+- Fix printing help for missing sub-commands (lholecek@redhat.com)
+- Fix "pdc_client --version" (lholecek@redhat.com)
+
 * Mon Aug 28 2017 Lukas Holecek <lholecek@redhat.com> 1.7.0-2
 - Omit installing plugins with Python packages
 
