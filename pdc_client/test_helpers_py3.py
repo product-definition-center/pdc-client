@@ -9,6 +9,7 @@ import functools
 import contextlib
 import unittest
 import os
+import sys
 import json
 import types
 import itertools
@@ -192,7 +193,10 @@ class CLITestCase(unittest.TestCase, metaclass=CLIMetaClass):
     """
     @property
     def _data_dir(self):
-        return os.path.join(*self.__class__.__module__.split('.')[:-1] + ['data'])
+        module = self.__class__.__module__
+        module_file = sys.modules[module].__file__
+        module_dir = os.path.dirname(module_file)
+        return os.path.join(module_dir, 'data')
 
     def _data_file(self, file):
         with open(os.path.join(self._data_dir, file), 'r') as f:

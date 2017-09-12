@@ -35,7 +35,6 @@ Source0:        https://files.pythonhosted.org/packages/source/p/pdc-client/pdc-
 
 BuildRequires:  python2-devel
 BuildRequires:  python-setuptools
-BuildRequires:  python-nose
 BuildRequires:  pytest
 BuildRequires:  python-requests
 BuildRequires:  python-requests-kerberos
@@ -45,7 +44,6 @@ BuildRequires:  python2-beanbag
 %if 0%{?with_python3}
 BuildRequires:  python%{python3_pkgversion}-devel
 BuildRequires:  python%{python3_pkgversion}-setuptools
-BuildRequires:  python%{python3_pkgversion}-nose
 BuildRequires:  python%{python3_pkgversion}-pytest
 BuildRequires:  python%{python3_pkgversion}-requests
 BuildRequires:  python3-requests-kerberos
@@ -141,11 +139,15 @@ find -name '*.py' | xargs sed -i '1s|^#!python|#!%{__python}|'
 %endif # with_python3
 
 %check
-%{__python2} setup.py nosetests
+# Override plugin directory for tests.
+export PDC_CLIENT_PLUGIN_PATH="%{buildroot}%{plugin_install_path}"
+test -d "$PDC_CLIENT_PLUGIN_PATH"
+
+%{__python2} setup.py test -q
 
 %if 0%{?with_python3}
 pushd %{py3dir}
-%{__python3} setup.py nosetests
+%{__python3} setup.py test -q
 popd
 %endif # with_python3
 
