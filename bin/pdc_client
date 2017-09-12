@@ -12,6 +12,7 @@ except ImportError:
     import simplejson as json
 
 import argparse
+import logging
 import sys
 
 import requests
@@ -25,21 +26,20 @@ __version__ = pdc_client.get_version()
 def debug_request(func):
     def wrap(*args, **kwargs):
         self = args[0]
-        if self.debug:
-            print("> ", func.__name__.upper(), self.client[self.resource]._)
+        if self.logger.isEnabledFor(logging.DEBUG):
+            self.logger.debug("> %s %s" % (func.__name__.upper(), self.client[self.resource]._))
             for key, value in list(self.client.session.headers.items()):
-                print("> ", key, ": ", value)
+                self.logger.debug("> %s: %s" % (key, value))
         return func(*args, **kwargs)
 
     return wrap
 
 
 class RequestMethod(object):
-    def __init__(self, client, resource, traceback=False, debug=False):
+    def __init__(self, client, resource, logger):
         self.client = client
         self.resource = resource
-        self.traceback = traceback
-        self.debug = debug
+        self.logger = logger
 
     def dispatch(self, method, request_data):
         func = getattr(self, method.lower(), None)
@@ -53,7 +53,7 @@ class RequestMethod(object):
     @debug_request
     def get(self, data):
         if not isinstance(data, dict):
-            print('For GET request, the data must be a JSON object, not a list.')
+            self.logger.error('For GET request, the data must be a JSON object, not a list.')
             sys.exit(1)
         return self.client[self.resource]._(**data)
 
@@ -76,23 +76,8 @@ class RequestMethod(object):
             return response
         return {"Response": "No content"}
 
-    def __enter__(self):
-        return self
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        if all((exc_type, exc_val, exc_tb)):
-            if exc_type is BeanBagException:
-                print("%d %s" % (
-                    exc_val.response.status_code, exc_val.response.content))
-
-            if self.traceback:
-                import traceback
-                traceback.print_exception(exc_type, exc_val, exc_tb)
-
-        return True
-
-
-def load_data(options):
+def load_data(options, logger):
     """
     If --file was specified, load data from file or stdin, otherwise return
     what was given to --data option.
@@ -113,8 +98,8 @@ def load_data(options):
     try:
         return json.loads(data)
     except ValueError as err:
-        print("Request data is not a valid JSON input.")
-        print(err)
+        logger.error("Request data is not a valid JSON input.")
+        logger.error(err)
         sys.exit(1)
 
 
@@ -154,7 +139,10 @@ if __name__ == "__main__":
     parser.add_argument('--version', action='version', version='%(prog)s ' + __version__)
     options = parser.parse_args()
 
-    data = load_data(options)
+    logging.basicConfig(level=logging.DEBUG if options.debug else logging.WARNING)
+    logger = logging.getLogger('pdc_client')
+
+    data = load_data(options, logger)
 
     if isinstance(data, dict):
         for key, value in data.items():
@@ -174,12 +162,17 @@ if __name__ == "__main__":
         client = PDCClient(options.server, ssl_verify=ssl_verify)
         if options.comment:
             client.set_comment(options.comment)
+
+        request = RequestMethod(client, options.resource, logger)
+        result = request.dispatch(options.request, data)
+        print(json.dumps(result, indent=4, sort_keys=True))
     except BeanBagException as e:
-        print("%d %s" % (e.response.status_code, e.response.content))
+        logger.error("%d %s" % (e.response.status_code, e.response.content))
+        sys.exit(1)
     except Exception as e:
-        print(str(e))
-    else:
-        with RequestMethod(client, options.resource,
-                           options.traceback, options.debug) as request:
-            print(json.dumps(request.dispatch(options.request, data),
-                             indent=4, sort_keys=True))
+        logger.error(str(e))
+        sys.exit(1)
+    finally:
+        if options.traceback:
+            import traceback
+            traceback.print_exc()
