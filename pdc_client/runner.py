@@ -42,7 +42,11 @@ DEFAULT_PLUGIN_DIR = os.path.join(os.path.dirname(__file__), 'plugins')
 
 # A list of paths to directories where plugins should be loaded from.
 # The purpose of the plugins is to extend the default behaviour.
-PLUGIN_DIRS = [DEFAULT_PLUGIN_DIR]
+PLUGIN_DIRS = [path for path in
+               os.getenv('PDC_CLIENT_PLUGIN_PATH', '').split(':')
+               if path]
+if not PLUGIN_DIRS:
+    PLUGIN_DIRS = [DEFAULT_PLUGIN_DIR]
 
 DEFAULT_PLUGINS = [
     'base_product.py',
