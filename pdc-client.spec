@@ -151,6 +151,17 @@ pushd %{py3dir}
 popd
 %endif # with_python3
 
+# Smoke-test executables.
+%if 0%{?with_python3}
+export PYTHONPATH="%{buildroot}%{python3_sitelib}"
+%else
+export PYTHONPATH="%{buildroot}%{python_sitelib}"
+%endif # with_python3
+for executable in "%{buildroot}%{_bindir}"/*; do
+    "$executable" --version
+    "$executable" --help
+done
+
 %install
 %py2_install
 %if 0%{?with_python3}
