@@ -33,8 +33,7 @@ from pdc_client import get_version
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = [
-]
+extensions = ['sphinx.ext.autodoc']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -50,7 +49,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'PDC Client'
-copyright = u'2014-2016, PDC Devel Team'
+copyright = u'2017, Red Hat'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
