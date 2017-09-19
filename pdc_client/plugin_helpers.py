@@ -85,6 +85,7 @@ class PDCClientPlugin(object):
             kwargs['help'] = ''
         cmd = self.parser.add_parser(self.command, *args, **kwargs)
         self.subparsers = cmd.add_subparsers(metavar='ACTION')
+        self.subparsers.required = True
 
     def add_action(self, *args, **kwargs):
         return self.subparsers.add_parser(*args, **kwargs)

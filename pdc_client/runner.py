@@ -155,6 +155,7 @@ class Runner(object):
                                  version='%(prog)s ' + pdc_client.__version__)
 
         subparsers = self.parser.add_subparsers(metavar='COMMAND')
+        subparsers.required = True
 
         for plugin in sorted(self.plugins):
             plugin._before_register(subparsers)

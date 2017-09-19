@@ -119,7 +119,7 @@ def load_data(options):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(version=__version__)
+    parser = argparse.ArgumentParser()
     parser.add_argument("-s", "--server", help="PDC instance url or shortcut.")
 
     ssl_group = parser.add_mutually_exclusive_group()
@@ -151,6 +151,7 @@ if __name__ == "__main__":
                                         "debugging.",
                         action="store_true", default=False)
     parser.add_argument("-c", "--comment", help="Reasons for the PDC change.")
+    parser.add_argument('--version', action='version', version='%(prog)s ' + __version__)
     options = parser.parse_args()
 
     data = load_data(options)
