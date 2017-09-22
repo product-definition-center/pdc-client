@@ -148,7 +148,7 @@ class Runner(object):
         self.parser.add_argument('--json', action='store_true',
                                  help='display output as JSON')
         self.parser.add_argument('--page-size', dest='page_size', type=int,
-                                 help='change page size in response')
+                                 help='change page size in response, -1 means that get all pages of data in one request')
         self.parser.add_argument('--page', dest='page', type=int,
                                  help='change page in response')
         self.parser.add_argument('--version', action='version',
