@@ -98,18 +98,24 @@ class PDCClient(object):
     connections. The authentication token is automatically retrieved (if
     needed).
     """
+
     def __init__(self, server, token=None, develop=None, ssl_verify=None, page_size=None):
-        """Create new client instance.
+        """
+        Create new pdc client instance.
 
         Once the class is instantiated, use it as you would use a regular
-        BeanBag object. Please see its documentation to see how to use this
+        BeanBag object. Please look at its documentation for how to use this
         class to perform requests.
 
-        :param server:     server API url or server name from configuration
-        :paramtype server: string
+        :param server:     Server API url or server name from configuration
+        :param token:      An authentication token string of visiting pdc server
+        :param develop:    This is use for dev mode
         :param ssl_verify: True for validating SSL certificates with system CA
                            store; False for no validation; path to CA file or
                            directory to use for validation otherwise
+        :param page_size:  This is a number of data which is returned per page.
+                           A -1 means that pdc server will return all the data in
+                           one request.
         """
         self.page_size = page_size
         if not server:
@@ -162,7 +168,8 @@ class PDCClient(object):
 
         content_type = "application/json"
         encode = json.dumps
-        self.client = beanbag.BeanBag(url, session=self.session, fmt=(content_type, encode, decode))
+        self.client = _BeanBagWrapper(beanbag.BeanBag(url, session=self.session, fmt=(content_type, encode, decode)),
+                                      page_size)
         if not develop:
             # For develop environment, we don't need to require a token
             if not token:
@@ -238,6 +245,29 @@ class PDCClient(object):
         :paramtype comment: string
         """
         self.session.headers["PDC-Change-Comment"] = comment
+
+
+class _BeanBagWrapper(object):
+    """
+       Wrapper of BeanBag's attributes and items.
+
+       This class wraps attributes and items of Beanbag to let page_size of
+       PDCClient's constructor work.
+    """
+    def __init__(self, client, page_size):
+        self.client = client
+        self.page_size = page_size
+
+    def __call__(self, *args, **kwargs):
+        if 'page_size' not in kwargs:
+            kwargs['page_size'] = self.page_size
+        return self.client(*args, **kwargs)
+
+    def __getattr__(self, name):
+        return _BeanBagWrapper(self.client.__getattr__(name), self.page_size)
+
+    def __getitem__(self, *args, **kwargs):
+        return _BeanBagWrapper(self.client.__getitem__(*args, **kwargs), self.page_size)
 
 
 class PDCClientWithPage(PDCClient):
