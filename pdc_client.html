@@ -1,4 +1,3 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -7,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Index &mdash; PDC Client pdc-client-1.7.0-3-13-g497a026-497a026
+    <title>4. Script pdc_client &mdash; PDC Client pdc-client-1.7.0-3-13-g497a026-497a026
  documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
@@ -27,18 +26,26 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="PDC Client pdc-client-1.7.0-3-13-g497a026-497a026
- documentation" href="index.html" /> 
+ documentation" href="index.html" />
+    <link rel="next" title="5. Script pdc" href="pdc.html" />
+    <link rel="prev" title="3. Python API" href="api.html" /> 
   </head>
   <body>
     <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="#" title="General Index"
+          <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="pdc.html" title="5. Script pdc"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="api.html" title="3. Python API"
+             accesskey="P">previous</a> |</li>
         <li><a href="index.html">PDC Client pdc-client-1.7.0-3-13-g497a026-497a026
  documentation</a> &raquo;</li> 
       </ul>
@@ -49,72 +56,19 @@
         <div class="bodywrapper">
           <div class="body">
             
-
-<h1 id="index">Index</h1>
-
-<div class="genindex-jumpbox">
- <a href="#G"><strong>G</strong></a>
- | <a href="#O"><strong>O</strong></a>
- | <a href="#P"><strong>P</strong></a>
- | <a href="#S"><strong>S</strong></a>
- 
+  <div class="section" id="script-pdc-client">
+<span id="pdc-client"></span><h1>4. Script pdc_client<a class="headerlink" href="#script-pdc-client" title="Permalink to this headline">¶</a></h1>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Add argument <tt class="docutils literal"><span class="pre">-h</span></tt> or <tt class="docutils literal"><span class="pre">--help</span></tt> to get general help or help for a command.</p>
 </div>
-<h2 id="G">G</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%" valign="top"><dl>
-      
-  <dt><a href="api.html#pdc_client.PDCClient.get_paged">get_paged() (pdc_client.PDCClient method)</a>
-  </dt>
-
-      <dd><dl>
-        
-  <dt><a href="api.html#pdc_client.PDCClientWithPage.get_paged">(pdc_client.PDCClientWithPage method)</a>
-  </dt>
-
-      </dl></dd>
-  </dl></td>
-</tr></table>
-
-<h2 id="O">O</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%" valign="top"><dl>
-      
-  <dt><a href="api.html#pdc_client.PDCClient.obtain_token">obtain_token() (pdc_client.PDCClient method)</a>
-  </dt>
-
-  </dl></td>
-</tr></table>
-
-<h2 id="P">P</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%" valign="top"><dl>
-      
-  <dt><a href="api.html#module-pdc_client">pdc_client (module)</a>
-  </dt>
-
-      
-  <dt><a href="api.html#pdc_client.PDCClient">PDCClient (class in pdc_client)</a>
-  </dt>
-
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
-      
-  <dt><a href="api.html#pdc_client.PDCClientWithPage">PDCClientWithPage (class in pdc_client)</a>
-  </dt>
-
-  </dl></td>
-</tr></table>
-
-<h2 id="S">S</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%" valign="top"><dl>
-      
-  <dt><a href="api.html#pdc_client.PDCClient.set_comment">set_comment() (pdc_client.PDCClient method)</a>
-  </dt>
-
-  </dl></td>
-</tr></table>
-
+<p>This is a very simple client. Essentially this is just a little more
+convenient than using <tt class="docutils literal"><span class="pre">curl</span></tt> manually. Each invocation of this client
+obtains a token and then performs a single request.</p>
+<p>This client is not meant for direct usage, but just as a helper for
+integrating with PDC from languages where it might be easier than
+performing the network requests manually.</p>
+</div>
 
 
           </div>
@@ -122,9 +76,17 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-
-   
-
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="api.html"
+                        title="previous chapter">3. Python API</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="pdc.html"
+                        title="next chapter">5. Script pdc</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/pdc_client.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
@@ -146,11 +108,17 @@
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="#" title="General Index"
+          <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="pdc.html" title="5. Script pdc"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="api.html" title="3. Python API"
+             >previous</a> |</li>
         <li><a href="index.html">PDC Client pdc-client-1.7.0-3-13-g497a026-497a026
  documentation</a> &raquo;</li> 
       </ul>

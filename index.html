@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Welcome to PDC Client’s documentation! &mdash; PDC Client pdc-client-1.7.0-3-11-g4a80d5b-4a80d5b
+    <title>Welcome to PDC Client’s documentation! &mdash; PDC Client pdc-client-1.7.0-3-13-g497a026-497a026
  documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     'pdc-client-1.7.0-3-11-g4a80d5b-4a80d5b
+        VERSION:     'pdc-client-1.7.0-3-13-g497a026-497a026
 ',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
@@ -25,9 +25,9 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="PDC Client pdc-client-1.7.0-3-11-g4a80d5b-4a80d5b
+    <link rel="top" title="PDC Client pdc-client-1.7.0-3-13-g497a026-497a026
  documentation" href="#" />
-    <link rel="next" title="1. Release" href="release.html" /> 
+    <link rel="next" title="1. Installation" href="install.html" /> 
   </head>
   <body>
     <div class="related">
@@ -37,9 +37,12 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="release.html" title="1. Release"
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="install.html" title="1. Installation"
              accesskey="N">next</a> |</li>
-        <li><a href="#">PDC Client pdc-client-1.7.0-3-11-g4a80d5b-4a80d5b
+        <li><a href="#">PDC Client pdc-client-1.7.0-3-13-g497a026-497a026
  documentation</a> &raquo;</li> 
       </ul>
     </div>  
@@ -51,16 +54,29 @@
             
   <div class="section" id="welcome-to-pdc-client-s-documentation">
 <h1>Welcome to PDC Client&#8217;s documentation!<a class="headerlink" href="#welcome-to-pdc-client-s-documentation" title="Permalink to this headline">¶</a></h1>
+<p>PDC Client is Python API and scripts which simplify access to PDC server.</p>
 <p>Contents:</p>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="release.html">1. Release</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="release.html#versioning">1.1. Versioning</a></li>
-<li class="toctree-l2"><a class="reference internal" href="release.html#release-instruction">1.2. Release Instruction</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="release.html#tag">1.2.1. Tag</a></li>
-<li class="toctree-l3"><a class="reference internal" href="release.html#test-build">1.2.2. Test Build</a></li>
-<li class="toctree-l3"><a class="reference internal" href="release.html#push">1.2.3. Push</a></li>
-<li class="toctree-l3"><a class="reference internal" href="release.html#release-to-pypi">1.2.4. Release To PyPI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">1. Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">2. Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="config.html#example">2.1. Example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">3. Python API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#examples">3.1. Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-pdc_client">3.2. Module pdc_client</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pdc_client.html">4. Script pdc_client</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pdc.html">5. Script pdc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release.html">6. Release</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="release.html#versioning">6.1. Versioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release.html#release-instruction">6.2. Release Instruction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="release.html#tag">6.2.1. Tag</a></li>
+<li class="toctree-l3"><a class="reference internal" href="release.html#test-build">6.2.2. Test Build</a></li>
+<li class="toctree-l3"><a class="reference internal" href="release.html#push">6.2.3. Push</a></li>
+<li class="toctree-l3"><a class="reference internal" href="release.html#release-to-pypi">6.2.4. Release To PyPI</a></li>
 </ul>
 </li>
 </ul>
@@ -89,8 +105,8 @@
 </ul>
 
   <h4>Next topic</h4>
-  <p class="topless"><a href="release.html"
-                        title="next chapter">1. Release</a></p>
+  <p class="topless"><a href="install.html"
+                        title="next chapter">1. Installation</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/index.txt"
@@ -120,14 +136,17 @@
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="release.html" title="1. Release"
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="install.html" title="1. Installation"
              >next</a> |</li>
-        <li><a href="#">PDC Client pdc-client-1.7.0-3-11-g4a80d5b-4a80d5b
+        <li><a href="#">PDC Client pdc-client-1.7.0-3-13-g497a026-497a026
  documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2014-2016, PDC Devel Team.
+        &copy; Copyright 2017, Red Hat.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
   </body>

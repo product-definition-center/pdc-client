@@ -1,0 +1,238 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>3. Python API &mdash; PDC Client pdc-client-1.7.0-3-13-g497a026-497a026
+ documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'pdc-client-1.7.0-3-13-g497a026-497a026
+',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="PDC Client pdc-client-1.7.0-3-13-g497a026-497a026
+ documentation" href="index.html" />
+    <link rel="next" title="4. Script pdc_client" href="pdc_client.html" />
+    <link rel="prev" title="2. Configuration" href="config.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pdc_client.html" title="4. Script pdc_client"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="config.html" title="2. Configuration"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">PDC Client pdc-client-1.7.0-3-13-g497a026-497a026
+ documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="python-api">
+<span id="api"></span><h1>3. Python API<a class="headerlink" href="#python-api" title="Permalink to this headline">¶</a></h1>
+<p>Usually you just need to import main class from the module.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pdc_client</span> <span class="kn">import</span> <span class="n">PDCClient</span>
+</pre></div>
+</div>
+<div class="section" id="examples">
+<h2>3.1. Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/product-definition-center/product-definition-center/blob/master/pdc/scripts/create_release_components.py">Creating global components based on imported source RPMs</a></li>
+<li><a class="reference external" href="https://gist.github.com/lubomir/c78091bf286ee9764f99">Find components with multiple contacts of same role</a></li>
+</ul>
+</div>
+<div class="section" id="module-pdc_client">
+<span id="module-pdc-client"></span><h2>3.2. Module pdc_client<a class="headerlink" href="#module-pdc_client" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pdc_client.PDCClient">
+<em class="property">class </em><tt class="descclassname">pdc_client.</tt><tt class="descname">PDCClient</tt><big>(</big><em>server</em>, <em>token=None</em>, <em>develop=None</em>, <em>ssl_verify=None</em>, <em>page_size=None</em><big>)</big><a class="headerlink" href="#pdc_client.PDCClient" title="Permalink to this definition">¶</a></dt>
+<dd><p>BeanBag wrapper specialized for PDC access.</p>
+<p>This class wraps general BeanBag.v1 objects, but provides easy-to-use
+interface that can use configuration files for specifying server
+connections. The authentication token is automatically retrieved (if
+needed).</p>
+<dl class="method">
+<dt id="pdc_client.PDCClient.get_paged">
+<tt class="descname">get_paged</tt><big>(</big><em>res</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#pdc_client.PDCClient.get_paged" title="Permalink to this definition">¶</a></dt>
+<dd><p>This call is equivalent to <tt class="docutils literal"><span class="pre">res(**kwargs)</span></tt>, only it retrieves all pages
+and returns the results joined into a single iterable. The advantage over
+retrieving everything at once is that the result can be consumed immediately.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>res</strong> &#8211; what resource to connect to</li>
+<li><strong>kwargs</strong> &#8211; filters to be used</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Example: Iterate over all active releases</span>
+<span class="k">for</span> <span class="n">release</span> <span class="ow">in</span> <span class="n">client</span><span class="o">.</span><span class="n">get_paged</span><span class="p">(</span><span class="n">client</span><span class="p">[</span><span class="s1">&#39;releases&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">_</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p>This function is obsolete and not recommended.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pdc_client.PDCClient.obtain_token">
+<tt class="descname">obtain_token</tt><big>(</big><big>)</big><a class="headerlink" href="#pdc_client.PDCClient.obtain_token" title="Permalink to this definition">¶</a></dt>
+<dd><p>Try to obtain token from all end-points that were ever used to serve the
+token. If the request returns 404 NOT FOUND, retry with older version of
+the URL.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pdc_client.PDCClient.set_comment">
+<tt class="descname">set_comment</tt><big>(</big><em>comment</em><big>)</big><a class="headerlink" href="#pdc_client.PDCClient.set_comment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set PDC Change comment to be stored on the server.</p>
+<p>Once you set the comment, it will be sent in all subsequent requests.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>comment</strong> (<em>string</em>) &#8211; what comment to send to the server</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pdc_client.PDCClientWithPage">
+<em class="property">class </em><tt class="descclassname">pdc_client.</tt><tt class="descname">PDCClientWithPage</tt><big>(</big><em>server</em>, <em>token=None</em>, <em>develop=None</em>, <em>ssl_verify=None</em>, <em>page_size=None</em>, <em>page=None</em><big>)</big><a class="headerlink" href="#pdc_client.PDCClientWithPage" title="Permalink to this definition">¶</a></dt>
+<dd><p>PDCClient wrapper specialized for setting page in get_paged function.</p>
+<dl class="method">
+<dt id="pdc_client.PDCClientWithPage.get_paged">
+<tt class="descname">get_paged</tt><big>(</big><em>res</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#pdc_client.PDCClientWithPage.get_paged" title="Permalink to this definition">¶</a></dt>
+<dd><p>Re-write the ge_paged here, and add the self.page check.
+This call is equivalent to <tt class="docutils literal"><span class="pre">res(**kwargs)</span></tt>, if there is no self.page
+parameter,only it retrieves all pages and returns the results joined into
+a single iterable. The advantage over retrieving everything at once is that
+the result can be consumed immediately.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>res</strong> &#8211; what resource to connect to</li>
+<li><strong>kwargs</strong> &#8211; filters to be used</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Example: Iterate over all active releases</span>
+<span class="k">for</span> <span class="n">release</span> <span class="ow">in</span> <span class="n">client</span><span class="o">.</span><span class="n">get_paged</span><span class="p">(</span><span class="n">client</span><span class="p">[</span><span class="s1">&#39;releases&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">_</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p>If there is a self.page parameter here, just return that page&#8217;s data with the
+self.page_size.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">3. Python API</a><ul>
+<li><a class="reference internal" href="#examples">3.1. Examples</a></li>
+<li><a class="reference internal" href="#module-pdc_client">3.2. Module pdc_client</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="config.html"
+                        title="previous chapter">2. Configuration</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="pdc_client.html"
+                        title="next chapter">4. Script pdc_client</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/api.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pdc_client.html" title="4. Script pdc_client"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="config.html" title="2. Configuration"
+             >previous</a> |</li>
+        <li><a href="index.html">PDC Client pdc-client-1.7.0-3-13-g497a026-497a026
+ documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2017, Red Hat.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

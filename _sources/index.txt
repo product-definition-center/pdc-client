@@ -4,7 +4,9 @@
    contain the root `toctree` directive.
 
 Welcome to PDC Client's documentation!
-===============================
+======================================
+
+PDC Client is Python API and scripts which simplify access to PDC server.
 
 Contents:
 
@@ -12,6 +14,11 @@ Contents:
    :maxdepth: 3
    :numbered:
 
+   install
+   config
+   api
+   pdc_client
+   pdc
    release
 
 

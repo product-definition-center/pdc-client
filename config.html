@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>2. Configuration &mdash; PDC Client pdc-client-1.7.0-3-13-g497a026-497a026
+ documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'pdc-client-1.7.0-3-13-g497a026-497a026
+',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="PDC Client pdc-client-1.7.0-3-13-g497a026-497a026
+ documentation" href="index.html" />
+    <link rel="next" title="3. Python API" href="api.html" />
+    <link rel="prev" title="1. Installation" href="install.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="api.html" title="3. Python API"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="install.html" title="1. Installation"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">PDC Client pdc-client-1.7.0-3-13-g497a026-497a026
+ documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="configuration">
+<span id="config"></span><h1>2. Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h1>
+<p>The client can read server connection details from a configuration file.
+The configuration file should be located in
+<tt class="docutils literal"><span class="pre">/etc/pdc.d/</span></tt> directory which contains <tt class="docutils literal"><span class="pre">fedora.json</span></tt>, or in <tt class="docutils literal"><span class="pre">~/.config/pdc/client_config.json</span></tt>.
+If both files are present, the system one is loaded first and the user
+configuration is applied on top of it (to add other options or overwrite
+existing ones).</p>
+<p>The configuration file should contain a JSON object, which maps server
+name to JSON object with details. The name is an arbitrary string used
+at client run time to identify which server you want to connect to.</p>
+<p>The details of a single server must contain at least one key: <tt class="docutils literal"><span class="pre">host</span></tt>
+which specifies the URL to the API root (e.g.
+<tt class="docutils literal"><span class="pre">http:://localhost:8000/rest_api/v1/</span></tt> for local instance).</p>
+<p>Other possible keys are:</p>
+<ul>
+<li><p class="first"><tt class="docutils literal"><span class="pre">token</span></tt></p>
+<blockquote>
+<div><p>If specified, this token will be used for authentication. The client
+will not try to obtain any token from the server.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">ssl-verify</span></tt></p>
+<blockquote>
+<div><p>If set to <tt class="docutils literal"><span class="pre">false</span></tt>, server certificate will not be validated. See [Python requests documentation](<a class="reference external" href="http://docs.python-requests.org/en/master/user/advanced/#ssl-cert-verification">http://docs.python-requests.org/en/master/user/advanced/#ssl-cert-verification</a>) for other possible values.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">develop</span></tt></p>
+<blockquote>
+<div><p>When set to <tt class="docutils literal"><span class="pre">true</span></tt>, the client will not use any authentication at
+all, not requesting a token nor sending any token with the requests.
+This is only useful for working with servers which don&#8217;t require
+authentication.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">plugins</span></tt></p>
+<blockquote>
+<div><p>Plugins are configurable which depends on the user&#8217;s needs.
+If no plugins are configured, the default plugins will be used.
+If plugins are configured, they will be merged to the default ones.</p>
+</div></blockquote>
+</li>
+</ul>
+<div class="section" id="example">
+<h2>2.1. Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
+<p>This config defines connection to development server running on
+localhost and a production server:</p>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;local&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;host&quot;</span><span class="p">:</span> <span class="s2">&quot;http://localhost:8000/rest_api/v1/&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;develop&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nt">&quot;ssl-verify&quot;</span><span class="p">:</span> <span class="kc">false</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;prod&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;host&quot;</span><span class="p">:</span> <span class="s2">&quot;https://pdc.example.com/rest_api/v1/&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;plugins&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;permission.py&quot;</span><span class="p">,</span> <span class="s2">&quot;release.py&quot;</span><span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">2. Configuration</a><ul>
+<li><a class="reference internal" href="#example">2.1. Example</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="install.html"
+                        title="previous chapter">1. Installation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="api.html"
+                        title="next chapter">3. Python API</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/config.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="api.html" title="3. Python API"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="install.html" title="1. Installation"
+             >previous</a> |</li>
+        <li><a href="index.html">PDC Client pdc-client-1.7.0-3-13-g497a026-497a026
+ documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2017, Red Hat.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

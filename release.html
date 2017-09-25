@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>1. Release &mdash; PDC Client pdc-client-1.7.0-3-11-g4a80d5b-4a80d5b
+    <title>6. Release &mdash; PDC Client pdc-client-1.7.0-3-13-g497a026-497a026
  documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     'pdc-client-1.7.0-3-11-g4a80d5b-4a80d5b
+        VERSION:     'pdc-client-1.7.0-3-13-g497a026-497a026
 ',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
@@ -25,9 +25,9 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="PDC Client pdc-client-1.7.0-3-11-g4a80d5b-4a80d5b
+    <link rel="top" title="PDC Client pdc-client-1.7.0-3-13-g497a026-497a026
  documentation" href="index.html" />
-    <link rel="prev" title="Welcome to PDC Client’s documentation!" href="index.html" /> 
+    <link rel="prev" title="5. Script pdc" href="pdc.html" /> 
   </head>
   <body>
     <div class="related">
@@ -37,9 +37,12 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="index.html" title="Welcome to PDC Client’s documentation!"
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pdc.html" title="5. Script pdc"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">PDC Client pdc-client-1.7.0-3-11-g4a80d5b-4a80d5b
+        <li><a href="index.html">PDC Client pdc-client-1.7.0-3-13-g497a026-497a026
  documentation</a> &raquo;</li> 
       </ul>
     </div>  
@@ -50,9 +53,9 @@
           <div class="body">
             
   <div class="section" id="release">
-<span id="id1"></span><h1>1. Release<a class="headerlink" href="#release" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>6. Release<a class="headerlink" href="#release" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="versioning">
-<h2>1.1. Versioning<a class="headerlink" href="#versioning" title="Permalink to this headline">¶</a></h2>
+<h2>6.1. Versioning<a class="headerlink" href="#versioning" title="Permalink to this headline">¶</a></h2>
 <p>PDC Client versioning is based on <a class="reference external" href="http://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.</p>
 <p>And it&#8217;s RPM compatible.</p>
 <p>Given a version number MAJOR.MINOR.PATCH, increment the:</p>
@@ -81,7 +84,7 @@ Examples: 1.0.0-12.g1234abc, 1.0.0-s5.4.g1234abc.</p>
 </ol>
 </div>
 <div class="section" id="release-instruction">
-<h2>1.2. Release Instruction<a class="headerlink" href="#release-instruction" title="Permalink to this headline">¶</a></h2>
+<h2>6.2. Release Instruction<a class="headerlink" href="#release-instruction" title="Permalink to this headline">¶</a></h2>
 <p>In practice, we use <cite>tito</cite> to add git tag and do release including tag based on releases and current HEAD based on test releases.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -96,7 +99,7 @@ Examples: 1.0.0-12.g1234abc, 1.0.0-s5.4.g1234abc.</p>
 </ol>
 <p>For each step, more detail are:</p>
 <div class="section" id="tag">
-<h3>1.2.1. Tag<a class="headerlink" href="#tag" title="Permalink to this headline">¶</a></h3>
+<h3>6.2.1. Tag<a class="headerlink" href="#tag" title="Permalink to this headline">¶</a></h3>
 <p>A new git tag need to be added before starting a new release:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span>$ tito tag
 </pre></div>
@@ -110,7 +113,7 @@ Examples: 1.0.0-12.g1234abc, 1.0.0-s5.4.g1234abc.</p>
 <p>For more options about <cite>tito tag</cite>, run <cite>tito tag &#8211;help</cite>.</p>
 </div>
 <div class="section" id="test-build">
-<h3>1.2.2. Test Build<a class="headerlink" href="#test-build" title="Permalink to this headline">¶</a></h3>
+<h3>6.2.2. Test Build<a class="headerlink" href="#test-build" title="Permalink to this headline">¶</a></h3>
 <p>Once release tag is available, we can do some build tests including source tarball checking, and rpm building testing.</p>
 <blockquote>
 <div><div class="highlight-python"><div class="highlight"><pre><span></span># generate local source tarball
@@ -135,14 +138,14 @@ $ tito build --test --tgz/srpm/rpm
 </div>
 </div>
 <div class="section" id="push">
-<h3>1.2.3. Push<a class="headerlink" href="#push" title="Permalink to this headline">¶</a></h3>
+<h3>6.2.3. Push<a class="headerlink" href="#push" title="Permalink to this headline">¶</a></h3>
 <p>When you&#8217;re happy with your build, it&#8217;s time to push commit and tag to remote.</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span>$ git push origin &amp;&amp; git push origin &lt;your_tag&gt;
 </pre></div>
 </div>
 </div>
 <div class="section" id="release-to-pypi">
-<h3>1.2.4. Release To PyPI<a class="headerlink" href="#release-to-pypi" title="Permalink to this headline">¶</a></h3>
+<h3>6.2.4. Release To PyPI<a class="headerlink" href="#release-to-pypi" title="Permalink to this headline">¶</a></h3>
 <p>The Python Package Index or <a class="reference external" href="https://pypi.python.org/pypi">PyPI</a> is the official third-party software repository for the Python programming language.
 Release PDC Client to PyPI make it be able to pip install this for usage in other projects.
 <a class="reference external" href="https://pypi.python.org/pypi/pdc-client">pdc-client</a> was already registered in PyPI.</p>
@@ -194,13 +197,13 @@ allowing your username and password to be intercepted during transmission.</p>
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">1. Release</a><ul>
-<li><a class="reference internal" href="#versioning">1.1. Versioning</a></li>
-<li><a class="reference internal" href="#release-instruction">1.2. Release Instruction</a><ul>
-<li><a class="reference internal" href="#tag">1.2.1. Tag</a></li>
-<li><a class="reference internal" href="#test-build">1.2.2. Test Build</a></li>
-<li><a class="reference internal" href="#push">1.2.3. Push</a></li>
-<li><a class="reference internal" href="#release-to-pypi">1.2.4. Release To PyPI</a></li>
+<li><a class="reference internal" href="#">6. Release</a><ul>
+<li><a class="reference internal" href="#versioning">6.1. Versioning</a></li>
+<li><a class="reference internal" href="#release-instruction">6.2. Release Instruction</a><ul>
+<li><a class="reference internal" href="#tag">6.2.1. Tag</a></li>
+<li><a class="reference internal" href="#test-build">6.2.2. Test Build</a></li>
+<li><a class="reference internal" href="#push">6.2.3. Push</a></li>
+<li><a class="reference internal" href="#release-to-pypi">6.2.4. Release To PyPI</a></li>
 </ul>
 </li>
 </ul>
@@ -208,8 +211,8 @@ allowing your username and password to be intercepted during transmission.</p>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="index.html"
-                        title="previous chapter">Welcome to PDC Client&#8217;s documentation!</a></p>
+  <p class="topless"><a href="pdc.html"
+                        title="previous chapter">5. Script pdc</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/release.txt"
@@ -239,14 +242,17 @@ allowing your username and password to be intercepted during transmission.</p>
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="index.html" title="Welcome to PDC Client’s documentation!"
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pdc.html" title="5. Script pdc"
              >previous</a> |</li>
-        <li><a href="index.html">PDC Client pdc-client-1.7.0-3-11-g4a80d5b-4a80d5b
+        <li><a href="index.html">PDC Client pdc-client-1.7.0-3-13-g497a026-497a026
  documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2014-2016, PDC Devel Team.
+        &copy; Copyright 2017, Red Hat.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
   </body>
