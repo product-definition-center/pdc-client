@@ -134,4 +134,5 @@ class ComposeTreeLocationsPlugin(PDCClientPlugin):
         self.client['compose-tree-locations'][args.compose_id][args.variant_uid][args.arch][args.location][args.scheme]\
             ._("DELETE", data)
 
+
 PLUGIN_CLASSES = [ComposeTreeLocationsPlugin]

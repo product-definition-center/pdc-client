@@ -308,4 +308,5 @@ class ReleaseComponentPlugin(PDCClientPlugin):
         return (release_component['release']['active'] and release_component['release']['release_id'] or
                 ' '.join([release_component['release']['release_id'], '(inactive)']))
 
+
 PLUGIN_CLASSES = [GlobalComponentPlugin, ReleaseComponentPlugin]

@@ -30,7 +30,7 @@ class ReleaseTestCase(CLITestCase):
     def _setup_release_detail(self, api):
         api.add_endpoint('releases/release-1.0', 'GET', self.release_detail)
         api.add_endpoint('release-variants', 'GET', [
-            {'type': 'variant', 'uid': 'Server', 'id': 1, 'id': 'Server', 'name': 'Server',
+            {'type': 'variant', 'uid': 'Server', 'id': 'Server', 'name': 'Server',
              'arches': ['x86_64', 's390x']}
         ])
 
