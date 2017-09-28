@@ -110,14 +110,21 @@ class Runner(object):
             for name in os.listdir(dir):
                 if not name.endswith('.py') or name not in plugins_set:
                     continue
-                file, pathname, description = imp.find_module(name[:-3], [dir])
-                plugin = imp.load_module(name[:-3], file, pathname, description)
-                self.logger.debug('Loaded plugin {0}'.format(name[:-3]))
-                self.raw_plugins.append(plugin)
-                if hasattr(plugin, 'PLUGIN_CLASSES'):
-                    for p in plugin.PLUGIN_CLASSES:
-                        self.logger.debug('Instantiating {0}'.format(p.__name__))
-                        self.plugins.append(p(self))
+                try:
+                    module_name = name[:-3]
+                    file, pathname, description = imp.find_module(module_name, [dir])
+                    plugin = imp.load_module(module_name, file, pathname, description)
+                    self.logger.debug('Loaded plugin {0}'.format(module_name))
+                    self.raw_plugins.append(plugin)
+                    if hasattr(plugin, 'PLUGIN_CLASSES'):
+                        for p in plugin.PLUGIN_CLASSES:
+                            self.logger.debug('Instantiating {0}'.format(p.__name__))
+                            self.plugins.append(p(self))
+                except Exception as e:
+                    self.logger.error('Failed to load plugin "{0}": {1}'.format(module_name, e))
+                finally:
+                    if file:
+                        file.close()
 
     def run_hook(self, hook, *args, **kwargs):
         """
