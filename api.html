@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>3. Python API &mdash; PDC Client pdc-client-1.7.0-3-17-g0de0b04-0de0b04
+    <title>3. Python API &mdash; PDC Client pdc-client-1.7.0-3-18-g331604b-331604b
  documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     'pdc-client-1.7.0-3-17-g0de0b04-0de0b04
+        VERSION:     'pdc-client-1.7.0-3-18-g331604b-331604b
 ',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="PDC Client pdc-client-1.7.0-3-17-g0de0b04-0de0b04
+    <link rel="top" title="PDC Client pdc-client-1.7.0-3-18-g331604b-331604b
  documentation" href="index.html" />
     <link rel="next" title="4. Script pdc_client" href="pdc_client.html" />
     <link rel="prev" title="2. Configuration" href="config.html" /> 
@@ -46,7 +46,7 @@
         <li class="right" >
           <a href="config.html" title="2. Configuration"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">PDC Client pdc-client-1.7.0-3-17-g0de0b04-0de0b04
+        <li><a href="index.html">PDC Client pdc-client-1.7.0-3-18-g331604b-331604b
  documentation</a> &raquo;</li> 
       </ul>
     </div>  
@@ -71,6 +71,21 @@
 </div>
 <div class="section" id="module-pdc_client">
 <span id="module-pdc-client"></span><h2>3.2. Module pdc_client<a class="headerlink" href="#module-pdc_client" title="Permalink to this headline">¶</a></h2>
+<dl class="exception">
+<dt id="pdc_client.NoResultsError">
+<em class="property">exception </em><tt class="descclassname">pdc_client.</tt><tt class="descname">NoResultsError</tt><big>(</big><em>response</em><big>)</big><a class="headerlink" href="#pdc_client.NoResultsError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exception for getting all pages of data
+Raise this NoResultsError if there is an unexpected data
+returned when get all pages of data by results() function.</p>
+<dl class="docutils">
+<dt>Data members:</dt>
+<dd><ul class="first last simple">
+<li>response &#8211; response object</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="class">
 <dt id="pdc_client.PDCClient">
 <em class="property">class </em><tt class="descclassname">pdc_client.</tt><tt class="descname">PDCClient</tt><big>(</big><em>server</em>, <em>token=None</em>, <em>develop=None</em>, <em>ssl_verify=None</em>, <em>page_size=None</em><big>)</big><a class="headerlink" href="#pdc_client.PDCClient" title="Permalink to this definition">¶</a></dt>
@@ -79,6 +94,25 @@
 interface that can use configuration files for specifying server
 connections. The authentication token is automatically retrieved (if
 needed).</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span># Example: Get per page of release
+client = PDCClient(&lt;server&gt;)
+client.releases._()
+client[&quot;releases&quot;]._()
+...
+
+# Example: create one release data
+client[&quot;releases&quot;]._(&lt;dict data&gt;)
+...
+
+# Example: Iterate all pages of releases
+# Will raise NoResultsError with response when return unexpected result.
+try:
+    for r in client[&quot;releases&quot;].results():
+        ...
+except NoResultsError as e:
+    # handle e.response ...
+</pre></div>
+</div>
 <dl class="method">
 <dt id="pdc_client.PDCClient.get_paged">
 <tt class="descname">get_paged</tt><big>(</big><em>res</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#pdc_client.PDCClient.get_paged" title="Permalink to this definition">¶</a></dt>
@@ -97,11 +131,14 @@ retrieving everything at once is that the result can be consumed immediately.</p
 </tr>
 </tbody>
 </table>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Example: Iterate over all active releases</span>
-<span class="k">for</span> <span class="n">release</span> <span class="ow">in</span> <span class="n">client</span><span class="o">.</span><span class="n">get_paged</span><span class="p">(</span><span class="n">client</span><span class="p">[</span><span class="s1">&#39;releases&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">_</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
-    <span class="o">...</span>
-</pre></div>
-</div>
+<dl class="docutils">
+<dt>::</dt>
+<dd><p class="first"># Example: Iterate over all active releases
+for release in client.get_paged(client[&#8216;releases&#8217;]._, active=True):</p>
+<blockquote class="last">
+<div>...</div></blockquote>
+</dd>
+</dl>
 <p>This function is obsolete and not recommended.</p>
 </dd></dl>
 
@@ -226,7 +263,7 @@ self.page_size.</p>
         <li class="right" >
           <a href="config.html" title="2. Configuration"
              >previous</a> |</li>
-        <li><a href="index.html">PDC Client pdc-client-1.7.0-3-17-g0de0b04-0de0b04
+        <li><a href="index.html">PDC Client pdc-client-1.7.0-3-18-g331604b-331604b
  documentation</a> &raquo;</li> 
       </ul>
     </div>
