@@ -326,6 +326,8 @@ class _BeanBagWrapper(object):
                         raise NoResultsError(response)
                     if response['next']:
                         kwargs['page'] += 1
+                    else:
+                        break
                 else:
                     break
 
