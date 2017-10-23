@@ -113,7 +113,24 @@ class NoResultsError(Exception):
         return msg
 
 
-class PDCClient(object):
+class _SetAttributeWrapper(object):
+    """
+    Passes all __setattr__() calls to a client after _initialized is True.
+
+    Attribute client must be defined in derived class.
+
+    Set _initialized to True after all attributes for derived object are set.
+    """
+    _initialized = False
+    client = None
+
+    def __setattr__(self, name, value):
+        if self._initialized:
+            return self.client.__setattr__(name, value)
+        return super(_SetAttributeWrapper, self).__setattr__(name, value)
+
+
+class PDCClient(_SetAttributeWrapper):
     """BeanBag wrapper specialized for PDC access.
 
     This class wraps general BeanBag.v1 objects, but provides easy-to-use
@@ -216,6 +233,8 @@ class PDCClient(object):
                 token = self.obtain_token()
             self.session.headers["Authorization"] = "Token %s" % token
 
+        self._initialized = True
+
     def obtain_token(self):
         """
         Try to obtain token from all end-points that were ever used to serve the
@@ -274,6 +293,9 @@ class PDCClient(object):
     def __getitem__(self, *args, **kwargs):
         return self.client.__getitem__(*args, **kwargs)
 
+    def __setitem__(self, name, value):
+        return self.client.__setitem__(name, value)
+
     def set_comment(self, comment):
         """Set PDC Change comment to be stored on the server.
 
@@ -285,7 +307,7 @@ class PDCClient(object):
         self.session.headers["PDC-Change-Comment"] = comment
 
 
-class _BeanBagWrapper(object):
+class _BeanBagWrapper(_SetAttributeWrapper):
     """
        Wrapper of BeanBag's attributes and items.
 
@@ -297,6 +319,8 @@ class _BeanBagWrapper(object):
         self.client = client
         self.page_size = page_size
 
+        self._initialized = True
+
     def __call__(self, *args, **kwargs):
         if 'page_size' not in kwargs:
             kwargs['page_size'] = self.page_size
@@ -305,8 +329,26 @@ class _BeanBagWrapper(object):
     def __getattr__(self, name):
         return _BeanBagWrapper(self.client.__getattr__(name), self.page_size)
 
+    def __delattr__(self, name):
+        return self.client.__delattr__(name)
+
     def __getitem__(self, *args, **kwargs):
         return _BeanBagWrapper(self.client.__getitem__(*args, **kwargs), self.page_size)
+
+    def __setitem__(self, name, value):
+        return self.client.__setitem__(name, value)
+
+    def __delitem__(self, name):
+        return self.client.__delitem__(name)
+
+    def __iadd__(self, value):
+        return self.client.__iadd__(value)
+
+    def __eq__(self, other):
+        return self.client == other.client
+
+    def __str__(self):
+        return str(self.client)
 
     def results(self, *args, **kwargs):
         """
