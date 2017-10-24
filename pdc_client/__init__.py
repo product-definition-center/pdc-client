@@ -288,6 +288,20 @@ class PDCClient(_SetAttributeWrapper):
         return self.client(*args, **kwargs)
 
     def __getattr__(self, name):
+        """
+            If the first attribute/endpoint with "-", just replace with "_"  in name
+            ::
+                # Example: get endpoint
+                client = PDCClient(<server>)
+                # Get the endpoint base-products/
+                client.base_products._
+                # Get the endpoint base-products/test_123/
+                client.base_products.test_123._
+                # Get the endpoint products/
+                client.products._
+        """
+        if name != "_":
+            name = name.replace("_", "-")
         return self.client.__getattr__(name)
 
     def __getitem__(self, *args, **kwargs):
