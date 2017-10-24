@@ -84,6 +84,11 @@ def _read_file(file_path):
     return data
 
 
+def _is_page(response):
+    return isinstance(response, dict) \
+        and set(response.keys()) == set(['count', 'previous', 'results', 'next'])
+
+
 def read_config_file(server_alias):
     result = _read_dir(GLOBAL_CONFIG_DIR).get(server_alias, {})
     result.update(_read_file(USER_SPECIFIC_CONFIG_FILE).get(server_alias, {}))
@@ -310,6 +315,9 @@ class PDCClient(_SetAttributeWrapper):
     def __setitem__(self, name, value):
         return self.client.__setitem__(name, value)
 
+    def __str__(self):
+        return str(self.client)
+
     def set_comment(self, comment):
         """Set PDC Change comment to be stored on the server.
 
@@ -375,17 +383,15 @@ class _BeanBagWrapper(_SetAttributeWrapper):
                 response = self.client(*args, **kwargs)
                 if isinstance(response, list):
                     yield response
-                else:
+                    break
+                elif _is_page(response):
                     yield response['results']
-                if isinstance(response, dict):
-                    if set(response.keys()) != set(['count', 'previous', 'results', 'next']):
-                        raise NoResultsError(response)
                     if response['next']:
                         kwargs['page'] += 1
                     else:
                         break
                 else:
-                    break
+                    raise NoResultsError(response)
 
         return itertools.chain.from_iterable(worker())
 
