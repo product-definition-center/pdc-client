@@ -24,7 +24,7 @@
 
 Name:           pdc-client
 Version:        1.8.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Console client for interacting with Product Definition Center
 Group:          Development/Libraries
 License:        MIT
@@ -142,14 +142,6 @@ find -name '*.py' | xargs sed -i '1s|^#!python|#!%{__python}|'
 export PDC_CLIENT_PLUGIN_PATH="%{buildroot}%{plugin_install_path}"
 test -d "$PDC_CLIENT_PLUGIN_PATH"
 
-%{__python2} setup.py test -q
-
-%if 0%{?with_python3}
-pushd %{py3dir}
-%{__python3} setup.py test -q
-popd
-%endif # with_python3
-
 # Smoke-test executables.
 %if 0%{?with_python3}
 export PYTHONPATH="%{buildroot}%{python3_sitelib}"
@@ -231,6 +223,10 @@ EOF
 
 
 %changelog
+* Fri Nov 24 2017 Chuang Cao <chcao@redhat.com> 1.8.0-2
+- Add new version 1.8.0 in setup.py (chcao@redhat.com)
+- Remove "setup.py test" part from sepc file (chcao@redhat.com)
+
 * Wed Nov 22 2017 Chuang Cao <chcao@redhat.com> 1.8.0-1
 - Add PDCClient tests and fix the discovered bugs (lholecek@redhat.com)
 - Add comments for rpm requirements (chcao@redhat.com)
