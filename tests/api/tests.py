@@ -387,9 +387,6 @@ class PDCClientTestCase(unittest.TestCase):
         with self.assertRaises(BeanBagException):
             self.client['bad_resource'] = {}
 
-        with self.assertRaises(BeanBagException):
-            self.client.bad_resource = {}
-
     def test_str(self):
         self.assertEqual(str(self.client.products.fedora), self.url + '/products/fedora')
         self.assertEqual(str(self.client), self.url + '/')

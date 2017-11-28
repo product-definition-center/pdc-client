@@ -135,7 +135,7 @@ class _SetAttributeWrapper(object):
         return super(_SetAttributeWrapper, self).__setattr__(name, value)
 
 
-class PDCClient(_SetAttributeWrapper):
+class PDCClient(object):
     """BeanBag wrapper specialized for PDC access.
 
     This class wraps general BeanBag.v1 objects, but provides easy-to-use
@@ -237,8 +237,6 @@ class PDCClient(_SetAttributeWrapper):
             if not token:
                 token = self.obtain_token()
             self.session.headers["Authorization"] = "Token %s" % token
-
-        self._initialized = True
 
     def obtain_token(self):
         """
