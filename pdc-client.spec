@@ -24,7 +24,7 @@
 
 Name:           pdc-client
 Version:        1.8.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Console client for interacting with Product Definition Center
 Group:          Development/Libraries
 License:        MIT
@@ -223,6 +223,9 @@ EOF
 
 
 %changelog
+* Wed Nov 29 2017 Chuang Cao <chcao@redhat.com> 1.8.0-3
+- Rollback codes on parent class of PDCClient (chcao@redhat.com)
+
 * Fri Nov 24 2017 Chuang Cao <chcao@redhat.com> 1.8.0-2
 - Add new version 1.8.0 in setup.py (chcao@redhat.com)
 - Remove "setup.py test" part from sepc file (chcao@redhat.com)
