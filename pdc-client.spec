@@ -24,7 +24,7 @@
 
 Name:           pdc-client
 Version:        1.8.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Console client for interacting with Product Definition Center
 Group:          Development/Libraries
 License:        MIT
@@ -223,6 +223,9 @@ EOF
 
 
 %changelog
+* Fri Dec 01 2017 Chuang Cao <chcao@redhat.com> 1.8.0-4
+- Add the page_size=None when get auth (chcao@redhat.com)
+
 * Wed Nov 29 2017 Chuang Cao <chcao@redhat.com> 1.8.0-3
 - Rollback codes on parent class of PDCClient (chcao@redhat.com)
 
