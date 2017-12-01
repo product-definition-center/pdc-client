@@ -249,7 +249,7 @@ class PDCClient(object):
                             'obtain_token')
         for end_point in token_end_points:
             try:
-                return self.auth[end_point]._()['token']
+                return self.auth[end_point]._(page_size=None)['token']
             except BeanBagException as e:
                 if e.response.status_code != 404:
                     raise
