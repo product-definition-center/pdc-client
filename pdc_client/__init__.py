@@ -223,10 +223,9 @@ class PDCClient(_SetAttributeWrapper):
                 mutual_authentication=requests_kerberos.DISABLED)
 
         def decode(req):
-            result = json.loads(req.text or req.content)
             if req.headers.get(PDC_WARNING_HEADER_NAME):
                 sys.stderr.write("PDC warning: %s\n\n" % req.headers.get(PDC_WARNING_HEADER_NAME))
-            return result
+            return req.json()
 
         content_type = "application/json"
         encode = json.dumps
