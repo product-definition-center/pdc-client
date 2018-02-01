@@ -1,136 +1,92 @@
-# Client for Product Definition Center(PDC) in Python
+# Client for Product Definition Center (PDC)
 
 [![Build Status](https://travis-ci.org/product-definition-center/pdc-client.svg?branch=master)](https://travis-ci.org/product-definition-center/pdc-client)
 [![Coverage Status](https://coveralls.io/repos/product-definition-center/pdc-client/badge.svg?branch=master&service=github)](https://coveralls.io/github/product-definition-center/pdc-client?branch=master)
 
-PDC Client is Python API and scripts which simplify access to PDC server.
+PDC Client is command line and Python interface to PDC server.
 
 Read [the documentation](https://pdc-client.readthedocs.io).
 
+## Examples
+
+### curl (Making Requests without PDC Client)
+
+    $ curl --negotiate -u : -H "Accept: application/json" \
+        https://pdc.example.com/rest_api/v1/auth/token/obtain/
+
+    {"token":"123..."}
+
+    $ curl -X POST \
+        -H "Accept: application/json" \
+        -H "Content-Type: application/json" \
+        -H "Authorization: Token 123..." \
+        -d '{"email": "user@example.com", "username": "user"}' \
+        https://pdc.example.com/rest_api/v1/contacts/people/
+
+### PDC Client
+
+    $ pdc_client -s example -x POST -r contacts/people/ \
+        -d '{"email": "user@example.com", "username": "user"}'
+
+- Handles authentication automatically.
+- Data in JSON format by default.
+- PDC server defined in configuration file.
+
+See also [pdc\_client](https://pdc-client.readthedocs.io/en/latest/pdc_client.html).
+
+### PDCClient API
+
+```python
+from pdc_client import PDCClient
+
+try:
+    client = PDCClient('example')
+    client['contacts/people/']({
+        'email': 'user@example.com',
+        'username': 'user',
+    })
+except Exception as e:
+    print(e.response.json())
+```
+
+- Handles request and response data natively as `dict`.
+- HTTP request API is basically wrapper for
+  [BeanBag](http://beanbag.readthedocs.org/en/latest/).
+
+See also [API](https://pdc-client.readthedocs.io/en/latest/api.html).
+
+### pdc
+
+This is much more user friendly user high-level interface. A single invocation
+can perform multiple requests depending on what subcommand you used.
+
+See also [pdc](https://pdc-client.readthedocs.io/en/latest/pdc.html).
+
 ## Installation
 
-You can obtain the client from the same repository where PDC server is.
+Install using `yum` of `dnf`.
+
+    sudo dnf install pdc-client
+
+Or install from PyPI.
+
+    pip install pdc-client
+
+See also [Installation](https://pdc-client.readthedocs.io/en/latest/install.html).
 
 ## Configuration
 
-The client can read server connection details from a configuration file.
-The configuration file should be located in
-`/etc/pdc.d/` directory which contains `fedora.json`, or in `~/.config/pdc/client_config.json`.
-If both files are present, the system one is loaded first and the user
-configuration is applied on top of it (to add other options or overwrite
-existing ones).
-
-The configuration file should contain a JSON object, which maps server
-name to JSON object with details. The name is an arbitrary string used
-at client run time to identify which server you want to connect to.
-
-The details of a single server must contain at least one key: `host`
-which specifies the URL to the API root (e.g.
-`http:://localhost:8000/rest_api/v1/` for local instance).
-
-Other possible keys are:
-
-* `token`
-
-    If specified, this token will be used for authentication. The client
-    will not try to obtain any token from the server.
-
-* `ssl-verify`
-
-    If set to `false`, server certificate will not be validated. See [Python requests documentation](http://docs.python-requests.org/en/master/user/advanced/#ssl-cert-verification) for other possible values.
-
-* `develop`
-
-    When set to `true`, the client will not use any authentication at
-    all, not requesting a token nor sending any token with the requests.
-    This is only useful for working with servers which don't require
-    authentication.
-
-* `plugins`
-
-    Plugins are configurable which depends on the user's needs.
-    If no plugins are configured, the default plugins will be used.
-    If plugins are configured, they will be merged to the default ones.
-
-### Example system configuration
-
-This config defines connection to development server running on
-localhost and a production server. :
+Configuration file `~/.config/pdc/client_config.json` defines connections to
+PDC servers with optional tokens and plugins for `pdc` utility.
 
     {
-        "local": {
-            "host": "http://localhost:8000/rest_api/v1/",
-            "develop": true,
-            "ssl-verify": false
-        },
         "prod": {
             "host": "https://pdc.example.com/rest_api/v1/",
             "plugins": ["permission.py", "release.py"]
         }
     }
 
-## Usage
-
-The client package contains two separate clients. Both contain extensive
-built-in help. Just run the executable with `-h` or `--help` argument.
-
-### `pdc_client`
-
-This is a very simple client. Essentially this is just a little more
-convenient than using `curl` manually. Each invocation of this client
-obtains a token and then performs a single request.
-
-This client is not meant for direct usage, but just as a helper for
-integrating with PDC from languages where it might be easier than
-performing the network requests manually.
-
-### `pdc`
-
-This is much more user friendly user interface. A single invocation can
-perform multiple requests depending on what subcommand you used.
-
-The `pdc` client supports Bash completion if argcomplete Python package is installed.
-
-If you installed client from rpm package, the completion file `pdc.bash` has been
-installed to `/etc/bash_completion.d/`.
-
-For developers or users who try to run `pdc` from source, to enable completion,
-run this in your terminal (assuming pdc is somewhere on path).
-
-    eval "$(register-python-argcomplete pdc)"
-
-or put `pdc.bash` to `/etc/bash_completion.d/`.
-
-### `Info`
-
-The client command line parameters take precedence over configuration file values.
-
-## Python API
-
-When writing a client code interfacing with PDC server, you might find
-`PDCClient` handy. It provides access to the configuration defined above
-and automates obtaining authorization token.
-
-To use this module, you will need to install its dependencies. These
-include
-
-- [requests](http://docs.python-requests.org/en/latest/)
-- [requests-kerberos](https://github.com/requests/requests-kerberos/)
-- [beanbag](http://beanbag.readthedocs.org/en/latest/)
-- (Optional)[argcomplete](http://argcomplete.readthedocs.org/en/latest/_modules/argcomplete.html)
-
-Please find more details at： [`PDCClient`](pdc_client/__init__.py#L71)
-
-When working with paginated responses, there is a function([`get_paged`](pdc_client/__init__.py#L138)) to
-simplify that. From client code it is iterating single object. Behind
-the scenes it will download the first page, once all results from that
-page are exhausted, it will get another page until everything is
-processed.
-
-### Examples
-
-- [Creating global components based on imported source RPMs](https://github.com/product-definition-center/product-definition-center/blob/master/pdc/scripts/create_release_components.py)
-- [Find components with multiple contacts of same role](https://gist.github.com/lubomir/c78091bf286ee9764f99)
+See also [Configuration](https://pdc-client.readthedocs.io/en/latest/config.html).
 
 ## Known Issues
 
@@ -149,28 +105,26 @@ false in `libdefaults` section. :
 
 ## For Developers
 
-### Installation details
+### Build
 
-1.  yum repository
+If you have got the code and setup your development environment,
+then you could build from source and install the client.
 
-    Enable PDC yum repository, install PDC Client by :
+    $ git checkout `{release-tag}`
+    $ tito build --rpm --offline
+    $ sudo yum install /tmp/tito/noarch/pdc-client*.noarch.rpm
 
-        $ sudo yum install pdc-client -y
+See also [Release](https://pdc-client.readthedocs.io/en/latest/release.html).
 
-2.  build from source
+### Development Configuration
 
-    If you have got the code and setup your development environment,
-    then you could build from source and install the client :
+You can add local development server to configuration file
+(`~/.config/pdc/client_config.json`).
 
-        $ git checkout `{release-tag}`
-        $ cd product-definition-center/pdc_client
-        $ tito build --rpm --offline
-        $ sudo yum install /tmp/tito/noarch/pdc-client*.noarch.rpm
-
-### General
-
-The PDC Client (package name: pdc\_client) is mainly build up with
-Python argparse module and PDC's Python module pdc\_client.
-
-It is powered by [`BeanBag`](http://beanbag.readthedocs.org/en/latest/), a simple module that lets you access REST
-APIs in an easy way.
+    {
+        "local": {
+            "host": "http://localhost:8000/rest_api/v1/",
+            "develop": true,
+            "ssl-verify": false
+        }
+    }
