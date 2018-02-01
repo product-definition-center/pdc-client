@@ -136,30 +136,33 @@ class _SetAttributeWrapper(object):
 
 
 class PDCClient(_SetAttributeWrapper):
-    """BeanBag wrapper specialized for PDC access.
+    """
+    BeanBag wrapper specialized for PDC access.
 
     This class wraps general BeanBag.v1 objects, but provides easy-to-use
     interface that can use configuration files for specifying server
     connections. The authentication token is automatically retrieved (if
     needed).
+
     ::
-            # Example: Get per page of release
-            client = PDCClient(<server>)
-            client.releases._()
-            client["releases"]._()
-            ...
 
-            # Example: create one release data
-            client["releases"]._(<dict data>)
-            ...
+        # Example: Get per page of release
+        client = PDCClient(<server>)
+        client.releases._()
+        client["releases"]._()
+        ...
 
-            # Example: Iterate all pages of releases
-            # Will raise NoResultsError with response when return unexpected result.
-            try:
-                for r in client["releases"].results():
-                    ...
-            except NoResultsError as e:
-                # handle e.response ...
+        # Example: create one release data
+        client["releases"]._(<dict data>)
+        ...
+
+        # Example: Iterate all pages of releases
+        # Will raise NoResultsError with response when return unexpected result.
+        try:
+            for r in client["releases"].results():
+                ...
+        except NoResultsError as e:
+            # handle e.response ...
     """
     def __init__(self, server, token=None, develop=None, ssl_verify=None, page_size=None):
         """
@@ -264,7 +267,9 @@ class PDCClient(_SetAttributeWrapper):
 
         :param res:     what resource to connect to
         :param kwargs:  filters to be used
+
         ::
+
             # Example: Iterate over all active releases
             for release in client.get_paged(client['releases']._, active=True):
                 ...
@@ -293,16 +298,18 @@ class PDCClient(_SetAttributeWrapper):
 
     def __getattr__(self, name):
         """
-            If the first attribute/endpoint with "-", just replace with "_"  in name
-            ::
-                # Example: get endpoint
-                client = PDCClient(<server>)
-                # Get the endpoint base-products/
-                client.base_products._
-                # Get the endpoint base-products/test_123/
-                client.base_products.test_123._
-                # Get the endpoint products/
-                client.products._
+        If the first attribute/endpoint with "-", just replace with "_"  in name.
+
+        ::
+
+            # Example: get endpoint
+            client = PDCClient(<server>)
+            # Get the endpoint base-products/
+            client.base_products._
+            # Get the endpoint base-products/test_123/
+            client.base_products.test_123._
+            # Get the endpoint products/
+            client.products._
         """
         if name != "_":
             name = name.replace("_", "-")
