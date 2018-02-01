@@ -3,7 +3,9 @@
 [![Build Status](https://travis-ci.org/product-definition-center/pdc-client.svg?branch=master)](https://travis-ci.org/product-definition-center/pdc-client)
 [![Coverage Status](https://coveralls.io/repos/product-definition-center/pdc-client/badge.svg?branch=master&service=github)](https://coveralls.io/github/product-definition-center/pdc-client?branch=master)
 
-[Documentation](https://product-definition-center.github.io/pdc-client/)
+PDC Client is Python API and scripts which simplify access to PDC server.
+
+Read [the documentation](https://pdc-client.readthedocs.io).
 
 ## Installation
 
