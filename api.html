@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>3. Python API &mdash; PDC Client pdc-client-1.7.0-3-29-g4fbfcb6-4fbfcb6
+    <title>3. Python API &mdash; PDC Client pdc-client-1.7.0-3-34-gce5e06c-ce5e06c
  documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     'pdc-client-1.7.0-3-29-g4fbfcb6-4fbfcb6
+        VERSION:     'pdc-client-1.7.0-3-34-gce5e06c-ce5e06c
 ',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="PDC Client pdc-client-1.7.0-3-29-g4fbfcb6-4fbfcb6
+    <link rel="top" title="PDC Client pdc-client-1.7.0-3-34-gce5e06c-ce5e06c
  documentation" href="index.html" />
     <link rel="next" title="4. Script pdc_client" href="pdc_client.html" />
     <link rel="prev" title="2. Configuration" href="config.html" /> 
@@ -46,7 +46,7 @@
         <li class="right" >
           <a href="config.html" title="2. Configuration"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">PDC Client pdc-client-1.7.0-3-29-g4fbfcb6-4fbfcb6
+        <li><a href="index.html">PDC Client pdc-client-1.7.0-3-34-gce5e06c-ce5e06c
  documentation</a> &raquo;</li> 
       </ul>
     </div>  
@@ -131,14 +131,11 @@ retrieving everything at once is that the result can be consumed immediately.</p
 </tr>
 </tbody>
 </table>
-<dl class="docutils">
-<dt>::</dt>
-<dd><p class="first"># Example: Iterate over all active releases
-for release in client.get_paged(client[&#8216;releases&#8217;]._, active=True):</p>
-<blockquote class="last">
-<div>...</div></blockquote>
-</dd>
-</dl>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Example: Iterate over all active releases</span>
+<span class="k">for</span> <span class="n">release</span> <span class="ow">in</span> <span class="n">client</span><span class="o">.</span><span class="n">get_paged</span><span class="p">(</span><span class="n">client</span><span class="p">[</span><span class="s1">&#39;releases&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">_</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
 <p>This function is obsolete and not recommended.</p>
 </dd></dl>
 
@@ -263,12 +260,12 @@ self.page_size.</p>
         <li class="right" >
           <a href="config.html" title="2. Configuration"
              >previous</a> |</li>
-        <li><a href="index.html">PDC Client pdc-client-1.7.0-3-29-g4fbfcb6-4fbfcb6
+        <li><a href="index.html">PDC Client pdc-client-1.7.0-3-34-gce5e06c-ce5e06c
  documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2017, Red Hat.
+        &copy; Copyright 2018, Red Hat.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
   </body>
