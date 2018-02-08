@@ -24,7 +24,7 @@
 
 Name:           pdc-client
 Version:        1.8.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Console client for interacting with Product Definition Center
 Group:          Development/Libraries
 License:        MIT
@@ -223,6 +223,9 @@ EOF
 
 
 %changelog
+* Thu Feb 08 2018 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
+
 * Fri Dec 01 2017 Chuang Cao <chcao@redhat.com> 1.8.0-4
 - Add the page_size=None when get auth (chcao@redhat.com)
 
