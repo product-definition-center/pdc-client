@@ -135,7 +135,7 @@ class _SetAttributeWrapper(object):
         return super(_SetAttributeWrapper, self).__setattr__(name, value)
 
 
-class PDCClient(_SetAttributeWrapper):
+class PDCClient(object):
     """
     BeanBag wrapper specialized for PDC access.
 
@@ -240,8 +240,6 @@ class PDCClient(_SetAttributeWrapper):
                 token = self.obtain_token()
             self.session.headers["Authorization"] = "Token %s" % token
 
-        self._initialized = True
-
     def obtain_token(self):
         """
         Try to obtain token from all end-points that were ever used to serve the
@@ -253,7 +251,7 @@ class PDCClient(_SetAttributeWrapper):
                             'obtain_token')
         for end_point in token_end_points:
             try:
-                return self.auth[end_point]._()['token']
+                return self.auth[end_point]._(page_size=None)['token']
             except BeanBagException as e:
                 if e.response.status_code != 404:
                     raise

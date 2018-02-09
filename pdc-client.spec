@@ -23,8 +23,8 @@
 %global plugin_install_path %{_datadir}/pdc-client/plugins
 
 Name:           pdc-client
-Version:        1.7.0
-Release:        3%{?dist}
+Version:        1.8.0
+Release:        4%{?dist}
 Summary:        Console client for interacting with Product Definition Center
 Group:          Development/Libraries
 License:        MIT
@@ -142,14 +142,6 @@ find -name '*.py' | xargs sed -i '1s|^#!python|#!%{__python}|'
 export PDC_CLIENT_PLUGIN_PATH="%{buildroot}%{plugin_install_path}"
 test -d "$PDC_CLIENT_PLUGIN_PATH"
 
-%{__python2} setup.py test -q
-
-%if 0%{?with_python3}
-pushd %{py3dir}
-%{__python3} setup.py test -q
-popd
-%endif # with_python3
-
 # Smoke-test executables.
 %if 0%{?with_python3}
 export PYTHONPATH="%{buildroot}%{python3_sitelib}"
@@ -231,6 +223,38 @@ EOF
 
 
 %changelog
+* Fri Dec 01 2017 Chuang Cao <chcao@redhat.com> 1.8.0-4
+- Add the page_size=None when get auth (chcao@redhat.com)
+
+* Wed Nov 29 2017 Chuang Cao <chcao@redhat.com> 1.8.0-3
+- Rollback codes on parent class of PDCClient (chcao@redhat.com)
+
+* Fri Nov 24 2017 Chuang Cao <chcao@redhat.com> 1.8.0-2
+- Add new version 1.8.0 in setup.py (chcao@redhat.com)
+- Remove "setup.py test" part from sepc file (chcao@redhat.com)
+
+* Wed Nov 22 2017 Chuang Cao <chcao@redhat.com> 1.8.0-1
+- Add PDCClient tests and fix the discovered bugs (lholecek@redhat.com)
+- Add comments for rpm requirements (chcao@redhat.com)
+- Get the endpoint as attr which includes "-" (chcao@redhat.com)
+- Fix wrapping BeanBag methods and operators (lholecek@redhat.com)
+- Fix bug of Multipaged (chcao@redhat.com)
+- Add MultiPageBeanBag class to support get multi pages (chcao@redhat.com)
+- Add the close function when load plugins (chcao@redhat.com)
+- Correct the flake8 issues (chcao@redhat.com)
+- Change the docstrings and fix issues (chcao@redhat.com)
+- Remove duplicate code (lholecek@redhat.com)
+- Update documentation (lholecek@redhat.com)
+- Add documentation link to README file (lholecek@redhat.com)
+- Add discription of page_size=-1 in help doc (chcao@redhat.com)
+- Fix printing errors and exit code for pdc_client (lholecek@redhat.com)
+- Add smoke-test for all executables (lholecek@redhat.com)
+- Fix running tests when building rpm (lholecek@redhat.com)
+- Override plugin paths with PDC_CLIENT_PLUGIN_PATH (lholecek@redhat.com)
+- Improve installing plugins (lholecek@redhat.com)
+- Revert removing comments from downstream (lholecek@redhat.com)
+- Add the page argument on pdc (chcao@redhat.com)
+
 * Fri Sep 08 2017 Lukas Holecek <lholecek@redhat.com> 1.7.0-3
 - Fix printing help for missing sub-commands (lholecek@redhat.com)
 - Fix "pdc_client --version" (lholecek@redhat.com)
