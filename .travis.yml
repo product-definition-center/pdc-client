@@ -6,16 +6,12 @@ python:
 - '2.7'
 - '2.6'
 install:
-- git config --global user.name  "Travis CI"
-- git config --global user.email "pdc@product-definition-center.com"
-- export REPO_URL_GITHUB="https://$GH_TOKEN@github.com/$GH_REPO.git"
 - if [[ $TRAVIS_PYTHON_VERSION == 2.6 ]]; then pip install importlib unittest2; fi
 - pip install -U pip wheel coveralls
 - pip install -r requirements/devel.txt
 script:
 - flake8 . --config=tox.ini
 - coverage run --source=pdc_client setup.py test --quiet
-- if [ "$TRAVIS_PYTHON_VERSION" = "2.7" -a "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then make -C docs/ setup_gh_pages gen_deploy; fi
 after_success:
 - coveralls
 cache:
@@ -23,7 +19,3 @@ cache:
   - "$HOME/.cache/pip"
 before_cache:
 - rm -f $HOME/.cache/pip/log/debug.log
-env:
-  global:
-  - GH_REPO="product-definition-center/pdc-client"
-  - secure: cYSclzBb6Rd9MeI+ZOLe6Tji6YKuRmD8P02sWmRhqU5p4H9Qq+WklXt1JMWVaZvASuRRP+mBNwGFDtC5O78Q/wsAxfjyTotWDq4FJgZJ4bE31UgitqSLutn9+7srVjn3E2r4k6Jx/JHN/YkM/sQWWDVFwYt28sGhqAtK4KZHeGjeK5nBHOYeG+HR2sLdFYwvVEaON3Spa1oGaR7Vk4YE2VFg1uTCj9oug0i2RKlKkIqTzVgNrXZvkdgyTBxJnggrCbdUuMxhE26Qsd7xRkFG9hojLmTpZdELoVWWVqvqK3DpGtjPHru2HumH2cy39N6AiBewu1fiVgMEFhkzYQWJEXQjKu+pDECGMONMGkQ4OojkNlssB3JUZbHBJ3gJpJXPtlbSyGKjCvEuEd40hai8flE6nCTdvjEky9bwXpScmAx0Mb6AGE80ZiI/hRAsf/RRg7DICnBm3du+yJC8wJnRRp/vrm7wou1LnNLmpF7MkNFFnQ+3M3pGyFegsnphmkldxs5H1iQZBIm+4j9el1YMXHUoNh0/07XyA4zqk0WagAnp4SOMmSwLAFucfwU9kw2Ytr15cZkUPPLmNqC9qEPTm5pOda+3KLr20c8DY4QDrvH4cyIJX1yowXdP9IRi4jUc7FefYN0mr4lmDQ25KdxogkcMAJmewWxX3c0GSpA0ZyU=
