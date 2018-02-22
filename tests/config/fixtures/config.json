@@ -1,0 +1,12 @@
+{
+    "test-pdc-server-1": {
+        "host": "https://www.example.com/1/",
+        "ssl-verify": false,
+        "develop": true,
+        "token": "TEST_TOKEN",
+        "plugins": ["bindings.py"]
+    },
+    "test-pdc-server-2": {
+        "host": "https://www.example.com/2/"
+    }
+}

@@ -98,7 +98,7 @@ class Runner(object):
             pass
 
         if server:
-            config = pdc_client.read_config_file(server)
+            config = pdc_client.server_configuration(server)
         if config and config.get(CONFIG_PLUGINS_KEY_NAME):
             plugins = config.get(CONFIG_PLUGINS_KEY_NAME)
             if not isinstance(plugins, list):

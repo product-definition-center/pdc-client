@@ -9,8 +9,8 @@ from __future__ import print_function
 
 import itertools
 import json
+import logging
 import os
-from os.path import expanduser, isfile, isdir
 import sys
 from subprocess import Popen, PIPE
 
@@ -18,20 +18,24 @@ import requests
 import requests_kerberos
 from beanbag import BeanBag, BeanBagException
 
+from .config import ServerConfigManager, ServerConfigError
+
 GLOBAL_CONFIG_DIR = '/etc/pdc.d/'
-USER_SPECIFIC_CONFIG_FILE = expanduser('~/.config/pdc/client_config.json')
-CONFIG_URL_KEY_NAME = 'host'
-CONFIG_INSECURE_KEY_NAME = 'insecure'
-CONFIG_SSL_VERIFY_KEY_NAME = 'ssl-verify'
-CONFIG_DEVELOP_KEY_NAME = 'develop'
-CONFIG_TOKEN_KEY_NAME = 'token'
+USER_SPECIFIC_CONFIG_FILE = os.path.expanduser('~/.config/pdc/client_config.json')
 # PDC warning field in response header
 PDC_WARNING_HEADER_NAME = 'pdc-warning'
+
+logger = logging.getLogger(__name__)
+
+
+def server_configuration(server):
+    configs = ServerConfigManager(USER_SPECIFIC_CONFIG_FILE, GLOBAL_CONFIG_DIR)
+    return configs.get(server)
 
 
 def get_version():
     fdir = os.path.dirname(os.path.realpath(__file__))
-    if isdir(os.path.join(fdir, '..', '.git')):
+    if os.path.isdir(os.path.join(fdir, '..', '.git')):
         # running from git, try to get info
         old_dir = os.getcwd()
         os.chdir(fdir)
@@ -57,42 +61,9 @@ def get_version():
 __version__ = get_version()
 
 
-def _read_dir(file_path):
-    # get all json files in /etc/pdc.d/ directory and merge them
-    data = {}
-    if isdir(file_path):
-        files_list = os.listdir(file_path)
-        for file_name in files_list:
-            if file_name.endswith('.json'):
-                file_abspath = os.path.join(file_path, file_name)
-                with open(file_abspath, 'r') as config_file:
-                    config_dict = json.load(config_file)
-                    same_key = set(data.keys()) & set(config_dict.keys())
-                    if same_key:
-                        print("Error: '%s' keys existed in both %s config files" % (same_key, files_list))
-                        sys.exit(1)
-                    else:
-                        data.update(config_dict)
-    return data
-
-
-def _read_file(file_path):
-    data = {}
-    if isfile(file_path):
-        with open(file_path, 'r') as config_file:
-            data = json.load(config_file)
-    return data
-
-
 def _is_page(response):
     return isinstance(response, dict) \
         and set(response.keys()) == set(['count', 'previous', 'results', 'next'])
-
-
-def read_config_file(server_alias):
-    result = _read_dir(GLOBAL_CONFIG_DIR).get(server_alias, {})
-    result.update(_read_file(USER_SPECIFIC_CONFIG_FILE).get(server_alias, {}))
-    return result
 
 
 class NoResultsError(Exception):
@@ -186,35 +157,21 @@ class PDCClient(object):
         if not server:
             raise TypeError('Server must be specified')
         self.session = requests.Session()
-        config = read_config_file(server)
 
-        # Command line must *always* override configuration
-        if config:
-            try:
-                url = config[CONFIG_URL_KEY_NAME]
-            except KeyError:
-                sys.stderr.write("'{}' must be specified in configuration for '{}'".format(
-                    CONFIG_URL_KEY_NAME, server))
-                sys.exit(1)
+        try:
+            config = server_configuration(server)
+            url = config.url()
 
+            # Command line must *always* override configuration
             if ssl_verify is None:
-                cfg_ssl_verify = config.get(CONFIG_SSL_VERIFY_KEY_NAME)
-                insecure = config.get(CONFIG_INSECURE_KEY_NAME)
-                if insecure is not None:
-                    sys.stderr.write("Warning: '{}' option is deprecated; please use '{}' "
-                                     "instead\n".format(
-                                         CONFIG_INSECURE_KEY_NAME, CONFIG_SSL_VERIFY_KEY_NAME))
-                    ssl_verify = not insecure
-                if cfg_ssl_verify is not None:
-                    ssl_verify = cfg_ssl_verify
+                ssl_verify = config.ssl_verify()
             if develop is None:
-                develop = config.get(CONFIG_DEVELOP_KEY_NAME, develop)
+                develop = config.is_development()
             if token is None:
-                token = config.get(CONFIG_TOKEN_KEY_NAME, token)
-        else:
-            url = server
-            if ssl_verify is None:
-                ssl_verify = True
+                token = config.token()
+        except ServerConfigError as e:
+            logger.error(e)
+            sys.exit(1)
 
         self.session.verify = ssl_verify
 
