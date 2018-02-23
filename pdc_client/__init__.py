@@ -9,7 +9,6 @@ from __future__ import print_function
 
 import itertools
 import json
-import logging
 import os
 import sys
 from subprocess import Popen, PIPE
@@ -18,14 +17,12 @@ import requests
 import requests_kerberos
 from beanbag import BeanBag, BeanBagException
 
-from .config import ServerConfigManager, ServerConfigError
+from .config import ServerConfigManager
 
 GLOBAL_CONFIG_DIR = '/etc/pdc.d/'
 USER_SPECIFIC_CONFIG_FILE = os.path.expanduser('~/.config/pdc/client_config.json')
 # PDC warning field in response header
 PDC_WARNING_HEADER_NAME = 'pdc-warning'
-
-logger = logging.getLogger(__name__)
 
 
 def server_configuration(server):
@@ -152,26 +149,24 @@ class PDCClient(object):
         :param page_size:  This is a number of data which is returned per page.
                            A -1 means that pdc server will return all the data in
                            one request.
+
+        @raises pdc_client.config.ServerConfigError: on an configuration error
         """
         self.page_size = page_size
         if not server:
             raise TypeError('Server must be specified')
         self.session = requests.Session()
 
-        try:
-            config = server_configuration(server)
-            url = config.url()
+        config = server_configuration(server)
+        url = config.url()
 
-            # Command line must *always* override configuration
-            if ssl_verify is None:
-                ssl_verify = config.ssl_verify()
-            if develop is None:
-                develop = config.is_development()
-            if token is None:
-                token = config.token()
-        except ServerConfigError as e:
-            logger.error(e)
-            sys.exit(1)
+        # Command line must *always* override configuration
+        if ssl_verify is None:
+            ssl_verify = config.ssl_verify()
+        if develop is None:
+            develop = config.is_development()
+        if token is None:
+            token = config.token()
 
         self.session.verify = ssl_verify
 

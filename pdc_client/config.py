@@ -101,6 +101,8 @@ class ServerConfigManager(object):
             multiple times
 
         @raises ServerConfigMissingUrlError: if URL is not specified in the configuration
+
+        @raises ServerConfigNotFoundError: if configuration for given server is not found
         """
         server_config = self.config.get(server)
         try:

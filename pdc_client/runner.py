@@ -185,7 +185,13 @@ class Runner(object):
             ssl_verify = self.args.ca_cert
         else:
             ssl_verify = None
-        self.client = pdc_client.PDCClientWithPage(self.args.server, page_size=self.args.page_size, ssl_verify=ssl_verify, page=self.args.page)
+
+        try:
+            self.client = pdc_client.PDCClientWithPage(self.args.server, page_size=self.args.page_size, ssl_verify=ssl_verify, page=self.args.page)
+        except pdc_client.config.ServerConfigError as e:
+            self.logger.error(e)
+            sys.exit(1)
+
         try:
             self.args.func(self.args)
         except beanbag.BeanBagException as ex:
