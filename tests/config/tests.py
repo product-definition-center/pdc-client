@@ -18,6 +18,7 @@ except ImportError:
 from pdc_client.config import (
     ServerConfigManager,
     ServerConfigMissingUrlError,
+    ServerConfigNotFoundError,
     ServerConfigConflictError,
 )
 
@@ -79,7 +80,7 @@ class ServerConfigTestCase(unittest.TestCase):
 
     def test_default_url(self):
         configs = ServerConfigManager()
-        server = 'test-pdc-server-1'
+        server = 'http://test-pdc-server-1'
         config = configs.get(server)
         self.assertEqual(config.url(), server)
 
@@ -99,10 +100,10 @@ class ServerConfigTestCase(unittest.TestCase):
         config = configs.get('test-pdc-server-2')
         self.assertEqual(config.ssl_verify(), True)
 
-        config = configs.get('test-pdc-server-3')
+        config = configs.get('http://test-pdc-server-3')
         self.assertEqual(config.ssl_verify(), True)
 
-        config = configs.get('test-pdc-server-4')
+        config = configs.get('http://test-pdc-server-4')
         self.assertEqual(config.ssl_verify(), True)
 
     def test_develop(self):
@@ -116,10 +117,10 @@ class ServerConfigTestCase(unittest.TestCase):
         config = configs.get('test-pdc-server-2')
         self.assertEqual(config.is_development(), False)
 
-        config = configs.get('test-pdc-server-3')
+        config = configs.get('http://test-pdc-server-3')
         self.assertEqual(config.is_development(), False)
 
-        config = configs.get('test-pdc-server-4')
+        config = configs.get('http://test-pdc-server-4')
         self.assertEqual(config.is_development(), False)
 
     def test_token(self):
@@ -133,10 +134,10 @@ class ServerConfigTestCase(unittest.TestCase):
         config = configs.get('test-pdc-server-2')
         self.assertEqual(config.token(), None)
 
-        config = configs.get('test-pdc-server-3')
+        config = configs.get('http://test-pdc-server-3')
         self.assertEqual(config.token(), None)
 
-        config = configs.get('test-pdc-server-4')
+        config = configs.get('http://test-pdc-server-4')
         self.assertEqual(config.token(), None)
 
     def test_same_server_in_multiple_configs(self):
@@ -166,8 +167,9 @@ class ServerConfigTestCase(unittest.TestCase):
         config = configs.get('test-pdc-server-2')
         self.assertEqual(config.get('host'), 'https://www.example.com/2/')
 
-        config = configs.get('test-pdc-server-3')
-        self.assertEqual(config.get('host'), 'test-pdc-server-3')
+        server = 'http://test-pdc-server-3'
+        config = configs.get(server)
+        self.assertEqual(config.get('host'), server)
 
     def test_get_default_value(self):
         configs = ServerConfigManager(fixture_path('config.json'))
@@ -175,9 +177,14 @@ class ServerConfigTestCase(unittest.TestCase):
         config = configs.get('test-pdc-server-2')
         self.assertEqual(config.get('develop', True), True)
 
-        config = configs.get('test-pdc-server-3')
+        config = configs.get('http://test-pdc-server-3')
         self.assertEqual(config.get('develop', True), True)
 
         configs = ServerConfigManager()
-        config = configs.get('test-pdc-server')
+        config = configs.get('http://test-pdc-server')
         self.assertEqual(config.get('develop', True), True)
+
+    def test_get_bad_server(self):
+        configs = ServerConfigManager(fixture_path('config.json'), fixture_path('configs'))
+        with self.assertRaises(ServerConfigNotFoundError):
+            configs.get('test-pdc-server')

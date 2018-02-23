@@ -97,10 +97,15 @@ class Runner(object):
         except TypeError:
             pass
 
-        if server:
-            config = pdc_client.server_configuration(server)
-        if config and config.get(CONFIG_PLUGINS_KEY_NAME):
-            plugins = config.get(CONFIG_PLUGINS_KEY_NAME)
+        if server is not None:
+            try:
+                config = pdc_client.server_configuration(server)
+            except pdc_client.config.ServerConfigError as e:
+                self.logger.error(e)
+                sys.exit(1)
+
+        if config:
+            plugins = config.get(CONFIG_PLUGINS_KEY_NAME, [])
             if not isinstance(plugins, list):
                 raise TypeError('Plugins must be a list')
             plugins_set.update(set(plugins))

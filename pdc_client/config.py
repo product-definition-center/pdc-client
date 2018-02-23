@@ -22,6 +22,11 @@ class ServerConfigError(Exception):
     pass
 
 
+class ServerConfigNotFoundError(ServerConfigError):
+    """ Server configuration is missing. """
+    pass
+
+
 class ServerConfigMissingUrlError(ServerConfigError):
     """ Server configuration is missing URL. """
     pass
@@ -60,6 +65,15 @@ def _read_config_file(file_path):
     return data
 
 
+def _default_server_configuration(server):
+    if "://" not in server:
+        message = "Failed to find configuration for server \"{}\"".format(server)
+        raise ServerConfigNotFoundError(message)
+
+    server_config = {CONFIG_URL_KEY_NAME: server}
+    return ServerConfig(server_config)
+
+
 class ServerConfigManager(object):
     """
     Provides configuration for given server name.
@@ -96,7 +110,7 @@ class ServerConfigManager(object):
                 new_config.update(self.config)
                 self.config = new_config
         except StopIteration:
-            server_config = dict([(CONFIG_URL_KEY_NAME, server)])
+            return _default_server_configuration(server)
 
         if CONFIG_URL_KEY_NAME not in server_config:
             message = "'{}' must be specified in configuration for '{}'".format(
