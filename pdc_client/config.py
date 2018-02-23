@@ -49,8 +49,7 @@ def _read_config_dir(file_path):
                     config_dict = json.load(config_file)
                     same_key = set(data.keys()) & set(config_dict.keys())
                     if same_key:
-                        message = "'{}' keys existed in both {} config files".format(
-                            same_key, files_list)
+                        message = "'%s' keys existed in both %s config files" % (same_key, files_list)
                         raise ServerConfigConflictError(message)
 
                     data.update(config_dict)
@@ -67,7 +66,7 @@ def _read_config_file(file_path):
 
 def _default_server_configuration(server):
     if "://" not in server:
-        message = "Failed to find configuration for server \"{}\"".format(server)
+        message = 'Failed to find configuration for server "%s"' % server
         raise ServerConfigNotFoundError(message)
 
     server_config = {CONFIG_URL_KEY_NAME: server}
@@ -115,8 +114,8 @@ class ServerConfigManager(object):
             return _default_server_configuration(server)
 
         if CONFIG_URL_KEY_NAME not in server_config:
-            message = "'{}' must be specified in configuration for '{}'".format(
-                CONFIG_URL_KEY_NAME, server)
+            message = "'%s' must be specified in configuration for '%s'" \
+                % (CONFIG_URL_KEY_NAME, server)
             raise ServerConfigMissingUrlError(message)
 
         return ServerConfig(server_config)
