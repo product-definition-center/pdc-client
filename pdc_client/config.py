@@ -129,9 +129,11 @@ class ServerConfig(object):
     def get(self, option_name, default_value=None):
         return self.config.get(option_name, default_value)
 
+    @property
     def url(self):
         return self.config[CONFIG_URL_KEY_NAME]
 
+    @property
     def ssl_verify(self):
         cfg_ssl_verify = self.config.get(CONFIG_SSL_VERIFY_KEY_NAME)
         if cfg_ssl_verify is not None:
@@ -146,8 +148,10 @@ class ServerConfig(object):
 
         return True
 
+    @property
     def is_development(self):
         return self.config.get(CONFIG_DEVELOP_KEY_NAME, False)
 
+    @property
     def token(self):
         return self.config.get(CONFIG_TOKEN_KEY_NAME)

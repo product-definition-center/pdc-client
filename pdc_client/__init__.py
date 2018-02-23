@@ -158,15 +158,15 @@ class PDCClient(object):
         self.session = requests.Session()
 
         config = server_configuration(server)
-        url = config.url()
+        url = config.url
 
         # Command line must *always* override configuration
         if ssl_verify is None:
-            ssl_verify = config.ssl_verify()
+            ssl_verify = config.ssl_verify
         if develop is None:
-            develop = config.is_development()
+            develop = config.is_development
         if token is None:
-            token = config.token()
+            token = config.token
 
         self.session.verify = ssl_verify
 

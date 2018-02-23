@@ -73,16 +73,16 @@ class ServerConfigTestCase(unittest.TestCase):
         configs = ServerConfigManager(fixture_path('config.json'))
 
         config = configs.get('test-pdc-server-1')
-        self.assertEqual(config.url(), 'https://www.example.com/1/')
+        self.assertEqual(config.url, 'https://www.example.com/1/')
 
         config = configs.get('test-pdc-server-2')
-        self.assertEqual(config.url(), 'https://www.example.com/2/')
+        self.assertEqual(config.url, 'https://www.example.com/2/')
 
     def test_default_url(self):
         configs = ServerConfigManager()
         server = 'http://test-pdc-server-1'
         config = configs.get(server)
-        self.assertEqual(config.url(), server)
+        self.assertEqual(config.url, server)
 
     def test_missing_url(self):
         configs = ServerConfigManager(fixture_path('missing-url.json'))
@@ -92,53 +92,53 @@ class ServerConfigTestCase(unittest.TestCase):
     def test_ssl_verify(self):
         configs = ServerConfigManager(fixture_path('config.json'))
         config = configs.get('test-pdc-server-1')
-        self.assertEqual(config.ssl_verify(), False)
+        self.assertEqual(config.ssl_verify, False)
 
     def test_default_ssl_verify(self):
         configs = ServerConfigManager(fixture_path('config.json'))
 
         config = configs.get('test-pdc-server-2')
-        self.assertEqual(config.ssl_verify(), True)
+        self.assertEqual(config.ssl_verify, True)
 
         config = configs.get('http://test-pdc-server-3')
-        self.assertEqual(config.ssl_verify(), True)
+        self.assertEqual(config.ssl_verify, True)
 
         config = configs.get('http://test-pdc-server-4')
-        self.assertEqual(config.ssl_verify(), True)
+        self.assertEqual(config.ssl_verify, True)
 
     def test_develop(self):
         configs = ServerConfigManager(fixture_path('config.json'))
         config = configs.get('test-pdc-server-1')
-        self.assertEqual(config.is_development(), True)
+        self.assertEqual(config.is_development, True)
 
     def test_default_develop(self):
         configs = ServerConfigManager(fixture_path('config.json'))
 
         config = configs.get('test-pdc-server-2')
-        self.assertEqual(config.is_development(), False)
+        self.assertEqual(config.is_development, False)
 
         config = configs.get('http://test-pdc-server-3')
-        self.assertEqual(config.is_development(), False)
+        self.assertEqual(config.is_development, False)
 
         config = configs.get('http://test-pdc-server-4')
-        self.assertEqual(config.is_development(), False)
+        self.assertEqual(config.is_development, False)
 
     def test_token(self):
         configs = ServerConfigManager(fixture_path('config.json'))
         config = configs.get('test-pdc-server-1')
-        self.assertEqual(config.token(), 'TEST_TOKEN')
+        self.assertEqual(config.token, 'TEST_TOKEN')
 
     def test_default_token(self):
         configs = ServerConfigManager(fixture_path('config.json'))
 
         config = configs.get('test-pdc-server-2')
-        self.assertEqual(config.token(), None)
+        self.assertEqual(config.token, None)
 
         config = configs.get('http://test-pdc-server-3')
-        self.assertEqual(config.token(), None)
+        self.assertEqual(config.token, None)
 
         config = configs.get('http://test-pdc-server-4')
-        self.assertEqual(config.token(), None)
+        self.assertEqual(config.token, None)
 
     def test_same_server_in_multiple_configs(self):
         configs = ServerConfigManager(fixture_path('configs-same-server'))
@@ -152,11 +152,11 @@ class ServerConfigTestCase(unittest.TestCase):
 
         configs = ServerConfigManager(config1, config2)
         config = configs.get(server)
-        self.assertEqual(config.url(), 'https://www.example.com/1/')
+        self.assertEqual(config.url, 'https://www.example.com/1/')
 
         configs = ServerConfigManager(config2, config1)
         config = configs.get(server)
-        self.assertEqual(config.url(), 'https://www.example.com/2/')
+        self.assertEqual(config.url, 'https://www.example.com/2/')
 
     def test_get_config_value(self):
         configs = ServerConfigManager(fixture_path('config.json'))
