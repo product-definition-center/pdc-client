@@ -262,3 +262,11 @@ texinfo_documents = [
 
 # If true, do not generate a @detailmenu in the "Top" node's menu.
 #texinfo_no_detailmenu = False
+
+
+def skip(app, what, name, obj, skip, options):
+    return skip or name == "__weakref__"
+
+
+def setup(app):
+    app.connect("autodoc-skip-member", skip)

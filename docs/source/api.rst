@@ -20,4 +20,5 @@ Module pdc_client
 
 .. automodule:: pdc_client
    :members:
+   :special-members:
 
