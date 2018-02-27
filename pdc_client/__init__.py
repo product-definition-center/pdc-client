@@ -150,7 +150,7 @@ class PDCClient(object):
                            A -1 means that pdc server will return all the data in
                            one request.
 
-        @raises pdc_client.config.ServerConfigError: on an configuration error
+        :raises pdc_client.config.ServerConfigError: on an configuration error
         """
         self.page_size = page_size
         if not server:
