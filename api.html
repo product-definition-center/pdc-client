@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>3. Python API &mdash; PDC Client pdc-client-1.8.0-4-19-gc236e4a-c236e4a
+    <title>3. Python API &mdash; PDC Client pdc-client-1.8.0-4-20-g58f5632-58f5632
  documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     'pdc-client-1.8.0-4-19-gc236e4a-c236e4a
+        VERSION:     'pdc-client-1.8.0-4-20-g58f5632-58f5632
 ',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="PDC Client pdc-client-1.8.0-4-19-gc236e4a-c236e4a
+    <link rel="top" title="PDC Client pdc-client-1.8.0-4-20-g58f5632-58f5632
  documentation" href="index.html" />
     <link rel="next" title="4. Script pdc_client" href="pdc_client.html" />
     <link rel="prev" title="2. Configuration" href="config.html" /> 
@@ -46,7 +46,7 @@
         <li class="right" >
           <a href="config.html" title="2. Configuration"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">PDC Client pdc-client-1.8.0-4-19-gc236e4a-c236e4a
+        <li><a href="index.html">PDC Client pdc-client-1.8.0-4-20-g58f5632-58f5632
  documentation</a> &raquo;</li> 
       </ul>
     </div>  
@@ -84,6 +84,12 @@ returned when get all pages of data by results() function.</p>
 </ul>
 </dd>
 </dl>
+<dl class="method">
+<dt id="pdc_client.NoResultsError.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>response</em><big>)</big><a class="headerlink" href="#pdc_client.NoResultsError.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a NoResultsError</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="class">
@@ -113,6 +119,51 @@ except NoResultsError as e:
     # handle e.response ...
 </pre></div>
 </div>
+<dl class="method">
+<dt id="pdc_client.PDCClient.__getattr__">
+<tt class="descname">__getattr__</tt><big>(</big><em>name</em><big>)</big><a class="headerlink" href="#pdc_client.PDCClient.__getattr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>If the first attribute/endpoint with &#8220;-&#8221;, just replace with &#8220;_&#8221;  in name.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span># Example: get endpoint
+client = PDCClient(&lt;server&gt;)
+# Get the endpoint base-products/
+client.base_products._
+# Get the endpoint base-products/test_123/
+client.base_products.test_123._
+# Get the endpoint products/
+client.products._
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pdc_client.PDCClient.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>server</em>, <em>token=None</em>, <em>develop=None</em>, <em>ssl_verify=None</em>, <em>page_size=None</em><big>)</big><a class="headerlink" href="#pdc_client.PDCClient.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create new pdc client instance.</p>
+<p>Once the class is instantiated, use it as you would use a regular
+BeanBag object. Please look at its documentation for how to use this
+class to perform requests.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>server</strong> &#8211; Server API url or server name from configuration</li>
+<li><strong>token</strong> &#8211; An authentication token string of visiting pdc server</li>
+<li><strong>develop</strong> &#8211; This is use for dev mode</li>
+<li><strong>ssl_verify</strong> &#8211; True for validating SSL certificates with system CA
+store; False for no validation; path to CA file or
+directory to use for validation otherwise</li>
+<li><strong>page_size</strong> &#8211; This is a number of data which is returned per page.
+A -1 means that pdc server will return all the data in
+one request.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>&#64;raises pdc_client.config.ServerConfigError: on an configuration error</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="pdc_client.PDCClient.get_paged">
 <tt class="descname">get_paged</tt><big>(</big><em>res</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#pdc_client.PDCClient.get_paged" title="Permalink to this definition">¶</a></dt>
@@ -168,6 +219,14 @@ the URL.</p>
 <dt id="pdc_client.PDCClientWithPage">
 <em class="property">class </em><tt class="descclassname">pdc_client.</tt><tt class="descname">PDCClientWithPage</tt><big>(</big><em>server</em>, <em>token=None</em>, <em>develop=None</em>, <em>ssl_verify=None</em>, <em>page_size=None</em>, <em>page=None</em><big>)</big><a class="headerlink" href="#pdc_client.PDCClientWithPage" title="Permalink to this definition">¶</a></dt>
 <dd><p>PDCClient wrapper specialized for setting page in get_paged function.</p>
+<dl class="method">
+<dt id="pdc_client.PDCClientWithPage.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>server</em>, <em>token=None</em>, <em>develop=None</em>, <em>ssl_verify=None</em>, <em>page_size=None</em>, <em>page=None</em><big>)</big><a class="headerlink" href="#pdc_client.PDCClientWithPage.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create new client instance with page prarameter.
+Other params are all used for base class.
+:param page:  the page number of the data.</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="pdc_client.PDCClientWithPage.get_paged">
 <tt class="descname">get_paged</tt><big>(</big><em>res</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#pdc_client.PDCClientWithPage.get_paged" title="Permalink to this definition">¶</a></dt>
@@ -260,7 +319,7 @@ self.page_size.</p>
         <li class="right" >
           <a href="config.html" title="2. Configuration"
              >previous</a> |</li>
-        <li><a href="index.html">PDC Client pdc-client-1.8.0-4-19-gc236e4a-c236e4a
+        <li><a href="index.html">PDC Client pdc-client-1.8.0-4-20-g58f5632-58f5632
  documentation</a> &raquo;</li> 
       </ul>
     </div>
