@@ -22,3 +22,7 @@ Module pdc_client
    :members:
    :special-members:
 
+.. automodule:: pdc_client.config
+   :members:
+   :special-members:
+

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>3. Python API &mdash; PDC Client pdc-client-1.8.0-4-21-g190ffee-190ffee
+    <title>3. Python API &mdash; PDC Client pdc-client-1.8.0-4-22-g879ae32-879ae32
  documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     'pdc-client-1.8.0-4-21-g190ffee-190ffee
+        VERSION:     'pdc-client-1.8.0-4-22-g879ae32-879ae32
 ',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="PDC Client pdc-client-1.8.0-4-21-g190ffee-190ffee
+    <link rel="top" title="PDC Client pdc-client-1.8.0-4-22-g879ae32-879ae32
  documentation" href="index.html" />
     <link rel="next" title="4. Script pdc_client" href="pdc_client.html" />
     <link rel="prev" title="2. Configuration" href="config.html" /> 
@@ -46,7 +46,7 @@
         <li class="right" >
           <a href="config.html" title="2. Configuration"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">PDC Client pdc-client-1.8.0-4-21-g190ffee-190ffee
+        <li><a href="index.html">PDC Client pdc-client-1.8.0-4-22-g879ae32-879ae32
  documentation</a> &raquo;</li> 
       </ul>
     </div>  
@@ -159,7 +159,7 @@ one request.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Raises pdc_client.config.ServerConfigError:</th></tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Raises <a class="reference internal" href="#pdc_client.config.ServerConfigError" title="pdc_client.config.ServerConfigError">pdc_client.config.ServerConfigError</a>:</th></tr>
 <tr class="field-even field"><td>&nbsp;</td><td class="field-body"><p class="first last">on an configuration error</p>
 </td>
 </tr>
@@ -261,6 +261,59 @@ self.page_size.</p>
 
 </dd></dl>
 
+<span class="target" id="module-pdc_client.config"></span><dl class="exception">
+<dt id="pdc_client.config.ServerConfigConflictError">
+<em class="property">exception </em><tt class="descclassname">pdc_client.config.</tt><tt class="descname">ServerConfigConflictError</tt><a class="headerlink" href="#pdc_client.config.ServerConfigConflictError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Same server defined in multiple config files.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="pdc_client.config.ServerConfigError">
+<em class="property">exception </em><tt class="descclassname">pdc_client.config.</tt><tt class="descname">ServerConfigError</tt><a class="headerlink" href="#pdc_client.config.ServerConfigError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for ServerConfiguration exceptions.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pdc_client.config.ServerConfigManager">
+<em class="property">class </em><tt class="descclassname">pdc_client.config.</tt><tt class="descname">ServerConfigManager</tt><big>(</big><em>*paths</em><big>)</big><a class="headerlink" href="#pdc_client.config.ServerConfigManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provides configuration for given server name.</p>
+<p>Configuration is read from multiple files or directories in order they&#8217;re
+passed to constructor. Files and directories are read lazily when needed
+and at most once (cached for later access).</p>
+<dl class="method">
+<dt id="pdc_client.config.ServerConfigManager.get">
+<tt class="descname">get</tt><big>(</big><em>server</em><big>)</big><a class="headerlink" href="#pdc_client.config.ServerConfigManager.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns ServerConfig instance with configuration given server.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ServerConfigConflictError</strong> &#8211; if configuration directory contains configuration for same server
+multiple times</li>
+<li><strong>ServerConfigMissingUrlError</strong> &#8211; if URL is not specified in the configuration</li>
+<li><strong>ServerConfigNotFoundError</strong> &#8211; if configuration for given server is not found</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="pdc_client.config.ServerConfigMissingUrlError">
+<em class="property">exception </em><tt class="descclassname">pdc_client.config.</tt><tt class="descname">ServerConfigMissingUrlError</tt><a class="headerlink" href="#pdc_client.config.ServerConfigMissingUrlError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Server configuration is missing URL.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="pdc_client.config.ServerConfigNotFoundError">
+<em class="property">exception </em><tt class="descclassname">pdc_client.config.</tt><tt class="descname">ServerConfigNotFoundError</tt><a class="headerlink" href="#pdc_client.config.ServerConfigNotFoundError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Server configuration is missing.</p>
+</dd></dl>
+
 </div>
 </div>
 
@@ -322,7 +375,7 @@ self.page_size.</p>
         <li class="right" >
           <a href="config.html" title="2. Configuration"
              >previous</a> |</li>
-        <li><a href="index.html">PDC Client pdc-client-1.8.0-4-21-g190ffee-190ffee
+        <li><a href="index.html">PDC Client pdc-client-1.8.0-4-22-g879ae32-879ae32
  documentation</a> &raquo;</li> 
       </ul>
     </div>
