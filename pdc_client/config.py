@@ -95,13 +95,13 @@ class ServerConfigManager(object):
         """
         Returns ServerConfig instance with configuration given server.
 
-        @raises ServerConfigConflictError:
+        :raises ServerConfigConflictError:
             if configuration directory contains configuration for same server
             multiple times
 
-        @raises ServerConfigMissingUrlError: if URL is not specified in the configuration
+        :raises ServerConfigMissingUrlError: if URL is not specified in the configuration
 
-        @raises ServerConfigNotFoundError: if configuration for given server is not found
+        :raises ServerConfigNotFoundError: if configuration for given server is not found
         """
         server_config = self.config.get(server)
         try:
