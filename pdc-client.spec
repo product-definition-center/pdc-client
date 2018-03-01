@@ -34,12 +34,24 @@ BuildArch:      noarch
 Source0:        https://files.pythonhosted.org/packages/source/p/pdc-client/pdc-client-%{version}.tar.gz
 
 BuildRequires:  python2-devel
+BuildRequires:  python2-beanbag
+
+%if (0%{?rhel} && 0%{?rhel} <= 6) || (0%{?centos} && 0%{?centos} <= 6)
+BuildRequires:  python-unittest2
+BuildRequires:  python-argparse
+
+BuildRequires:  python-setuptools
+BuildRequires:  pytest
+BuildRequires:  python-requests
+BuildRequires:  python-requests-kerberos
+BuildRequires:  python-mock
+%else
 BuildRequires:  python2-setuptools
 BuildRequires:  python2-pytest
 BuildRequires:  python2-requests
 BuildRequires:  python2-requests-kerberos
 BuildRequires:  python2-mock
-BuildRequires:  python2-beanbag
+%endif
 
 %if 0%{?with_python3}
 BuildRequires:  python%{python3_pkgversion}-devel
@@ -50,11 +62,6 @@ BuildRequires:  python3-requests-kerberos
 BuildRequires:  python%{python3_pkgversion}-mock
 BuildRequires:  python3-beanbag
 %endif # if with_python3
-
-%if (0%{?rhel} && 0%{?rhel} <= 6) || (0%{?centos} && 0%{?centos} <= 6)
-BuildRequires:       python-unittest2
-BuildRequires:       python-argparse
-%endif
 
 %if 0%{?with_python3}
 Requires:  python%{python3_pkgversion}-pdc-client = %{version}-%{release}
@@ -95,7 +102,12 @@ and automates obtaining authorization token.
 Summary:    Python 2 client library for Product Definition Center
 %{?python_provide:%python_provide python2-pdc-client}
 Requires:  python2-beanbag
+
+%if (0%{?rhel} && 0%{?rhel} <= 6) || (0%{?centos} && 0%{?centos} <= 6)
+Requires:  python-requests-kerberos
+%else
 Requires:  python2-requests-kerberos
+%endif
 
 %description -n python2-pdc-client
 This is a python module for interacting with Product Definition Center
