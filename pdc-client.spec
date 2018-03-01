@@ -24,7 +24,7 @@
 
 Name:           pdc-client
 Version:        1.8.0
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Console client for interacting with Product Definition Center
 Group:          Development/Libraries
 License:        MIT
@@ -34,11 +34,11 @@ BuildArch:      noarch
 Source0:        https://files.pythonhosted.org/packages/source/p/pdc-client/pdc-client-%{version}.tar.gz
 
 BuildRequires:  python2-devel
-BuildRequires:  python-setuptools
-BuildRequires:  pytest
-BuildRequires:  python-requests
-BuildRequires:  python-requests-kerberos
-BuildRequires:  python-mock
+BuildRequires:  python2-setuptools
+BuildRequires:  python2-pytest
+BuildRequires:  python2-requests
+BuildRequires:  python2-requests-kerberos
+BuildRequires:  python2-mock
 BuildRequires:  python2-beanbag
 
 %if 0%{?with_python3}
@@ -95,7 +95,7 @@ and automates obtaining authorization token.
 Summary:    Python 2 client library for Product Definition Center
 %{?python_provide:%python_provide python2-pdc-client}
 Requires:  python2-beanbag
-Requires:  python-requests-kerberos
+Requires:  python2-requests-kerberos
 
 %description -n python2-pdc-client
 This is a python module for interacting with Product Definition Center
@@ -223,6 +223,10 @@ EOF
 
 
 %changelog
+* Thu Mar 01 2018 Iryna Shcherbina <ishcherb@redhat.com> - 1.8.0-6
+- Update Python 2 dependency declarations to new packaging standards
+  (See https://fedoraproject.org/wiki/FinalizingFedoraSwitchtoPython3)
+
 * Thu Feb 08 2018 Fedora Release Engineering <releng@fedoraproject.org> - 1.8.0-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
 
