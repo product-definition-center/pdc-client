@@ -19,15 +19,25 @@ from pdc_client.compat import StringIO
 
 
 class PathAccumulator(object):
-    def __init__(self, path, api):
+    def __init__(self, api):
         self.api = api
-        self.path = path
+        self.path = ''
 
     def _getattr(self, key):
         if key == '_':
             self.api.validate_path(self.path)
             return self.api
-        self.path += '/' + str(key)
+
+        if self.path:
+            self.path += '/'
+
+        self.path += str(key)
+
+        if self.path.endswith('/'):
+            self.path = self.path.rstrip('/')
+            self.api.validate_path(self.path)
+            return self.api
+
         return self
 
     def __getattr__(self, key):
@@ -104,10 +114,10 @@ class MockAPI(object):
         self.will_call = path
 
     def __getattr__(self, key):
-        return PathAccumulator(key, self)
+        return PathAccumulator(self).__getattr__(key)
 
     def __getitem__(self, key):
-        return PathAccumulator(key, self)
+        return PathAccumulator(self).__getitem__(key)
 
     def __call__(self, *args, **kwargs):
         if len(args) == 2:
