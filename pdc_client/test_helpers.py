@@ -130,6 +130,21 @@ class MockAPI(object):
         elif len(args) == 0:
             return self._handle_get(kwargs)
 
+    def results(self, *args, **kwargs):
+        def worker():
+            kwargs['page'] = 1
+            response = self(*args, **kwargs)
+            if isinstance(response, list):
+                yield response
+            else:
+                while True:
+                    yield response['results']
+                    if not response['next']:
+                        break
+                    kwargs['page'] += 1
+
+        return itertools.chain.from_iterable(worker())
+
     def _handle_post(self, data):
         self.calls.setdefault(self.will_call, []).append(('POST', data))
         data = self.endpoints[self.will_call]['POST']
