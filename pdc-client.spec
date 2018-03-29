@@ -165,6 +165,15 @@ for executable in "%{buildroot}%{_bindir}"/*; do
     "$executable" --help
 done
 
+# Run tests.
+%{__python2} setup.py test -q
+
+%if 0%{?with_python3}
+    pushd %{py3dir}
+    %{__python3} setup.py test -q
+    popd
+%endif # with_python3
+
 %install
 %py2_install
 %if 0%{?with_python3}
